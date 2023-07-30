@@ -5,7 +5,8 @@
 
 import javax.swing.SwingUtilities;
 
-import presentation.StudentManagementApp;
+import presentation.KhachhangManagementApp;
+
 
 public class BootStrap {
 
@@ -14,7 +15,7 @@ public class BootStrap {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new StudentManagementApp().setVisible(true);
+                new KhachhangManagementApp().setVisible(true);
             }
         });
     }

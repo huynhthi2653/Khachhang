@@ -33,7 +33,7 @@ public class KhachhangSeviceImpl implements KhachhangService {
     }
 
     @Override
-    public Khachhang getKhachhangById(int KhachhangId) {
+    public Khachhang getKhachhangByMakh(int KhachhangId) {
         return KhachhangDAO.getKhachhangById(KhachhangId);
     }
 

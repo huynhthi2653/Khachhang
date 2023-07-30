@@ -25,8 +25,8 @@ public class Khachhang {
 
     @Override
     public String toString() {
-        return "ID: " + Makh + ", Name: " + name + ", Ngayrahoadon: " + Ngayrahoadon + ", Java Mark: " + Soluong
-                + ", HTML Mark: " + Dongia + ", Average Mark: " + ThanhTien();
+        return "ID: " + Makh + ", Name: " + name + ", Ngayrahoadon: " + Ngayrahoadon + ", So luong: " + Soluong
+                + ", Don gia: " + Dongia + ", Thanh tien: " + ThanhTien();
     }
 
     public double ThanhTien() {
@@ -76,6 +76,7 @@ public class Khachhang {
     public void setNgayrahoadon(Date Ngayrahoadon) {
         this.Ngayrahoadon = Ngayrahoadon;
     }
+
 
     /**
      * @return the Soluong
