@@ -10,10 +10,10 @@ import java.util.List;
 
 import domain.model.Khachhang;
 
-public class StudentJdbcGateway implements StudentGateway {
+public class KhachhangJdbcGateway implements KhachhangGateway {
     private Connection connection;
 
-    public StudentJdbcGateway() {
+    public KhachhangJdbcGateway() {
         // Initialize the database connection here (replace dbUrl, username, and
         // password with your SQL Server credentials)
         String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=YourDatabaseName";
@@ -27,15 +27,15 @@ public class StudentJdbcGateway implements StudentGateway {
     }
 
     @Override
-    public void addStudent(Khachhang student) {
-        String sql = "INSERT INTO Students (id, name, major, java_mark, html_mark, css_mark) VALUES (?, ?, ?, ?, ?, ?)";
+    public void addKhachhang(Khachhang Khachhang) {
+        String sql = "INSERT INTO Khachhangs (id, name, major, java_mark, html_mark, css_mark) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, student.getMakh());
-            statement.setString(2, student.getName());
-            statement.setString(3, student.getMajor());
-            statement.setInt(4, student.getJavaMark());
-            statement.setInt(5, student.getHtmlMark());
-            statement.setInt(6, student.getCssMark());
+            statement.setInt(1, Khachhang.getMakh());
+            statement.setString(2, Khachhang.getName());
+            statement.setString(3, Khachhang.getMajor());
+            statement.setInt(4, Khachhang.getJavaMark());
+            statement.setInt(5, Khachhang.getHtmlMark());
+            statement.setInt(6, Khachhang.getCssMark());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,15 +43,15 @@ public class StudentJdbcGateway implements StudentGateway {
     }
 
     @Override
-    public void updateStudent(Khachhang student) {
-        String sql = "UPDATE Students SET name = ?, major = ?, java_mark = ?, html_mark = ?, css_mark = ? WHERE id = ?";
+    public void updateKhachhang(Khachhang Khachhang) {
+        String sql = "UPDATE Khachhangs SET name = ?, major = ?, java_mark = ?, html_mark = ?, css_mark = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, student.getName());
-            statement.setString(2, student.getMajor());
-            statement.setInt(3, student.getJavaMark());
-            statement.setInt(4, student.getHtmlMark());
-            statement.setInt(5, student.getCssMark());
-            statement.setInt(6, student.getId());
+            statement.setString(1, Khachhang.getName());
+            statement.setString(2, Khachhang.getMajor());
+            statement.setInt(3, Khachhang.getJavaMark());
+            statement.setInt(4, Khachhang.getHtmlMark());
+            statement.setInt(5, Khachhang.getCssMark());
+            statement.setInt(6, Khachhang.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,10 +59,10 @@ public class StudentJdbcGateway implements StudentGateway {
     }
 
     @Override
-    public void deleteStudent(int studentId) {
-        String sql = "DELETE FROM Students WHERE id = ?";
+    public void deleteKhachhang(int KhachhangId) {
+        String sql = "DELETE FROM Khachhangs WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, studentId);
+            statement.setInt(1, KhachhangId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,10 +70,10 @@ public class StudentJdbcGateway implements StudentGateway {
     }
 
     @Override
-    public Khachhang getStudentById(int studentId) {
-        String sql = "SELECT * FROM Students WHERE id = ?";
+    public Khachhang getKhachhangById(int KhachhangId) {
+        String sql = "SELECT * FROM Khachhangs WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, studentId);
+            statement.setInt(1, KhachhangId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -94,9 +94,9 @@ public class StudentJdbcGateway implements StudentGateway {
     }
 
     @Override
-    public List<Khachhang> getAllStudents() {
-        List<Khachhang> students = new ArrayList<>();
-        String sql = "SELECT * FROM Students";
+    public List<Khachhang> getAllKhachhangs() {
+        List<Khachhang> Khachhangs = new ArrayList<>();
+        String sql = "SELECT * FROM Khachhangs";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -109,11 +109,11 @@ public class StudentJdbcGateway implements StudentGateway {
                 // Calculate the average mark using the formula provided
                 double averageMark = (javaMark * 2.0 + htmlMark + cssMark) / 4.0;
 
-                students.add(new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark));
+                Khachhangs.add(new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return students;
+        return Khachhangs;
     }
 }

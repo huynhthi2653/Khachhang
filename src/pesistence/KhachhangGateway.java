@@ -8,7 +8,7 @@ import java.util.List;
 
 import domain.model.Khachhang;
 
-public interface KhachhangDAO {
+public interface KhachhangGateway {
     void addKhachhang(Khachhang Khachhang);
 
     void updateKhachhang(Khachhang Khachhang);

@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentManagementApp extends JFrame {
-    private KhachhangService studentService;
+public class KhachhangManagementApp extends JFrame {
+    private KhachhangService KhachhangService;
     private DefaultTableModel tableModel;
     private JTable table;
     private JButton addButton;
@@ -28,17 +28,17 @@ public class StudentManagementApp extends JFrame {
     private JTextField htmlTextField;
     private JTextField cssTextField;
 
-    public StudentManagementApp() {
-        // Initialize the StudentService (Business Logic Layer)
-        // studentService = new StudentServiceImpl();
+    public KhachhangManagementApp() {
+        // Initialize the KhachhangService (Business Logic Layer)
+        // KhachhangService = new KhachhangServiceImpl();
 
         // Set up JFrame
-        setTitle("Student Management");
+        setTitle("Khachhang Management");
         setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Create JTable to display student list
+        // Create JTable to display Khachhang list
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID");
         tableModel.addColumn("Name");
@@ -51,7 +51,7 @@ public class StudentManagementApp extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Create JPanel for student details input and buttons
+        // Create JPanel for Khachhang details input and buttons
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
         idTextField = new JTextField();
         nameTextField = new JTextField();
@@ -91,31 +91,31 @@ public class StudentManagementApp extends JFrame {
         // Add action listeners for buttons
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addStudent();
+                addKhachhang();
             }
         });
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                editStudent();
+                editKhachhang();
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                deleteStudent();
+                deleteKhachhang();
             }
         });
         findButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                findStudent();
+                findKhachhang();
             }
         });
 
-        // Load initial student list
-        loadStudentList();
+        // Load initial Khachhang list
+        loadKhachhangList();
     }
 
-    // Method to add a student
-    private void addStudent() {
+    // Method to add a Khachhang
+    private void addKhachhang() {
         int id = Integer.parseInt(idTextField.getText());
         String name = nameTextField.getText();
         String major = majorTextField.getText();
@@ -126,18 +126,18 @@ public class StudentManagementApp extends JFrame {
         // Calculate the average mark using the formula provided
         double averageMark = (javaMark * 2.0 + htmlMark + cssMark) / 4.0;
 
-        Khachhang student = new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark);
-        studentService.addStudent(student);
+        Khachhang Khachhang = new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark);
+        KhachhangService.addKhachhang(Khachhang);
 
         clearFields();
-        loadStudentList();
+        loadKhachhangList();
     }
 
-    // Method to edit a student
-    private void editStudent() {
+    // Method to edit a Khachhang
+    private void editKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a student to edit.");
+            JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
             return;
         }
 
@@ -151,58 +151,58 @@ public class StudentManagementApp extends JFrame {
         // Calculate the average mark using the formula provided
         double averageMark = (javaMark * 2.0 + htmlMark + cssMark) / 4.0;
 
-        Khachhang student = new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark);
-        studentService.updateStudent(student);
+        Khachhang Khachhang = new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark);
+        KhachhangService.updateKhachhang(Khachhang);
 
         clearFields();
-        loadStudentList();
+        loadKhachhangList();
     }
 
-    // Method to delete a student
-    private void deleteStudent() {
+    // Method to delete a Khachhang
+    private void deleteKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a student to delete.");
+            JOptionPane.showMessageDialog(this, "Please select a Khachhang to delete.");
             return;
         }
 
-        int studentId = (int) tableModel.getValueAt(row, 0);
-        studentService.deleteStudent(studentId);
+        int KhachhangId = (int) tableModel.getValueAt(row, 0);
+        KhachhangService.deleteKhachhang(KhachhangId);
 
         clearFields();
-        loadStudentList();
+        loadKhachhangList();
     }
 
-    // Method to find a student
-    private void findStudent() {
-        int studentId = Integer.parseInt(idTextField.getText());
-        Khachhang student = studentService.getStudentById(studentId);
+    // Method to find a Khachhang
+    private void findKhachhang() {
+        int KhachhangId = Integer.parseInt(idTextField.getText());
+        Khachhang Khachhang = KhachhangService.getKhachhangById(KhachhangId);
 
-        if (student != null) {
-            nameTextField.setText(student.getName());
-            majorTextField.setText(student.getMajor());
-            javaTextField.setText(String.valueOf(student.getJavaMark()));
-            htmlTextField.setText(String.valueOf(student.getHtmlMark()));
-            cssTextField.setText(String.valueOf(student.getCssMark()));
+        if (Khachhang != null) {
+            nameTextField.setText(Khachhang.getName());
+            majorTextField.setText(Khachhang.getMajor());
+            javaTextField.setText(String.valueOf(Khachhang.getJavaMark()));
+            htmlTextField.setText(String.valueOf(Khachhang.getHtmlMark()));
+            cssTextField.setText(String.valueOf(Khachhang.getCssMark()));
         } else {
-            JOptionPane.showMessageDialog(this, "Student not found.");
+            JOptionPane.showMessageDialog(this, "Khachhang not found.");
             clearFields();
         }
     }
 
-    // Method to load the student list into the JTable
-    private void loadStudentList() {
-        // List<Student> students = studentService.getAllStudents();
-        List<Khachhang> students = new ArrayList<>();
-        students.add(new Khachhang(111, "Le Van Teo", "IT", 5, 5, 5, 5));
-        students.add(new Khachhang(222, "Le Van Ty", "IT", 7,
+    // Method to load the Khachhang list into the JTable
+    private void loadKhachhangList() {
+        // List<Khachhang> Khachhangs = KhachhangService.getAllKhachhangs();
+        List<Khachhang> Khachhangs = new ArrayList<>();
+        Khachhangs.add(new Khachhang(111, "Le Van Teo", "IT", 5, 5, 5, 5));
+        Khachhangs.add(new Khachhang(222, "Le Van Ty", "IT", 7,
                 7, 5, 7));
-        students.add(new Khachhang(333, "Le Van Tung", "IT", 5,
+        Khachhangs.add(new Khachhang(333, "Le Van Tung", "IT", 5,
                 5, 5, 5));
         tableModel.setRowCount(0); // Clear previous data
-        for (Khachhang student : students) {
-            Object[] rowData = { student.getId(), student.getName(), student.getMajor(),
-                    student.getJavaMark(), student.getHtmlMark(), student.getCssMark(), student.calAverage() };
+        for (Khachhang Khachhang : Khachhangs) {
+            Object[] rowData = { Khachhang.getId(), Khachhang.getName(), Khachhang.getMajor(),
+                    Khachhang.getJavaMark(), Khachhang.getHtmlMark(), Khachhang.getCssMark(), Khachhang.calAverage() };
             tableModel.addRow(rowData);
         }
     }

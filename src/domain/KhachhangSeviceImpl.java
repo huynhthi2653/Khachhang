@@ -13,32 +13,32 @@ public class KhachhangSeviceImpl implements KhachhangService {
     private KhachhangDAO KhachhangDAO;
 
     public KhachhangSeviceImpl() {
-        // Initialize the StudentDAO (Data Access Layer)
-        KhachhangDAO = new KhachhangDAOImpl(new StudentJdbcGateway());
+        // Initialize the KhachhangDAO (Data Access Layer)
+        KhachhangDAO = new KhachhangDAOImpl(new KhachhangJdbcGateway());
     }
 
     @Override
-    public void addStudent(Khachhang student) {
-        KhachhangDAO.addStudent(student);
+    public void addKhachhang(Khachhang Khachhang) {
+        KhachhangDAO.addKhachhang(Khachhang);
     }
 
     @Override
-    public void updateStudent(Khachhang student) {
-        KhachhangDAO.updateStudent(student);
+    public void updateKhachhang(Khachhang Khachhang) {
+        KhachhangDAO.updateKhachhang(Khachhang);
     }
 
     @Override
-    public void deleteStudent(int studentId) {
-        KhachhangDAO.deleteStudent(studentId);
+    public void deleteKhachhang(int KhachhangId) {
+        KhachhangDAO.deleteKhachhang(KhachhangId);
     }
 
     @Override
-    public Khachhang getStudentById(int studentId) {
-        return KhachhangDAO.getStudentById(studentId);
+    public Khachhang getKhachhangById(int KhachhangId) {
+        return KhachhangDAO.getKhachhangById(KhachhangId);
     }
 
     @Override
-    public List<Khachhang> getAllStudents() {
-        return KhachhangDAO.getAllStudents();
+    public List<Khachhang> getAllKhachhangs() {
+        return KhachhangDAO.getAllKhachhangs();
     }
 }

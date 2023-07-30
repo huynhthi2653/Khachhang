@@ -9,34 +9,34 @@ import java.util.List;
 import domain.model.Khachhang;
 
 public class KhachhangDAOImpl implements KhachhangDAO {
-    private StudentGateway studentGateway;
+    private KhachhangGateway KhachhangGateway;
 
-    public KhachhangDAOImpl(StudentGateway studentGateway) {
-        this.studentGateway = studentGateway;
+    public KhachhangDAOImpl(KhachhangGateway KhachhangGateway) {
+        this.KhachhangGateway = KhachhangGateway;
     }
 
     @Override
-    public void addStudent(Khachhang student) {
-        studentGateway.addStudent(student);
+    public void addKhachhang(Khachhang Khachhang) {
+        KhachhangGateway.addKhachhang(Khachhang);
     }
 
     @Override
-    public void updateStudent(Khachhang student) {
-        studentGateway.updateStudent(student);
+    public void updateKhachhang(Khachhang Khachhang) {
+        KhachhangGateway.updateKhachhang(Khachhang);
     }
 
     @Override
-    public void deleteStudent(int studentId) {
-        studentGateway.deleteStudent(studentId);
+    public void deleteKhachhang(int KhachhangId) {
+        KhachhangGateway.deleteKhachhang(KhachhangId);
     }
 
     @Override
-    public Khachhang getStudentById(int studentId) {
-        return studentGateway.getStudentById(studentId);
+    public Khachhang getKhachhangById(int KhachhangId) {
+        return KhachhangGateway.getKhachhangById(KhachhangId);
     }
 
     @Override
-    public List<Khachhang> getAllStudents() {
-        return studentGateway.getAllStudents();
+    public List<Khachhang> getAllKhachhangs() {
+        return KhachhangGateway.getAllKhachhangs();
     }
 }
