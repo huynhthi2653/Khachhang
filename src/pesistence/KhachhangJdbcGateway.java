@@ -12,7 +12,12 @@ import domain.model.Khachhang;
 
 public class KhachhangJdbcGateway implements KhachhangGateway {
     private Connection connection;
-
+    private int Makh;
+    private String name;
+    private Date Ngayrahoadon;
+    private double Soluong;
+    private double Dongia;
+    private double Dinhmuc;
     public KhachhangJdbcGateway() {
         // Initialize the database connection here (replace dbUrl, username, and
         // password with your SQL Server credentials)
@@ -76,16 +81,16 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
             statement.setInt(1, KhachhangId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int Makh = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String major = resultSet.getString("major");
-                int javaMark = resultSet.getInt("java_mark");
-                int htmlMark = resultSet.getInt("html_mark");
-                int cssMark = resultSet.getInt("css_mark");
+                Date Ngayrahoadon  = resultSet.getString("major");
+                Double Soluong = resultSet.getInt("java_mark");
+                Double Dongia = resultSet.getInt("html_mark");
+                Double Dinhmuc = resultSet.getInt("css_mark");
                 // Calculate the average mark using the formula provided
-                double averageMark = (javaMark * 2.0 + htmlMark + cssMark) / 4.0;
+                double Thanhtien = (javaMark * 2.0 + htmlMark + cssMark) / 4.0;
 
-                return new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark);
+                return new Khachhang(Makh, name, Ngayrahoadon, Thanhtien, KhachhangId, Makh, Thanhtien);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,16 +105,16 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int Makh = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String major = resultSet.getString("major");
-                int javaMark = resultSet.getInt("java_mark");
-                int htmlMark = resultSet.getInt("html_mark");
-                int cssMark = resultSet.getInt("css_mark");
+                Date Ngayrahoadon  = resultSet.getString("major");
+                Double Soluong = resultSet.getInt("java_mark");
+                Double Dongia = resultSet.getInt("html_mark");
+                Double Dinhmuc = resultSet.getInt("css_mark");
                 // Calculate the average mark using the formula provided
-                double averageMark = (javaMark * 2.0 + htmlMark + cssMark) / 4.0;
+                double ThanhTien = ( * 2.0 + htmlMark + cssMark) / 4.0;
 
-                Khachhangs.add(new Khachhang(id, name, major, javaMark, htmlMark, cssMark, averageMark));
+                Khachhangs.add(new Khachhang(Makh, name, Ngayrahoadon,ThanhTien, Soluong, Dongia ,Dinhmuc));
             }
         } catch (SQLException e) {
             e.printStackTrace();
