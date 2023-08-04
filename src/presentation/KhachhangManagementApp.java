@@ -28,6 +28,7 @@ public class KhachhangManagementApp extends JFrame {
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
+    
 
     public KhachhangManagementApp() {
         // Initialize the KhachhangService (Business Logic Layer)
@@ -114,17 +115,42 @@ public class KhachhangManagementApp extends JFrame {
         });
         Tongsl.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Tongsl...();
+                String[] options = {"Khách hàng Việt Nam", "Khách hàng nước ngoài"};
+
+                // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
+                int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                // Xử lý lựa chọn
+                if (choice == JOptionPane.YES_OPTION) {
+                    // Chọn Khách hàng Việt Nam
+                    // Xử lý logic tại đây
+                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng Việt Nam");
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    // Chọn Khách hàng nước ngoài
+                    // Xử lý logic tại đây
+                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng nước ngoài");
+                } else {
+                    // Không chọn gì cả hoặc đóng cửa sổ
+                }
             }
         });
+
+        // Các phần còn lại của mã vẫn giữ nguyên
+    
+
+    // Các phương thức khác vẫn giữ nguyên
+                                
+    // Trong mã trên, phần lắng nghe của nút Tongsl sử dụng JOptionPane.showOptionDialog để hiển thị một hộp thoại tùy chọn có các nút radio cho Khách hàng Việt Nam và Khách hàng nước ngoài. Khi người dùng chọn một tùy chọn, chương trình xử lý lựa chọn đó dựa trên giá trị trả về của showOptionDialog.
+
+     //    Lưu ý rằng JOptionPane.showOptionDialog trả về một số nguyên thể hiện lựa chọn của người dùng (chẳng hạn như JOptionPane.YES_OPTION, JOptionPane.NO_OPTION, hoặc JOptionPane.CLOSED_OPTION). Bạn có thể sử dụng các hằng số này để xác định tùy chọn người dùng đã chọn và xử lý dữ liệu một cách phù hợp.
+                            
         TrungbinhNn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                TrungbinhNn();
+                
             }
         });
            hoadonT.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                hoadonT();
             }
         });
 
@@ -136,7 +162,11 @@ public class KhachhangManagementApp extends JFrame {
         Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
         double Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Integer.parseInt(DongiaTextField.getText());
-
+        if (rootPaneCheckingEnabled) {
+            
+        } else {
+            
+        }
         // Calculate the average mark using the formula provided
         double ThanhTien = Soluong * Dongia;
 
