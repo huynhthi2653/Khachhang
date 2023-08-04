@@ -8,13 +8,11 @@ import domain.model.Khachhang;
 import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.util.List;
 
 public class KhachhangManagementApp extends JFrame {
     private KhachhangService KhachhangService;
@@ -33,6 +31,8 @@ public class KhachhangManagementApp extends JFrame {
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
+    private JTextField QuoctichTextField;
+    private JTextField DinhmucTextField;
 
     public KhachhangManagementApp() {
         // Initialize the KhachhangService (Business Logic Layer)
@@ -115,6 +115,7 @@ public class KhachhangManagementApp extends JFrame {
                     NgayrahoadonTextField = new JTextField();
                     SoluongTextField = new JTextField();
                     DongiaTextField = new JTextField();
+                    DinhmucTextField = new JTextField();
                     String[] optionss = { "Sinh hoạt", "Kinh doanh", "Sản xuất" };
                     JComboBox<String> customerTypeCombo = new JComboBox<>(optionss);
                     inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
@@ -127,6 +128,8 @@ public class KhachhangManagementApp extends JFrame {
                     inputJPanel.add(SoluongTextField);
                     inputJPanel.add(new JLabel("Nhập đơn giá:"));
                     inputJPanel.add(DongiaTextField);
+                    inputJPanel.add(new JLabel("Nhập Định mức:"));
+                    inputJPanel.add(DinhmucTextField);
                     inputJPanel.add(new JLabel("Loại đối tượng:"));
                     inputJPanel.add(customerTypeCombo);
                     JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
@@ -151,7 +154,8 @@ public class KhachhangManagementApp extends JFrame {
                     inputJPanel.add(SoluongTextField);
                     inputJPanel.add(new JLabel("Nhập đơn giá:"));
                     inputJPanel.add(DongiaTextField);
-                    inputJPanel.add(new JLabel("Loại đối tượng:"));
+                    inputJPanel.add(new JLabel("Nhập quốc tịch:"));
+                    inputJPanel.add(QuoctichTextField);
                     JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.PLAIN_MESSAGE, null, null, null);
                     addKhachhangnuocngoai();
@@ -174,6 +178,7 @@ public class KhachhangManagementApp extends JFrame {
         findButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 findKhachhang();
+
             }
         });
         Tongsl.addActionListener(new ActionListener() {
@@ -209,18 +214,23 @@ public class KhachhangManagementApp extends JFrame {
                 hoadonT();
             }
         });
+        loadKhachhang();
     }
 
     private void addKhachhangViet() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
         Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
-        double Soluong = Integer.parseInt(SoluongTextField.getText());
-        double Dongia = Integer.parseInt(DongiaTextField.getText());
-
+        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        double Dongia = Double.parseDouble(DongiaTextField.getText());
+        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
         // Calculate the average mark using the formula provided
-        double ThanhTien = Soluong * Dongia;
-
+        double ThanhTien;
+        if (Soluong <= Dinhmuc) {
+            ThanhTien = Soluong * Dongia;
+        } else {
+            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+        }
         Khachhang KhachhangViet = new KhachhangViet(Makh, Makh, Makh, name, Ngayrahoadon, Dongia, Soluong, ThanhTien);
         KhachhangService.addKhachhang(KhachhangViet);
         clearFields();
@@ -232,12 +242,11 @@ public class KhachhangManagementApp extends JFrame {
         Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
         double Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Integer.parseInt(DongiaTextField.getText());
-
+        String Quoctich = QuoctichTextField.getText();
         // Calculate the average mark using the formula provided
-        double ThanhTien;
-        String Quoctich;
-
-        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, Quoctich);
+        double ThanhTien = Soluong * Dongia;
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien,
+                Quoctich);
         KhachhangService.addKhachhang(Khachhangnuocngoai);
         clearFields();
     }
@@ -339,21 +348,15 @@ public class KhachhangManagementApp extends JFrame {
 
     // Method to load the Khachhang list into the JTable
     private void loadKhachhang() {
-        // Clear the current rows in the tableModel
-        tableModel.setRowCount(0);
-        
-        // Create a list of Khachhang objects
-        List<Khachhang> khachhangs = new ArrayList<>();
-        
-        // Populate the DefaultTableModel with Khachhang data
-        for (Khachhang khachhang : khachhangs) {
-            Object[] rowData = { khachhang.getMakh(), khachhang.getName(), khachhang.getNgayrahoadon(),
-                    khachhang.getSoluong(), khachhang.getDongia() };
+        List<Khachhang> Khachhangs = KhachhangService.getAllKhachhangs();
+        tableModel.setRowCount(0); // Clear previous data
+        for (Khachhang Khachhang : Khachhangs) {
+            Object[] rowData = { Khachhang.getMakh(), Khachhang.getName(), Khachhang.getNgayrahoadon(),
+                    Khachhang.getSoluong(), Khachhang.getSoluong(), Khachhang.ThanhTien() };
             tableModel.addRow(rowData);
         }
     }
-    
-    
+
     // Method to clear input fields
     private void clearFields() {
         MakhTextField.setText("");
