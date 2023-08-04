@@ -124,11 +124,11 @@ public class KhachhangManagementApp extends JFrame {
                 if (choice == JOptionPane.YES_OPTION) {
                     // Chọn Khách hàng Việt Nam
                     // Xử lý logic tại đây
-                    JOptionPane.showMessageDialog();
+                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng Việt Nam");
                 } else if (choice == JOptionPane.NO_OPTION) {
                     // Chọn Khách hàng nước ngoài
                     // Xử lý logic tại đây
-                    JOptionPane.showMessageDialog();
+                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng nước ngoài");
                 } else {
                     // Không chọn gì cả hoặc đóng cửa sổ
                 }
@@ -144,44 +144,7 @@ public class KhachhangManagementApp extends JFrame {
         });
         hoadonT.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Tạo JPanel chứa các thành phần nhập liệu
-                JPanel inputPanel = new JPanel(new GridLayout(4, 2));
-                JTextField ngayField = new JTextField();
-                JTextField thangField = new JTextField();
-                JTextField namField = new JTextField();
-                String[] options = {"Khách hàng Việt Nam", "Khách hàng nước ngoài"};
-                JComboBox<String> customerTypeCombo = new JComboBox<>(options);
-                inputPanel.add(new JLabel("Ngày:"));
-                inputPanel.add(ngayField);
-                inputPanel.add(new JLabel("Tháng:"));
-                inputPanel.add(thangField);
-                inputPanel.add(new JLabel("Năm:"));
-                inputPanel.add(namField);
-                inputPanel.add(new JLabel("Loại khách hàng:"));
-                inputPanel.add(customerTypeCombo);
-
-                // Hiển thị JOptionPane với các thành phần nhập liệu
-                int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                // Xử lý khi người dùng chọn OK
-                if (result == JOptionPane.OK_OPTION) {
-                    String ngay = ngayField.getText();
-                    String thang = thangField.getText();
-                    String nam = namField.getText();
-                    String customerType = customerTypeCombo.getSelectedItem().toString();
-
-                    // Xử lý thông tin tại đây
-                    // Ví dụ:
-                    String message = "Bạn đã chọn thông tin:\n";
-                    message += "Ngày: " + ngay + "\n";
-                    message += "Tháng: " + thang + "\n";
-                    message += "Năm: " + nam + "\n";
-                    message += "Loại khách hàng: " + customerType + "\n";
-                    JOptionPane.showMessageDialog(null, message);
-                }
-            }
-        });
-
+             hoadonT();
     }
 
     private void addKhachhang() {
@@ -257,6 +220,46 @@ public class KhachhangManagementApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Khachhang not found.");
             clearFields();
         }
+    }
+    private void hoadonT(){
+           // Tạo JPanel chứa các thành phần nhập liệu
+                JPanel inputPanel = new JPanel(new GridLayout(4, 2));
+                JTextField ngayField = new JTextField();
+                JTextField thangField = new JTextField();
+                JTextField namField = new JTextField();
+                String[] options = {"Khách hàng Việt Nam", "Khách hàng nước ngoài"};
+                JComboBox<String> customerTypeCombo = new JComboBox<>(options);
+                inputPanel.add(new JLabel("Ngày:"));
+                inputPanel.add(ngayField);
+                inputPanel.add(new JLabel("Tháng:"));
+                inputPanel.add(thangField);
+                inputPanel.add(new JLabel("Năm:"));
+                inputPanel.add(namField);
+                inputPanel.add(new JLabel("Loại khách hàng:"));
+                inputPanel.add(customerTypeCombo);
+
+                // Hiển thị JOptionPane với các thành phần nhập liệu
+                int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                // Xử lý khi người dùng chọn OK
+                if (result == JOptionPane.OK_OPTION) {
+                    String ngay = ngayField.getText();
+                    String thang = thangField.getText();
+                    String nam = namField.getText();
+                    String customerType = customerTypeCombo.getSelectedItem().toString();
+
+                    // Xử lý thông tin tại đây
+                    // Ví dụ:
+                    String message = "Bạn đã chọn thông tin:\n";
+                    message += "Ngày: " + ngay + "\n";
+                    message += "Tháng: " + thang + "\n";
+                    message += "Năm: " + nam + "\n";
+                    message += "Loại khách hàng: " + customerType + "\n";
+                    JOptionPane.showMessageDialog(null, message);
+                }
+            }
+        });
+
     }
 
     // Method to load the Khachhang list into the JTable
