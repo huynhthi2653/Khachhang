@@ -6,14 +6,14 @@ package domain.model;
 
 import java.util.Date;
 
-public class Khachhang {
+public abstract class Khachhang {
     private int Makh;
     private String name;
     private Date Ngayrahoadon;
     private double Soluong;
     private double Dongia;
 
-    public Khachhang(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia, double ThanhTien) {
+    public Khachhang(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia, double Giatien) {
         this.Makh = Makh;
         this.name = name;
         this.Ngayrahoadon = Ngayrahoadon;
@@ -29,11 +29,7 @@ public class Khachhang {
                 + ", Don gia: " + Dongia + ", Thanh tien: " + ThanhTien();
     }
 
-    public double ThanhTien() {
-        double ThanhTien = Soluong * Dongia;
-        return ThanhTien;
-
-    }
+    public abstract double ThanhTien();
 
     /**
      * @return the Makh
@@ -76,7 +72,6 @@ public class Khachhang {
     public void setNgayrahoadon(Date Ngayrahoadon) {
         this.Ngayrahoadon = Ngayrahoadon;
     }
-
 
     /**
      * @return the Soluong

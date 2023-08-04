@@ -57,10 +57,10 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     }
 
     @Override
-    public void deleteKhachhang(int KhachhangId) {
+    public void deleteKhachhang(int MaKH) {
         String sql = "DELETE FROM Khachhangs WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, KhachhangId);
+            statement.setInt(1, MaKH);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,10 +68,10 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     }
 
     @Override
-    public Khachhang getKhachhangById(int KhachhangId) {
+    public Khachhang getKhachhangById(int MaKH) {
         String sql = "SELECT * FROM Khachhangs WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, KhachhangId);
+            statement.setInt(1, MaKH);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int Makh = resultSet.getInt("makh");

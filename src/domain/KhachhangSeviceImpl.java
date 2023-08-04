@@ -28,13 +28,13 @@ public class KhachhangSeviceImpl implements KhachhangService {
     }
 
     @Override
-    public void deleteKhachhang(int KhachhangId) {
-        KhachhangDAO.deleteKhachhang(KhachhangId);
+    public void deleteKhachhang(int MaKH) {
+        KhachhangDAO.deleteKhachhang(MaKH);
     }
 
     @Override
-    public Khachhang getKhachhangByMakh(int KhachhangId) {
-        return KhachhangDAO.getKhachhangById(KhachhangId);
+    public Khachhang getKhachhangByMakh(int MaKH) {
+        return KhachhangDAO.getKhachhangById(MaKH);
     }
 
     @Override

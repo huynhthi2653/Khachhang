@@ -7,10 +7,7 @@ import javax.swing.SwingUtilities;
 
 import presentation.KhachhangManagementApp;
 
-
 public class BootStrap {
-
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -19,8 +16,4 @@ public class BootStrap {
             }
         });
     }
-
-    
-
-    
 }

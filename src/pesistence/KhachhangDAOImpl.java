@@ -26,13 +26,13 @@ public class KhachhangDAOImpl implements KhachhangDAO {
     }
 
     @Override
-    public void deleteKhachhang(int KhachhangId) {
-        KhachhangGateway.deleteKhachhang(KhachhangId);
+    public void deleteKhachhang(int MaKH) {
+        KhachhangGateway.deleteKhachhang(MaKH);
     }
 
     @Override
-    public Khachhang getKhachhangById(int KhachhangId) {
-        return KhachhangGateway.getKhachhangById(KhachhangId);
+    public Khachhang getKhachhangById(int MaKH) {
+        return KhachhangGateway.getKhachhangById(MaKH);
     }
 
     @Override

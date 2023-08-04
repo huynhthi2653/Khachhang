@@ -3,7 +3,6 @@ package presentation;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
 import domain.*;
 import domain.model.Khachhang;
 
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-
 
 public class KhachhangManagementApp extends JFrame {
     private KhachhangService KhachhangService;
@@ -56,7 +54,8 @@ public class KhachhangManagementApp extends JFrame {
         nameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
         SoluongTextField = new JTextField();
-        DongiaTextField = new JTextField();        addButton = new JButton("Add");
+        DongiaTextField = new JTextField();
+        addButton = new JButton("Add");
         editButton = new JButton("Edit");
         deleteButton = new JButton("Delete");
         findButton = new JButton("Find");
@@ -105,7 +104,6 @@ public class KhachhangManagementApp extends JFrame {
             }
         });
 
-        
     }
 
     private void addKhachhang() {
@@ -116,7 +114,7 @@ public class KhachhangManagementApp extends JFrame {
         double Dongia = Integer.parseInt(DongiaTextField.getText());
 
         // Calculate the average mark using the formula provided
-        double ThanhTien = Soluong *Dongia;
+        double ThanhTien = Soluong * Dongia;
 
         Khachhang Khachhang = new Khachhang(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien);
         KhachhangService.addKhachhang(Khachhang);
@@ -145,7 +143,7 @@ public class KhachhangManagementApp extends JFrame {
         KhachhangService.updateKhachhang(Khachhang);
 
         clearFields();
-      
+
     }
 
     // Method to delete a Khachhang
@@ -160,7 +158,7 @@ public class KhachhangManagementApp extends JFrame {
         KhachhangService.deleteKhachhang(KhachhangId);
 
         clearFields();
-      
+
     }
 
     // Method to find a Khachhang
@@ -180,7 +178,9 @@ public class KhachhangManagementApp extends JFrame {
     }
 
     // Method to load the Khachhang list into the JTable
-  
+    private void loadKhachhang() {
+
+    }
 
     // Method to clear input fields
     private void clearFields() {
@@ -189,6 +189,6 @@ public class KhachhangManagementApp extends JFrame {
         NgayrahoadonTextField.setText("");
         SoluongTextField.setText("");
         DongiaTextField.setText("");
-       }
+    }
 
 }

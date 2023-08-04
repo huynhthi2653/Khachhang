@@ -13,9 +13,9 @@ public interface KhachhangGateway {
 
     void updateKhachhang(Khachhang Khachhang);
 
-    void deleteKhachhang(int KhachhangId);
+    void deleteKhachhang(int MaKH);
 
-    Khachhang getKhachhangById(int KhachhangId);
+    Khachhang getKhachhangById(int MaKH);
 
     List<Khachhang> getAllKhachhangs();
 }

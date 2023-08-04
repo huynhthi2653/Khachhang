@@ -13,9 +13,9 @@ public interface KhachhangService {
 
     void updateKhachhang(Khachhang Khachhang);
 
-    void deleteKhachhang(int KhachhangMakh);
+    void deleteKhachhang(int MaKH);
 
-    Khachhang getKhachhangByMakh(int KhachhangMakh);
+    Khachhang getKhachhangByMakh(int MaKH);
 
     List<Khachhang> getAllKhachhangs();
 
