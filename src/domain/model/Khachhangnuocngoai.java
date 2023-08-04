@@ -19,6 +19,9 @@ public class Khachhangnuocngoai extends Khachhang {
         this.Quoctich = Quoctich;
     }
 
+    public Khachhangnuocngoai(int i, String string, java.sql.Date valueOf, int j, int k, String string2) {
+    }
+
     @Override
     public double ThanhTien() {
         return getSoluong() * getDongia();

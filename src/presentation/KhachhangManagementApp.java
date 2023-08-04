@@ -8,6 +8,9 @@ import domain.model.Khachhang;
 import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -234,8 +237,7 @@ public class KhachhangManagementApp extends JFrame {
         double ThanhTien;
         String Quoctich;
 
-        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien,
-                Quoctich);
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, Quoctich);
         KhachhangService.addKhachhang(Khachhangnuocngoai);
         clearFields();
     }
@@ -337,9 +339,21 @@ public class KhachhangManagementApp extends JFrame {
 
     // Method to load the Khachhang list into the JTable
     private void loadKhachhang() {
-
+        // Clear the current rows in the tableModel
+        tableModel.setRowCount(0);
+        
+        // Create a list of Khachhang objects
+        List<Khachhang> khachhangs = new ArrayList<>();
+        
+        // Populate the DefaultTableModel with Khachhang data
+        for (Khachhang khachhang : khachhangs) {
+            Object[] rowData = { khachhang.getMakh(), khachhang.getName(), khachhang.getNgayrahoadon(),
+                    khachhang.getSoluong(), khachhang.getDongia() };
+            tableModel.addRow(rowData);
+        }
     }
-
+    
+    
     // Method to clear input fields
     private void clearFields() {
         MakhTextField.setText("");

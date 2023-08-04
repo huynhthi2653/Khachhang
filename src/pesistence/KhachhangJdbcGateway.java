@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.model.Khachhang;
+import domain.model.KhachhangViet;
+import domain.model.Khachhangnuocngoai;
 
 public class KhachhangJdbcGateway implements KhachhangGateway {
     private Connection connection;
@@ -16,9 +18,9 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     public KhachhangJdbcGateway() {
         // Initialize the database connection here (replace dbUrl, username, and
         // password with your SQL Server credentials)
-        String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=YourDatabaseName";
-        String username = "YourUsername";
-        String password = "YourPassword";
+        String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=Khachhang";
+        String username = "sa";
+        String password = "123456";
         try {
             connection = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException e) {
@@ -28,7 +30,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void addKhachhang(Khachhang Khachhang) {
-        String sql = "INSERT INTO Khachhangs (id, name, major, java_mark, html_mark, css_mark) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO khachhangchung (Makh, name, Ngayrahoadon, Soluong, Donggi) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, Khachhang.getMakh());
             statement.setString(2, Khachhang.getName());
@@ -43,7 +45,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void updateKhachhang(Khachhang Khachhang) {
-        String sql = "UPDATE Khachhangs SET name = ?, major = ?, java_mark = ?, html_mark = ?, css_mark = ? WHERE id = ?";
+        String sql = "UPDATE khachhangchung SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Makh = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, Khachhang.getName());
             statement.setDate(2, (Date) Khachhang.getNgayrahoadon());
@@ -58,7 +60,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void deleteKhachhang(int MaKH) {
-        String sql = "DELETE FROM Khachhangs WHERE id = ?";
+        String sql = "DELETE FROM khachhangchung WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, MaKH);
             statement.executeUpdate();
@@ -69,7 +71,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public Khachhang getKhachhangById(int MaKH) {
-        String sql = "SELECT * FROM Khachhangs WHERE id = ?";
+        String sql = "SELECT * FROM khachhangchung WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, MaKH);
             ResultSet resultSet = statement.executeQuery();
@@ -81,8 +83,20 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                 double Dongia = resultSet.getDouble("dongia");
                 // Calculate the average mark using the formula provided
                 double ThanhTien = Soluong * Dongia;
-
-                return new Khachhang(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien);
+                
+                String customerType = resultSet.getString("customer_type");
+                Khachhang khachhang;
+    
+                if ("KhachhangViet".equals(customerType)) {
+                    khachhang = new KhachhangViet(Makh, MaKH, Makh, name, Ngayrahoadon, Dongia, Soluong, ThanhTien);
+                } else if ("Khachhangnuocngoai".equals(customerType)) {
+                    khachhang = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, "QuocTich");
+                } else {
+                    // Xử lý trường hợp loại khách hàng không hợp lệ
+                    khachhang = null;
+                }
+    
+                return khachhang;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +106,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public List<Khachhang> getAllKhachhangs() {
-        List<Khachhang> Khachhangs = new ArrayList<>();
+        List<Khachhang> khachhangs = new ArrayList<>();
         String sql = "SELECT * FROM Khachhangs";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
@@ -104,12 +118,25 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                 double Dongia = resultSet.getDouble("dongia");
                 // Calculate the average mark using the formula provided
                 double ThanhTien = Soluong * Dongia;
-
-                Khachhangs.add(new Khachhang(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien));
+    
+                String customerType = resultSet.getString("customer_type");
+                Khachhang khachhang;
+    
+                if ("KhachhangViet".equals(customerType)) {
+                    khachhang = new KhachhangViet(Makh, Makh, Makh, name, Ngayrahoadon, Dongia, Soluong, ThanhTien);
+                } else if ("Khachhangnuocngoai".equals(customerType)) {
+                    khachhang = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, "QuocTich");
+                } else {
+                    // Xử lý trường hợp loại khách hàng không hợp lệ
+                    khachhang = null;
+                }
+    
+                khachhangs.add(khachhang);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Khachhangs;
+        return khachhangs;
     }
+    
 }
