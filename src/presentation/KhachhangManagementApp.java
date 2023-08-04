@@ -19,6 +19,9 @@ public class KhachhangManagementApp extends JFrame {
     private JButton editButton;
     private JButton deleteButton;
     private JButton findButton;
+    private JButton TrungbinhNn;
+    private JButton Tongsl;
+    private JButton hoadonT;
     private JButton saveButton;
     private JTextField MakhTextField;
     private JTextField nameTextField;
@@ -50,35 +53,41 @@ public class KhachhangManagementApp extends JFrame {
 
         // Create JPanel for Khachhang details input and buttons
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
-        MakhTextField = new JTextField();
-        nameTextField = new JTextField();
-        NgayrahoadonTextField = new JTextField();
-        SoluongTextField = new JTextField();
-        DongiaTextField = new JTextField();
+        // MakhTextField = new JTextField();
+        // nameTextField = new JTextField();
+        // NgayrahoadonTextField = new JTextField();
+        // SoluongTextField = new JTextField();
+        // DongiaTextField = new JTextField();
         addButton = new JButton("Add");
         editButton = new JButton("Edit");
         deleteButton = new JButton("Delete");
         findButton = new JButton("Find");
         saveButton = new JButton("Save");
+        TrungbinhNn = new JButton("Trung Binh Thanh tien khach hang nuoc ngoai");
+        Tongsl = new JButton("tong so luong ");
+        hoadonT = new JButton("cac hoa don can tong hop trong thang");
 
         // new GridLayout(7, 2)
 
-        inputPanel.add(new JLabel("ID:"));
-        inputPanel.add(MakhTextField);
+        // inputPanel.add(new JLabel("ID:"));
+        // inputPanel.add(MakhTextField);
 
-        inputPanel.add(new JLabel("Name:"));
-        inputPanel.add(nameTextField);
-        inputPanel.add(new JLabel("Ngayrahoadon:"));
-        inputPanel.add(NgayrahoadonTextField);
-        inputPanel.add(new JLabel("Soluong:"));
-        inputPanel.add(SoluongTextField);
-        inputPanel.add(new JLabel("Dongia:"));
-        inputPanel.add(DongiaTextField);
+        // inputPanel.add(new JLabel("Name:"));
+        // inputPanel.add(nameTextField);
+        // inputPanel.add(new JLabel("Ngayrahoadon:"));
+        // inputPanel.add(NgayrahoadonTextField);
+        // inputPanel.add(new JLabel("Soluong:"));
+        // inputPanel.add(SoluongTextField);
+        // inputPanel.add(new JLabel("Dongia:"));
+        // inputPanel.add(DongiaTextField);
         inputPanel.add(addButton);
         inputPanel.add(editButton);
         inputPanel.add(deleteButton);
         inputPanel.add(findButton);
         inputPanel.add(saveButton);
+        inputPanel.add(hoadonT);
+        inputPanel.add(Tongsl);
+        inputPanel.add(TrungbinhNn);
 
         add(inputPanel, BorderLayout.SOUTH);
 
@@ -101,6 +110,21 @@ public class KhachhangManagementApp extends JFrame {
         findButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 findKhachhang();
+            }
+        });
+        Tongsl.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Tongsl...();
+            }
+        });
+        TrungbinhNn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                TrungbinhNn();
+            }
+        });
+           hoadonT.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hoadonT();
             }
         });
 
