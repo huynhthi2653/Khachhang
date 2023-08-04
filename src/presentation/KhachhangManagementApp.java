@@ -124,33 +124,61 @@ public class KhachhangManagementApp extends JFrame {
                 if (choice == JOptionPane.YES_OPTION) {
                     // Chọn Khách hàng Việt Nam
                     // Xử lý logic tại đây
-                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng Việt Nam");
+                    JOptionPane.showMessageDialog();
                 } else if (choice == JOptionPane.NO_OPTION) {
                     // Chọn Khách hàng nước ngoài
                     // Xử lý logic tại đây
-                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng nước ngoài");
+                    JOptionPane.showMessageDialog();
                 } else {
                     // Không chọn gì cả hoặc đóng cửa sổ
                 }
             }
         });
 
-        // Các phần còn lại của mã vẫn giữ nguyên
-    
-
-    // Các phương thức khác vẫn giữ nguyên
-                                
-    // Trong mã trên, phần lắng nghe của nút Tongsl sử dụng JOptionPane.showOptionDialog để hiển thị một hộp thoại tùy chọn có các nút radio cho Khách hàng Việt Nam và Khách hàng nước ngoài. Khi người dùng chọn một tùy chọn, chương trình xử lý lựa chọn đó dựa trên giá trị trả về của showOptionDialog.
-
-     //    Lưu ý rằng JOptionPane.showOptionDialog trả về một số nguyên thể hiện lựa chọn của người dùng (chẳng hạn như JOptionPane.YES_OPTION, JOptionPane.NO_OPTION, hoặc JOptionPane.CLOSED_OPTION). Bạn có thể sử dụng các hằng số này để xác định tùy chọn người dùng đã chọn và xử lý dữ liệu một cách phù hợp.
+     
                             
         TrungbinhNn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
             }
         });
-           hoadonT.addActionListener(new ActionListener() {
+        hoadonT.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // Tạo JPanel chứa các thành phần nhập liệu
+                JPanel inputPanel = new JPanel(new GridLayout(4, 2));
+                JTextField ngayField = new JTextField();
+                JTextField thangField = new JTextField();
+                JTextField namField = new JTextField();
+                String[] options = {"Khách hàng Việt Nam", "Khách hàng nước ngoài"};
+                JComboBox<String> customerTypeCombo = new JComboBox<>(options);
+                inputPanel.add(new JLabel("Ngày:"));
+                inputPanel.add(ngayField);
+                inputPanel.add(new JLabel("Tháng:"));
+                inputPanel.add(thangField);
+                inputPanel.add(new JLabel("Năm:"));
+                inputPanel.add(namField);
+                inputPanel.add(new JLabel("Loại khách hàng:"));
+                inputPanel.add(customerTypeCombo);
+
+                // Hiển thị JOptionPane với các thành phần nhập liệu
+                int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                // Xử lý khi người dùng chọn OK
+                if (result == JOptionPane.OK_OPTION) {
+                    String ngay = ngayField.getText();
+                    String thang = thangField.getText();
+                    String nam = namField.getText();
+                    String customerType = customerTypeCombo.getSelectedItem().toString();
+
+                    // Xử lý thông tin tại đây
+                    // Ví dụ:
+                    String message = "Bạn đã chọn thông tin:\n";
+                    message += "Ngày: " + ngay + "\n";
+                    message += "Tháng: " + thang + "\n";
+                    message += "Năm: " + nam + "\n";
+                    message += "Loại khách hàng: " + customerType + "\n";
+                    JOptionPane.showMessageDialog(null, message);
+                }
             }
         });
 
