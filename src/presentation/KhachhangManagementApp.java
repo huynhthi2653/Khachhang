@@ -214,7 +214,7 @@ public class KhachhangManagementApp extends JFrame {
                 hoadonT();
             }
         });
-        loadKhachhang();
+       // loadKhachhang();
     }
 
     private void addKhachhangViet() {
@@ -258,21 +258,35 @@ public class KhachhangManagementApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
             return;
         }
-
+    
+        // Lấy thông tin từ các trường nhập liệu
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
         Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
-        double Soluong = Integer.parseInt(SoluongTextField.getText());
-        double Dongia = Integer.parseInt(DongiaTextField.getText());
-
-        // Calculate the average mark using the formula provided
+        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        double Dongia = Double.parseDouble(DongiaTextField.getText());
+    
+        // Calculate the total price using the formula provided
         double ThanhTien = Soluong * Dongia;
-
-        Khachhang Khachhang = new Khachhang(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien);
-        KhachhangService.updateKhachhang(Khachhang);
-
+    
+        // Lấy đối tượng Khachhang tại dòng đã chọn trong bảng
+        int selectedRow = table.getSelectedRow();
+        int MakhOfSelectedRow = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+        Khachhang khachhang = KhachhangService.getKhachhangByMakh(MakhOfSelectedRow);
+    
+        // Cập nhật thông tin khách hàng
+        khachhang.setMakh(Makh);
+        khachhang.setName(name);
+        khachhang.setNgayrahoadon(Ngayrahoadon);
+        khachhang.setSoluong(Soluong);
+        khachhang.setDongia(Dongia);
+        khachhang.setThanhtien(ThanhTien);
+    
+        // Thực hiện cập nhật thông tin khách hàng trong cơ sở dữ liệu
+        KhachhangService.updateKhachhang(khachhang);
+    
+        // Xóa trắng các trường nhập liệu
         clearFields();
-
     }
 
     // Method to delete a Khachhang

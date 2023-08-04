@@ -100,4 +100,6 @@ public abstract class Khachhang {
     public void setDongia(double Dongia) {
         this.Dongia = Dongia;
     }
+
+
 }
