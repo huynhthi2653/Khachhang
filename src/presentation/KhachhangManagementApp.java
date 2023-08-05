@@ -11,7 +11,7 @@ import domain.model.Khachhangnuocngoai;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -34,6 +34,7 @@ public class KhachhangManagementApp extends JFrame {
     private JTextField DongiaTextField;
     private JTextField QuoctichTextField;
     private JTextField DinhmucTextField;
+
 
     public KhachhangManagementApp() {
         // Initialize the KhachhangService (Business Logic Layer)
@@ -221,35 +222,50 @@ public class KhachhangManagementApp extends JFrame {
     private void addKhachhangViet() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
-        double Soluong = Double.parseDouble(SoluongTextField.getText());
-        double Dongia = Double.parseDouble(DongiaTextField.getText());
-        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
-        // Calculate the average mark using the formula provided
-        double ThanhTien;
-        if (Soluong <= Dinhmuc) {
-            ThanhTien = Soluong * Dongia;
-        } else {
-            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+        String ngayThangNam = NgayrahoadonTextField.getText();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng đầu vào
+        try {
+            Date Ngayrahoadon = dateFormat.parse(ngayThangNam); // Chuyển đổi chuỗi ngày tháng thành kiểu Date
+            // Tiếp tục xử lý và tạo đối tượng KhachhangViet
+            double Soluong = Double.parseDouble(SoluongTextField.getText());
+            double Dongia = Double.parseDouble(DongiaTextField.getText());
+            double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
+            // Calculate the average mark using the formula provided
+            double ThanhTien;
+            if (Soluong <= Dinhmuc) {
+                ThanhTien = Soluong * Dongia;
+            } else {
+                ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+            }
+            Khachhang KhachhangViet = new KhachhangViet(Makh, Makh, Makh, name, Ngayrahoadon, Dongia, Soluong, ThanhTien);
+            KhachhangService.addKhachhang(KhachhangViet);
+          
+        } catch (java.text.ParseException e) {
+            // Xử lý nếu việc chuyển đổi không thành công
+            JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
         }
-        Khachhang KhachhangViet = new KhachhangViet(Makh, Makh, Makh, name, Ngayrahoadon, Dongia, Soluong, ThanhTien);
-        KhachhangService.addKhachhang(KhachhangViet);
-        clearFields();
     }
 
     private void addKhachhangnuocngoai() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
-        double Soluong = Integer.parseInt(SoluongTextField.getText());
-        double Dongia = Integer.parseInt(DongiaTextField.getText());
-        String Quoctich = QuoctichTextField.getText();
-        // Calculate the average mark using the formula provided
-        double ThanhTien = Soluong * Dongia;
-        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien,
-                Quoctich);
-        KhachhangService.addKhachhang(Khachhangnuocngoai);
-        clearFields();
+        String ngayThangNam = NgayrahoadonTextField.getText(); // Lấy chuỗi ngày tháng năm từ text field
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng đầu vào
+        try {
+            Date Ngayrahoadon = dateFormat.parse(ngayThangNam); // Chuyển đổi chuỗi ngày tháng thành kiểu Date
+            // Tiếp tục xử lý và tạo đối tượng Khachhangnuocngoai
+            double Soluong = Double.parseDouble(SoluongTextField.getText());
+            double Dongia = Double.parseDouble(DongiaTextField.getText());
+            String Quoctich = QuoctichTextField.getText();
+            // Calculate the average mark using the formula provided
+            double ThanhTien = Soluong * Dongia;
+            Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, Quoctich);
+            KhachhangService.addKhachhang(Khachhangnuocngoai);
+            
+        } catch (java.text.ParseException e) {
+            // Xử lý nếu việc chuyển đổi không thành công
+            JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
+        }
     }
 
     // Method to edit a Khachhang
@@ -274,7 +290,7 @@ public class KhachhangManagementApp extends JFrame {
         int KhachhangId = (int) tableModel.getValueAt(row, 0);
         KhachhangService.deleteKhachhang(KhachhangId);
 
-        clearFields();
+       
 
     }
 
@@ -290,7 +306,7 @@ public class KhachhangManagementApp extends JFrame {
             DongiaTextField.setText(String.valueOf(Khachhang.getDongia()));
         } else {
             JOptionPane.showMessageDialog(this, "Khachhang not found.");
-            clearFields();
+          
         }
     }
 
@@ -347,7 +363,7 @@ public class KhachhangManagementApp extends JFrame {
             JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
         }
     }
-} 
+        }
     
 
 
@@ -362,13 +378,6 @@ public class KhachhangManagementApp extends JFrame {
         }
     }
 
-    // Method to clear input fields
-    private void clearFields() {
-        MakhTextField.setText("");
-        nameTextField.setText("");
-        NgayrahoadonTextField.setText("");
-        SoluongTextField.setText("");
-        DongiaTextField.setText("");
-    }
+ 
 
-}
+    }

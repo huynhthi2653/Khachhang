@@ -4,16 +4,15 @@
 */
 package domain.model;
 
-import java.util.Date;
 
 public abstract class Khachhang {
     private int Makh;
     private String name;
-    private Date Ngayrahoadon;
+    private String Ngayrahoadon;
     private double Soluong;
     private double Dongia;
 
-    public Khachhang(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia, double Giatien) {
+    public Khachhang(int Makh, String name, String Ngayrahoadon, double Soluong, double Dongia, double Giatien) {
         this.Makh = Makh;
         this.name = name;
         this.Ngayrahoadon = Ngayrahoadon;
@@ -62,14 +61,14 @@ public abstract class Khachhang {
     /**
      * @return the major
      */
-    public Date getNgayrahoadon() {
+    public String getNgayrahoadon() {
         return Ngayrahoadon;
     }
 
     /**
      * @param Ngayrahoadon the Ngayrahoadon to set
      */
-    public void setNgayrahoadon(Date Ngayrahoadon) {
+    public void setNgayrahoadon(String Ngayrahoadon) {
         this.Ngayrahoadon = Ngayrahoadon;
     }
 
