@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class KhachhangManagementApp extends JFrame {
@@ -259,34 +260,7 @@ public class KhachhangManagementApp extends JFrame {
             return;
         }
     
-        // Lấy thông tin từ các trường nhập liệu
-        int Makh = Integer.parseInt(MakhTextField.getText());
-        String name = nameTextField.getText();
-        Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
-        double Soluong = Double.parseDouble(SoluongTextField.getText());
-        double Dongia = Double.parseDouble(DongiaTextField.getText());
-    
-        // Calculate the total price using the formula provided
-        double ThanhTien = Soluong * Dongia;
-    
-        // Lấy đối tượng Khachhang tại dòng đã chọn trong bảng
-        int selectedRow = table.getSelectedRow();
-        int MakhOfSelectedRow = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-        Khachhang khachhang = KhachhangService.getKhachhangByMakh(MakhOfSelectedRow);
-    
-        // Cập nhật thông tin khách hàng
-        khachhang.setMakh(Makh);
-        khachhang.setName(name);
-        khachhang.setNgayrahoadon(Ngayrahoadon);
-        khachhang.setSoluong(Soluong);
-        khachhang.setDongia(Dongia);
-        khachhang.setThanhtien(ThanhTien);
-    
-        // Thực hiện cập nhật thông tin khách hàng trong cơ sở dữ liệu
-        KhachhangService.updateKhachhang(khachhang);
-    
-        // Xóa trắng các trường nhập liệu
-        clearFields();
+     
     }
 
     // Method to delete a Khachhang
@@ -320,45 +294,62 @@ public class KhachhangManagementApp extends JFrame {
         }
     }
 
-    private void hoadonT() {
-        // Tạo JPanel chứa các thành phần nhập liệu
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
-        JTextField ngayField = new JTextField();
-        JTextField thangField = new JTextField();
-        JTextField namField = new JTextField();
-        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
-        JComboBox<String> customerTypeCombo = new JComboBox<>(options);
-        inputPanel.add(new JLabel("Ngày:"));
-        inputPanel.add(ngayField);
-        inputPanel.add(new JLabel("Tháng:"));
-        inputPanel.add(thangField);
-        inputPanel.add(new JLabel("Năm:"));
-        inputPanel.add(namField);
-        inputPanel.add(new JLabel("Loại khách hàng:"));
-        inputPanel.add(customerTypeCombo);
+   private void hoadonT() {
+    // Tạo JPanel chứa các thành phần nhập liệu
+    JPanel inputPanel = new JPanel(new GridLayout(4, 2));
+    JTextField ngayField = new JTextField();
+    JTextField thangField = new JTextField();
+    JTextField namField = new JTextField();
+    String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+    JComboBox<String> customerTypeCombo = new JComboBox<>(options);
+    inputPanel.add(new JLabel("Ngày:"));
+    inputPanel.add(ngayField);
+    inputPanel.add(new JLabel("Tháng:"));
+    inputPanel.add(thangField);
+    inputPanel.add(new JLabel("Năm:"));
+    inputPanel.add(namField);
+    inputPanel.add(new JLabel("Loại khách hàng:"));
+    inputPanel.add(customerTypeCombo);
 
-        // Hiển thị JOptionPane với các thành phần nhập liệu
-        int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+    // Hiển thị JOptionPane với các thành phần nhập liệu
+    int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
-        // Xử lý khi người dùng chọn OK
-        if (result == JOptionPane.OK_OPTION) {
-            String ngay = ngayField.getText();
-            String thang = thangField.getText();
-            String nam = namField.getText();
-            String customerType = customerTypeCombo.getSelectedItem().toString();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+ 
+    // Xử lý khi người dùng chọn OK
+    if (result == JOptionPane.OK_OPTION) {
+        String ngay = ngayField.getText();
+        String thang = thangField.getText();
+        String nam = namField.getText();
+        String customerType = customerTypeCombo.getSelectedItem().toString();
+
+        try {
+            // Kiểm tra xem ngày, tháng, năm có đủ độ dài không
+            if (ngay.length() != 2 || thang.length() != 2 || nam.length() != 4) {
+                throw new IllegalArgumentException("Định dạng ngày tháng năm không hợp lệ.");
+            }
+
+            // Chuyển đổi chuỗi ngày thành đối tượng Date
+            Date date = dateFormat.parse(ngay + "/" + thang + "/" + nam);
 
             // Xử lý thông tin tại đây
             // Ví dụ:
             String message = "Bạn đã chọn thông tin:\n";
-            message += "Ngày: " + ngay + "\n";
-            message += "Tháng: " + thang + "\n";
-            message += "Năm: " + nam + "\n";
+            message += "Ngày: " + dateFormat.format(date) + "\n";
             message += "Loại khách hàng: " + customerType + "\n";
             JOptionPane.showMessageDialog(null, message);
+        } catch (IllegalArgumentException ex) {
+            // Xử lý nếu định dạng ngày tháng năm không hợp lệ
+            JOptionPane.showMessageDialog(null, "Định dạng ngày tháng năm không hợp lệ. Vui lòng kiểm tra lại!");
+        } catch (Exception ex) {
+            // Xử lý nếu việc chuyển đổi không thành công
+            JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
         }
-
     }
+} 
+    
+
 
     // Method to load the Khachhang list into the JTable
     private void loadKhachhang() {
