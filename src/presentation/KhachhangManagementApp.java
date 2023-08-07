@@ -12,8 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class KhachhangManagementApp extends JFrame {
     private KhachhangService KhachhangService;
@@ -27,14 +29,14 @@ public class KhachhangManagementApp extends JFrame {
     private JButton Tongsl;
     private JButton hoadonT;
     private JButton saveButton;
-    private JTextField MakhTextField;
-    private JTextField nameTextField;
-    private JTextField NgayrahoadonTextField;
-    private JTextField SoluongTextField;
-    private JTextField DongiaTextField;
-    private JTextField QuoctichTextField;
-    private JTextField DinhmucTextField;
-
+    // private JTextField MakhTextField;
+    // private JTextField nameTextField;
+    // private JTextField NgayrahoadonTextField;
+    // private JTextField SoluongTextField;
+    // private JTextField DongiaTextField;
+    // private JTextField QuoctichTextField;
+    // private JTextField DinhmucTextField;
+    private JComboBox<String> customerTypeCombo;
 
     public KhachhangManagementApp() {
         // Initialize the KhachhangService (Business Logic Layer)
@@ -106,7 +108,6 @@ public class KhachhangManagementApp extends JFrame {
                 // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
                 int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
                 // Xử lý lựa chọn
                 if (choice == JOptionPane.YES_OPTION) {
                     // Chọn Khách hàng Việt Nam
@@ -119,7 +120,7 @@ public class KhachhangManagementApp extends JFrame {
                     DongiaTextField = new JTextField();
                     DinhmucTextField = new JTextField();
                     String[] optionss = { "Sinh hoạt", "Kinh doanh", "Sản xuất" };
-                    JComboBox<String> customerTypeCombo = new JComboBox<>(optionss);
+                    customerTypeCombo = new JComboBox<>(optionss);
                     inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
                     inputJPanel.add(MakhTextField);
                     inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
@@ -146,6 +147,7 @@ public class KhachhangManagementApp extends JFrame {
                     NgayrahoadonTextField = new JTextField();
                     SoluongTextField = new JTextField();
                     DongiaTextField = new JTextField();
+                    QuoctichTextField = new JTextField();
                     inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
                     inputJPanel.add(MakhTextField);
                     inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
@@ -161,7 +163,6 @@ public class KhachhangManagementApp extends JFrame {
                     JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.PLAIN_MESSAGE, null, null, null);
                     addKhachhangnuocngoai();
-
                 } else {
                     // Không chọn gì cả hoặc đóng cửa sổ
                 }
@@ -216,56 +217,55 @@ public class KhachhangManagementApp extends JFrame {
                 hoadonT();
             }
         });
-       // loadKhachhang();
+        // loadKhachhang();
     }
 
     private void addKhachhangViet() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        String ngayThangNam = NgayrahoadonTextField.getText();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng đầu vào
+        Date Ngayrahoadon;
         try {
-            Date Ngayrahoadon = dateFormat.parse(ngayThangNam); // Chuyển đổi chuỗi ngày tháng thành kiểu Date
-            // Tiếp tục xử lý và tạo đối tượng KhachhangViet
-            double Soluong = Double.parseDouble(SoluongTextField.getText());
-            double Dongia = Double.parseDouble(DongiaTextField.getText());
-            double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
-            // Calculate the average mark using the formula provided
-            double ThanhTien;
-            if (Soluong <= Dinhmuc) {
-                ThanhTien = Soluong * Dongia;
-            } else {
-                ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
-            }
-            Khachhang KhachhangViet = new KhachhangViet(Makh, Makh, Makh, name, Ngayrahoadon, Dongia, Soluong, ThanhTien);
-            KhachhangService.addKhachhang(KhachhangViet);
-          
-        } catch (java.text.ParseException e) {
-            // Xử lý nếu việc chuyển đổi không thành công
-            JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
         }
+        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        double Dongia = Double.parseDouble(DongiaTextField.getText());
+        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
+        String doituongKH = customerTypeCombo.getSelectedItem().toString();
+        // Calculate the average mark using the formula provided
+        double ThanhTien;
+        if (Soluong <= Dinhmuc) {
+            ThanhTien = Soluong * Dongia;
+        } else {
+            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+        }
+        Khachhang KhachhangViet = new KhachhangViet(doituongKH, Dinhmuc, Makh, name, Ngayrahoadon, Dongia, Soluong,
+                ThanhTien);
+        KhachhangService.addKhachhang(KhachhangViet);
     }
 
     private void addKhachhangnuocngoai() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        String ngayThangNam = NgayrahoadonTextField.getText(); // Lấy chuỗi ngày tháng năm từ text field
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng đầu vào
+        Date Ngayrahoadon;
         try {
-            Date Ngayrahoadon = dateFormat.parse(ngayThangNam); // Chuyển đổi chuỗi ngày tháng thành kiểu Date
-            // Tiếp tục xử lý và tạo đối tượng Khachhangnuocngoai
-            double Soluong = Double.parseDouble(SoluongTextField.getText());
-            double Dongia = Double.parseDouble(DongiaTextField.getText());
-            String Quoctich = QuoctichTextField.getText();
-            // Calculate the average mark using the formula provided
-            double ThanhTien = Soluong * Dongia;
-            Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, Quoctich);
-            KhachhangService.addKhachhang(Khachhangnuocngoai);
-            
-        } catch (java.text.ParseException e) {
-            // Xử lý nếu việc chuyển đổi không thành công
-            JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
         }
+        double Soluong = Integer.parseInt(SoluongTextField.getText());
+        double Dongia = Integer.parseInt(DongiaTextField.getText());
+        String Quoctich = QuoctichTextField.getText();
+        // Calculate the average mark using the formula provided
+        double ThanhTien = Soluong * Dongia;
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien,
+                Quoctich);
+        KhachhangService.addKhachhang(Khachhangnuocngoai);
     }
 
     // Method to edit a Khachhang
@@ -275,8 +275,31 @@ public class KhachhangManagementApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
             return;
         }
-    
-     
+
+        // Lấy thông tin từ các trường nhập liệu
+        // int Makh = Integer.parseInt(MakhTextField.getText());
+        // String name = nameTextField.getText();
+        // Date Ngayrahoadon;
+        // try {
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new
+        // Locale("vi", "VN"));
+        // Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        // } catch (ParseException e) {
+        // JOptionPane.showMessageDialog(null, "Invalid date format. Please use
+        // 'dd/MM/yyyy' format for the date.");
+        // return;
+        // }
+        // double Soluong = Double.parseDouble(SoluongTextField.getText());
+        // double Dongia = Double.parseDouble(DongiaTextField.getText());
+
+        // Calculate the total price using the formula provided
+
+        // Lấy đối tượng Khachhang tại dòng đã chọn trong bảng
+        // Thực hiện cập nhật thông tin khách hàng trong cơ sở dữ liệu
+        KhachhangService.updateKhachhang(khachhang);
+
+        // Xóa trắng các trường nhập liệu
+        clearFields();
     }
 
     // Method to delete a Khachhang
@@ -290,7 +313,7 @@ public class KhachhangManagementApp extends JFrame {
         int KhachhangId = (int) tableModel.getValueAt(row, 0);
         KhachhangService.deleteKhachhang(KhachhangId);
 
-       
+        clearFields();
 
     }
 
@@ -306,66 +329,49 @@ public class KhachhangManagementApp extends JFrame {
             DongiaTextField.setText(String.valueOf(Khachhang.getDongia()));
         } else {
             JOptionPane.showMessageDialog(this, "Khachhang not found.");
-          
+            clearFields();
         }
     }
 
-   private void hoadonT() {
-    // Tạo JPanel chứa các thành phần nhập liệu
-    JPanel inputPanel = new JPanel(new GridLayout(4, 2));
-    JTextField ngayField = new JTextField();
-    JTextField thangField = new JTextField();
-    JTextField namField = new JTextField();
-    String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
-    JComboBox<String> customerTypeCombo = new JComboBox<>(options);
-    inputPanel.add(new JLabel("Ngày:"));
-    inputPanel.add(ngayField);
-    inputPanel.add(new JLabel("Tháng:"));
-    inputPanel.add(thangField);
-    inputPanel.add(new JLabel("Năm:"));
-    inputPanel.add(namField);
-    inputPanel.add(new JLabel("Loại khách hàng:"));
-    inputPanel.add(customerTypeCombo);
+    private void hoadonT() {
+        // Tạo JPanel chứa các thành phần nhập liệu
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
+        JTextField ngayField = new JTextField();
+        JTextField thangField = new JTextField();
+        JTextField namField = new JTextField();
+        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+        JComboBox<String> customerTypeCombo = new JComboBox<>(options);
+        inputPanel.add(new JLabel("Ngày:"));
+        inputPanel.add(ngayField);
+        inputPanel.add(new JLabel("Tháng:"));
+        inputPanel.add(thangField);
+        inputPanel.add(new JLabel("Năm:"));
+        inputPanel.add(namField);
+        inputPanel.add(new JLabel("Loại khách hàng:"));
+        inputPanel.add(customerTypeCombo);
 
-    // Hiển thị JOptionPane với các thành phần nhập liệu
-    int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
-            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        // Hiển thị JOptionPane với các thành phần nhập liệu
+        int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
- 
-    // Xử lý khi người dùng chọn OK
-    if (result == JOptionPane.OK_OPTION) {
-        String ngay = ngayField.getText();
-        String thang = thangField.getText();
-        String nam = namField.getText();
-        String customerType = customerTypeCombo.getSelectedItem().toString();
-
-        try {
-            // Kiểm tra xem ngày, tháng, năm có đủ độ dài không
-            if (ngay.length() != 2 || thang.length() != 2 || nam.length() != 4) {
-                throw new IllegalArgumentException("Định dạng ngày tháng năm không hợp lệ.");
-            }
-
-            // Chuyển đổi chuỗi ngày thành đối tượng Date
-            Date date = dateFormat.parse(ngay + "/" + thang + "/" + nam);
+        // Xử lý khi người dùng chọn OK
+        if (result == JOptionPane.OK_OPTION) {
+            String ngay = ngayField.getText();
+            String thang = thangField.getText();
+            String nam = namField.getText();
+            String customerType = customerTypeCombo.getSelectedItem().toString();
 
             // Xử lý thông tin tại đây
             // Ví dụ:
             String message = "Bạn đã chọn thông tin:\n";
-            message += "Ngày: " + dateFormat.format(date) + "\n";
+            message += "Ngày: " + ngay + "\n";
+            message += "Tháng: " + thang + "\n";
+            message += "Năm: " + nam + "\n";
             message += "Loại khách hàng: " + customerType + "\n";
             JOptionPane.showMessageDialog(null, message);
-        } catch (IllegalArgumentException ex) {
-            // Xử lý nếu định dạng ngày tháng năm không hợp lệ
-            JOptionPane.showMessageDialog(null, "Định dạng ngày tháng năm không hợp lệ. Vui lòng kiểm tra lại!");
-        } catch (Exception ex) {
-            // Xử lý nếu việc chuyển đổi không thành công
-            JOptionPane.showMessageDialog(null, "Ngày tháng không hợp lệ. Vui lòng kiểm tra lại!");
         }
-    }
-        }
-    
 
+    }
 
     // Method to load the Khachhang list into the JTable
     private void loadKhachhang() {
@@ -378,6 +384,13 @@ public class KhachhangManagementApp extends JFrame {
         }
     }
 
- 
-
+    // Method to clear input fields
+    private void clearFields() {
+        MakhTextField.setText("");
+        nameTextField.setText("");
+        NgayrahoadonTextField.setText("");
+        SoluongTextField.setText("");
+        DongiaTextField.setText("");
     }
+
+}

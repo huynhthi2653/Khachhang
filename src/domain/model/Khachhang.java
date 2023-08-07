@@ -4,32 +4,26 @@
 */
 package domain.model;
 
+import java.util.Date;
 
 public abstract class Khachhang {
     private int Makh;
     private String name;
-    private String Ngayrahoadon;
-    private double Soluong;
-    private double Dongia;
+    private Date Ngayrahoadon;
+    protected double Soluong;
+    protected double Dongia;
 
-    public Khachhang(int Makh, String name, String Ngayrahoadon, double Soluong, double Dongia, double Giatien) {
+    public abstract double ThanhTien();
+
+    public Khachhang(int Makh, String name, Date ngayrahoadon, double Soluong, double Dongia) {
         this.Makh = Makh;
         this.name = name;
-        this.Ngayrahoadon = Ngayrahoadon;
+        this.Ngayrahoadon = ngayrahoadon;
         this.Soluong = Soluong;
         this.Dongia = Dongia;
     }
 
     // Getters and setters for the fields (omitted for brevity)
-
-    @Override
-    public String toString() {
-        return "ID: " + Makh + ", Name: " + name + ", Ngayrahoadon: " + Ngayrahoadon + ", So luong: " + Soluong
-                + ", Don gia: " + Dongia + ", Thanh tien: " + ThanhTien();
-    }
-
-    public abstract double ThanhTien();
-
     /**
      * @return the Makh
      */
@@ -61,14 +55,14 @@ public abstract class Khachhang {
     /**
      * @return the major
      */
-    public String getNgayrahoadon() {
+    public Date getNgayrahoadon() {
         return Ngayrahoadon;
     }
 
     /**
      * @param Ngayrahoadon the Ngayrahoadon to set
      */
-    public void setNgayrahoadon(String Ngayrahoadon) {
+    public void setNgayrahoadon(Date Ngayrahoadon) {
         this.Ngayrahoadon = Ngayrahoadon;
     }
 
@@ -99,6 +93,4 @@ public abstract class Khachhang {
     public void setDongia(double Dongia) {
         this.Dongia = Dongia;
     }
-
-
 }

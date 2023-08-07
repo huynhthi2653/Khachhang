@@ -3,6 +3,12 @@ package domain.model;
 import java.util.Date;
 
 public class Khachhangnuocngoai extends Khachhang {
+    public Khachhangnuocngoai(int Makh, String name, Date ngayrahoadon, double Soluong, double Dongia,
+            String Quoctich) {
+        super(Makh, name, ngayrahoadon, Soluong, Dongia);
+
+    }
+
     private String Quoctich;
 
     public String getQuoctich() {
@@ -13,15 +19,8 @@ public class Khachhangnuocngoai extends Khachhang {
         Quoctich = quoctich;
     }
 
-    public Khachhangnuocngoai(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia, double Giatien,
-            String Quoctich) {
-        super(Makh, name, Ngayrahoadon, Soluong, Dongia, Giatien);
-        this.Quoctich = Quoctich;
-    }
-
     @Override
     public double ThanhTien() {
-        return getSoluong() * getDongia();
+        return Dongia * Soluong;
     }
-
 }
