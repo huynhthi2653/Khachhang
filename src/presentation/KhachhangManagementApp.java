@@ -76,19 +76,7 @@ public class KhachhangManagementApp extends JFrame {
         Tongsl = new JButton("tong so luong ");
         hoadonT = new JButton("cac hoa don can tong hop trong thang");
 
-        // new GridLayout(7, 2)
-
-        // inputPanel.add(new JLabel("ID:"));
-        // inputPanel.add(MakhTextField);
-
-        // inputPanel.add(new JLabel("Name:"));
-        // inputPanel.add(nameTextField);
-        // inputPanel.add(new JLabel("Ngayrahoadon:"));
-        // inputPanel.add(NgayrahoadonTextField);
-        // inputPanel.add(new JLabel("Soluong:"));
-        // inputPanel.add(SoluongTextField);
-        // inputPanel.add(new JLabel("Dongia:"));
-        // inputPanel.add(DongiaTextField);
+        new GridLayout(7, 2);
         inputPanel.add(addbButton);
         inputPanel.add(editButton);
         inputPanel.add(deleteButton);
@@ -242,8 +230,7 @@ public class KhachhangManagementApp extends JFrame {
         } else {
             ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
         }
-        Khachhang KhachhangViet = new KhachhangViet(doituongKH, Dinhmuc, Makh, name, Ngayrahoadon, Dongia, Soluong,
-                ThanhTien);
+        Khachhang KhachhangViet = new KhachhangViet(Makh, name, Ngayrahoadon, Dongia, Soluong, doituongKH, Makh);
         KhachhangService.addKhachhang(KhachhangViet);
     }
 

@@ -4,7 +4,7 @@
 */
 package domain;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import domain.model.Khachhang;
@@ -12,7 +12,7 @@ import domain.model.Khachhangnuocngoai;
 import presentation.Subscriber;
 
 public interface KhachhangService {
-    void addKhachhang(Khachhang Khachhang);
+    void ThemKhachhang(Khachhang Khachhang);
 
     void updateKhachhang(Khachhang Khachhang);
 
@@ -30,7 +30,7 @@ public interface KhachhangService {
 
     void XuaHDTT(Khachhang khachhang);
 
-    List<Subscriber> Subs = new ArrayList<Subscriber>();
+    List<Subscriber> Subs = new LinkedList<Subscriber>();
 
     void subscribe(Subscriber Sub);
 
