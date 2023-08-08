@@ -11,11 +11,11 @@ import domain.model.Khachhangnuocngoai;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.util.Date;
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//import java.util.List;
-//import java.util.Locale;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
 import java.util.Date;
 
 public class KhachhangManagementApp extends JFrame {
@@ -236,44 +236,23 @@ public class KhachhangManagementApp extends JFrame {
     }
 
     private void hoadonT() {
-        // Tạo JPanel chứa các thành phần nhập liệu
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
-        JTextField ngayField = new JTextField();
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2));
         JTextField thangField = new JTextField();
-        JTextField namField = new JTextField();
-        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
-        JComboBox<String> customerTypeCombo = new JComboBox<>(options);
-        inputPanel.add(new JLabel("Ngày:"));
-        inputPanel.add(ngayField);
         inputPanel.add(new JLabel("Tháng:"));
         inputPanel.add(thangField);
-        inputPanel.add(new JLabel("Năm:"));
-        inputPanel.add(namField);
-        inputPanel.add(new JLabel("Loại khách hàng:"));
-        inputPanel.add(customerTypeCombo);
-
-        // Hiển thị JOptionPane với các thành phần nhập liệu
+    
         int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
+    
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
-            String ngay = ngayField.getText();
-            String thang = thangField.getText();
-            String nam = namField.getText();
-            String customerType = customerTypeCombo.getSelectedItem().toString();
-
-            // Xử lý thông tin tại đây
-            // Ví dụ:
-            String message = "Bạn đã chọn thông tin:\n";
-            message += "Ngày: " + ngay + "\n";
-            message += "Tháng: " + thang + "\n";
-            message += "Năm: " + nam + "\n";
-            message += "Loại khách hàng: " + customerType + "\n";
-            JOptionPane.showMessageDialog(null, message);
+            String thang = thangField.getText(); // Lấy giá trị nhập từ trường tháng
+    
+           
         }
-
     }
+    
+
 
     // Method to load the Khachhang list into the JTable
     private void loadKhachhang() {
