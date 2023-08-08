@@ -7,6 +7,7 @@ package domain;
 import java.util.List;
 
 import domain.model.Khachhang;
+import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
 import pesistence.*;
 import presentation.Subscriber;
@@ -20,13 +21,23 @@ public class KhachhangSeviceImpl implements KhachhangService {
     }
 
     @Override
-    public void addKhachhang(Khachhang Khachhang) {
-        KhachhangDAO.addKhachhang(Khachhang);
+    public void addKhachhangViet(KhachhangViet KhachhangViet) {
+        KhachhangDAO.addKhachhangViet(KhachhangViet);
     }
 
     @Override
-    public void updateKhachhang(Khachhang Khachhang) {
-        KhachhangDAO.updateKhachhang(Khachhang);
+    public void addKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
+        KhachhangDAO.addKhachhangnuocngoai(Khachhangnuocngoai);
+    }
+
+    @Override
+    public void updateKhachhangViet(KhachhangViet KhachhangViet) {
+        KhachhangDAO.updateKhachhangViet(KhachhangViet);
+    }
+
+    @Override
+    public void updateKhachhangnuocngoai(Khachhangnuocngoai khachhangnuocngoai) {
+        KhachhangDAO.updateKhachhangnuocngoai(khachhangnuocngoai);
     }
 
     @Override

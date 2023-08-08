@@ -38,7 +38,7 @@ public class KhachhangManagementApp extends JFrame {
 
         // Set up JFrame
         setTitle("Khachhang Management");
-        setSize(600, 400);
+        setSize(770, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 

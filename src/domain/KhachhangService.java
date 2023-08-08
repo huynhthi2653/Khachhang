@@ -8,13 +8,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import domain.model.Khachhang;
+import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
 import presentation.Subscriber;
 
 public interface KhachhangService {
-    void ThemKhachhang(Khachhang Khachhang);
+    void addKhachhangViet(KhachhangViet KhachhangViet);
 
-    void updateKhachhang(Khachhang Khachhang);
+    void addKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai);
+
+    void updateKhachhangViet(KhachhangViet KhachhangViet);
+
+    void updateKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai);
 
     void deleteKhachhang(int KhachhangMakh);
 
@@ -37,5 +42,4 @@ public interface KhachhangService {
     void unsubscribe(Subscriber Sub);
 
     void notifySubscribers();
-    Khachhang getKhachhangByID(int khachhangId);
 }

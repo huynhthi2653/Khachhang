@@ -7,6 +7,8 @@ package pesistence;
 import java.util.List;
 
 import domain.model.Khachhang;
+import domain.model.KhachhangViet;
+import domain.model.Khachhangnuocngoai;
 
 public class KhachhangDAOImpl implements KhachhangDAO {
     private KhachhangGateway KhachhangGateway;
@@ -16,13 +18,23 @@ public class KhachhangDAOImpl implements KhachhangDAO {
     }
 
     @Override
-    public void addKhachhang(Khachhang Khachhang) {
-        KhachhangGateway.addKhachhang(Khachhang);
+    public void addKhachhangViet(KhachhangViet KhachhangViet) {
+        KhachhangGateway.addKhachhangViet(KhachhangViet);
     }
 
     @Override
-    public void updateKhachhang(Khachhang Khachhang) {
-        KhachhangGateway.updateKhachhang(Khachhang);
+    public void addKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
+        KhachhangGateway.addKhachhangnuocngoai(Khachhangnuocngoai);
+    }
+
+    @Override
+    public void updateKhachhangViet(KhachhangViet KhachhangViet) {
+        KhachhangGateway.updateKhachhangViet(KhachhangViet);
+    }
+
+    @Override
+    public void updateKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
+        KhachhangGateway.updateKhachhangnuocngoai(Khachhangnuocngoai);
     }
 
     @Override
@@ -38,5 +50,17 @@ public class KhachhangDAOImpl implements KhachhangDAO {
     @Override
     public List<Khachhang> getAllKhachhangs() {
         return KhachhangGateway.getAllKhachhangs();
+    }
+
+    @Override
+    public double TongTTKNN(Khachhang Khachhang) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TongTTKNN'");
+    }
+
+    @Override
+    public List<Khachhang> getKhachhangThang() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getKhachhangThang'");
     }
 }

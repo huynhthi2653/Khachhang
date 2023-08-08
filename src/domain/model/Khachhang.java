@@ -10,12 +10,12 @@ public abstract class Khachhang {
     private int Makh;
     private String name;
     private Date Ngayrahoadon;
-    protected double Soluong;
+    protected int Soluong;
     protected double Dongia;
 
     public abstract double ThanhTien();
 
-    public Khachhang(int Makh, String name, Date ngayrahoadon, double Soluong, double Dongia) {
+    public Khachhang(int Makh, String name, Date ngayrahoadon, int Soluong, double Dongia, double ThanhTien) {
         this.Makh = Makh;
         this.name = name;
         this.Ngayrahoadon = ngayrahoadon;
@@ -69,7 +69,7 @@ public abstract class Khachhang {
     /**
      * @return the Soluong
      */
-    public double getSoluong() {
+    public int getSoluong() {
         return Soluong;
     }
 

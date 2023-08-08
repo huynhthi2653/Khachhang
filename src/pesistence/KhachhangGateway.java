@@ -7,15 +7,25 @@ package pesistence;
 import java.util.List;
 
 import domain.model.Khachhang;
+import domain.model.KhachhangViet;
+import domain.model.Khachhangnuocngoai;
 
 public interface KhachhangGateway {
-    void addKhachhang(Khachhang Khachhang);
+    void addKhachhangViet(KhachhangViet KhachhangViet);
 
-    void updateKhachhang(Khachhang Khachhang);
+    void addKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai);
+
+    void updateKhachhangViet(KhachhangViet KhachhangViet);
+
+    void updateKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai);
 
     void deleteKhachhang(int MaKH);
 
     Khachhang getKhachhangById(int MaKH);
 
     List<Khachhang> getAllKhachhangs();
+
+    double TongTTKNN(Khachhang Khachhang);
+
+    List<Khachhang> getKhachhangThang();
 }

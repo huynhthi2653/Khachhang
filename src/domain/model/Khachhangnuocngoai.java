@@ -3,10 +3,9 @@ package domain.model;
 import java.util.Date;
 
 public class Khachhangnuocngoai extends Khachhang {
-    public Khachhangnuocngoai(int Makh, String name, Date ngayrahoadon, double Soluong, double Dongia,
-            String Quoctich) {
-        super(Makh, name, ngayrahoadon, Soluong, Dongia);
 
+    public Khachhangnuocngoai(int Makh, String name, Date ngayrahoadon, int Soluong, double Dongia, double ThanhTien) {
+        super(Makh, name, ngayrahoadon, Soluong, Dongia, ThanhTien);
     }
 
     private String Quoctich;

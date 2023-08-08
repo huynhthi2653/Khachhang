@@ -22,9 +22,10 @@ public class KhachhangViet extends Khachhang {
         this.dinhmuc = dinhmuc;
     }
 
-    public KhachhangViet(int MaKH, String hotenKH, Date Ngayrahoadon, double dongia, double soluong, String doituongKH,
+    public KhachhangViet(int MaKH, String hotenKH, Date Ngayrahoadon, int Soluong, double Dongia, double ThanhTien,
+            String doituongKH,
             int dinhmuc) {
-        super(MaKH, hotenKH, Ngayrahoadon, soluong, dongia);
+        super(MaKH, doituongKH, Ngayrahoadon, Soluong, Dongia, ThanhTien);
         this.doituongKH = doituongKH;
         this.dinhmuc = dinhmuc;
     }
