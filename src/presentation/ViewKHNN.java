@@ -6,7 +6,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ViewKHNN extends JFrame {
     private JTextField MakhTextField;
@@ -20,10 +23,10 @@ public class ViewKHNN extends JFrame {
 
     public ViewKHNN(KhachhangManagementApp viewApp) {
         setTitle("Khachhang Management");
-        setSize(400, 200);
+        setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+        JPanel inputJPanel = new JPanel(new GridLayout(8, 2));
         MakhTextField = new JTextField();
         nameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
@@ -66,26 +69,27 @@ public class ViewKHNN extends JFrame {
   public String getQuocTich() {
         return QuoctichTextField.getText();
     }
-    public void setKhachhangInfo2(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia, String Quoctich) {
-        MakhTextField.setText(String.valueOf(Makh));
-        nameTextField.setText(name);
-        NgayrahoadonTextField.setText(String.valueOf(Ngayrahoadon));
-        SoluongTextField.setText(String.valueOf(Soluong));
-        DongiaTextField.setText(String.valueOf(Dongia));
+    public void setKhachhangInfo2(int makh, String Quoctich, Date ngayrahoadon, int soluong, double dongia, String quocTich2) {
         QuoctichTextField.setText(Quoctich);
         
     }
 
     private void addKhachhangnuocngoai(KhachhangManagementApp viewApp) {
-        int Makh = Integer.parseInt(MakhTextField.getText());
+       int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
-        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        Date Ngayrahoadon;
+        try {
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
+        }
+        int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
-        String Quoctich = QuoctichTextField.getText();
+        String QuocTich = QuoctichTextField.getText();
 
         // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
-        viewApp.addKhachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, Quoctich);
 
         JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }

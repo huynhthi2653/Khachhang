@@ -37,4 +37,5 @@ public interface KhachhangService {
     void unsubscribe(Subscriber Sub);
 
     void notifySubscribers();
+    Khachhang getKhachhangByID(int khachhangId);
 }

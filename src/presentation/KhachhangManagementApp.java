@@ -11,11 +11,12 @@ import domain.model.Khachhangnuocngoai;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//import java.util.Date;
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
+//import java.util.List;
+//import java.util.Locale;
 import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
 
 public class KhachhangManagementApp extends JFrame {
     private KhachhangService KhachhangService;
@@ -29,9 +30,6 @@ public class KhachhangManagementApp extends JFrame {
     private JButton Tongsl;
     private JButton hoadonT;
     private JButton saveButton;
-
- 
-    private JComboBox<String> customerTypeCombo;
 
     public KhachhangManagementApp() {
 
@@ -52,7 +50,9 @@ public class KhachhangManagementApp extends JFrame {
         tableModel.addColumn("Soluong");
         tableModel.addColumn("Dongia");
         tableModel.addColumn("Thanhtien");
-         tableModel.addColumn("quốc tịch");
+        tableModel.addColumn("Định mức");
+        tableModel.addColumn("Đối tượng");
+        tableModel.addColumn("quốc tịch");
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
@@ -114,7 +114,7 @@ public class KhachhangManagementApp extends JFrame {
         });
         findButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // findKhachhang();
+                findKhachhang();
 
             }
         });
@@ -158,7 +158,6 @@ public class KhachhangManagementApp extends JFrame {
          JOptionPane.PLAIN_MESSAGE);
     }
   
-    // Method to edit a Khachhang
     private void editKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
@@ -169,37 +168,32 @@ public class KhachhangManagementApp extends JFrame {
         // Lấy thông tin khách hàng từ dòng đã chọn trong bảng
         int Makh = (int) tableModel.getValueAt(row, 0);
         String name = (String) tableModel.getValueAt(row, 1);
-        double Soluong = (double) tableModel.getValueAt(row, 3);
+        Date Ngayrahoadon = (Date) tableModel.getValueAt(row, 3);
+        int Soluong = (int) tableModel.getValueAt(row, 3);
         double Dongia = (double) tableModel.getValueAt(row, 4);
-    
+        String QuocTich  = (String) tableModel.getValueAt(row, 9);
+
         // Khởi tạo biến viewKHNN ở đây
         ViewKHNN viewKHNN = new ViewKHNN(this);
     
         if (shouldShowViewKHNN(viewKHNN)) {
             // Set thông tin của Khachhang vào các trường của ViewKHNN
-            viewKHNN.setKhachhangInfo2(Makh, name, null, Soluong, Dongia, name);
+            viewKHNN.setKhachhangInfo2(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich);
             viewKHNN.setVisible(true);
         } else {
             viewKHViet viewKHViet = new viewKHViet(this);
             // Set thông tin của Khachhang vào các trường của ViewKHViet
-            viewKHViet.setKhachhangInfo1(Makh, name, null, Soluong, Dongia);
             viewKHViet.setVisible(true);
         }
-    }
-    
-    
-    private boolean shouldShowViewKHNN(ViewKHNN viewKHNN) {
-        // Kiểm tra xem có quốc tịch hay không
-        String quocTich = viewKHNN.getQuocTich();
-    
-        // Nếu có quốc tịch, trả về true để hiển thị ViewKHNN
-        return !quocTich.isEmpty();
     }
     
     
     
     
 
+    private boolean shouldShowViewKHNN(ViewKHNN viewKHNN) {
+        return false;
+    }
     // Method to delete a Khachhang
     private void deleteKhachhang() {
         int row = table.getSelectedRow();
@@ -214,33 +208,33 @@ public class KhachhangManagementApp extends JFrame {
 
     }
 
-    // Method to find a Khachhang
-   private void findKhachhang() {
-    // Tạo JPanel chứa các thành phần nhập liệu
-    JPanel inputPanel = new JPanel(new GridLayout(2, 2));
-    JTextField MakhTextField = new JTextField();
-    inputPanel.add(new JLabel("Mã khách hàng:"));
-    inputPanel.add(MakhTextField);
-
-    // Hiển thị JOptionPane với các thành phần nhập liệu
-    int result = JOptionPane.showOptionDialog(null, inputPanel, "Tìm khách hàng",
-            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-    // Xử lý khi người dùng chọn OK
-    if (result == JOptionPane.OK_OPTION) {
-        int KhachhangId = Integer.parseInt(MakhTextField.getText());
-        Khachhang Khachhang = KhachhangService.getKhachhangByMakh(KhachhangId);
-
-        if (Khachhang != null) {
-            JOptionPane.showMessageDialog(this, "Khachhang found!");
-            // Hiển thị thông tin khách hàng tìm thấy
-            // ...
-        } else {
-            JOptionPane.showMessageDialog(this, "Khachhang not found.");
+     // Method to find a Khachhang
+     private void findKhachhang() {
+        // Tạo JPanel chứa các thành phần nhập liệu
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2));
+        JTextField MakhTextField = new JTextField();
+        inputPanel.add(new JLabel("Mã khách hàng:"));
+        inputPanel.add(MakhTextField);
+    
+        // Hiển thị JOptionPane với các thành phần nhập liệu
+        int result = JOptionPane.showOptionDialog(null, inputPanel, "Tìm khách hàng",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+    
+        // Xử lý khi người dùng chọn OK
+        if (result == JOptionPane.OK_OPTION) {
+            int KhachhangId = Integer.parseInt(MakhTextField.getText());
+            Khachhang Khachhang = KhachhangService.getKhachhangByID(KhachhangId);
+    
+            if (Khachhang != null) {
+                JOptionPane.showMessageDialog(this, "đã tìm thấy khách hàng!");
+                // Hiển thị thông tin khách hàng tìm thấy
+                // ...
+            } else {
+                JOptionPane.showMessageDialog(this, "không tìm thấy khách hàng.");
+            }
         }
     }
-}
-
+    
 
     private void hoadonT() {
         // Tạo JPanel chứa các thành phần nhập liệu
@@ -294,13 +288,7 @@ public class KhachhangManagementApp extends JFrame {
         
     }
 
-    public void addKhachhangnuocngoai(int makh, String name, java.sql.Date ngayrahoadon, double soluong, double dongia,
-            String quoctich) {
-    }
-
-    public void addKhachhangViet(int makh, String name, java.sql.Date ngayrahoadon, double soluong, double dongia) {
-    }
-
+   
    
 
 

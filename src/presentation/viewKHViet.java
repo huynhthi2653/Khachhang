@@ -6,7 +6,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class viewKHViet extends JFrame {
     private JTextField MakhTextField;
@@ -14,23 +17,25 @@ public class viewKHViet extends JFrame {
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
-        private JTextField DinhmucTextField;
-
-    
+    private JTextField DinhmucTextField;
+    private JComboBox<String> customerTypeCombo;
     private JButton LuuButton;
     private JButton HuyButton;
 
     public viewKHViet(KhachhangManagementApp viewApp) {
         setTitle("Khachhang Management");
-        setSize(400, 200);
+        setSize(400, 350);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        JPanel inputJPanel = new JPanel(new GridLayout(6, 2));
+        JPanel inputJPanel = new JPanel(new GridLayout(10, 2));
         MakhTextField = new JTextField();
         nameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
         SoluongTextField = new JTextField();
         DongiaTextField = new JTextField();
+        DinhmucTextField = new JTextField();
+        String[] optionss = { "Sinh hoạt", "Kinh doanh", "Sản xuất" };
+        customerTypeCombo = new JComboBox<>(optionss);
         LuuButton = new JButton("Lưu");
         HuyButton = new JButton("Hủy");
         inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
@@ -45,11 +50,11 @@ public class viewKHViet extends JFrame {
         inputJPanel.add(DongiaTextField);
         inputJPanel.add(new JLabel("Nhập định mức:"));
         inputJPanel.add(DinhmucTextField);
-        inputJPanel.add(new JLabel("Nhập định mức:"));
-
+        inputJPanel.add(new JLabel("Loại đối tượng:"));
+        inputJPanel.add(customerTypeCombo);
         inputJPanel.add(LuuButton);
         inputJPanel.add(HuyButton);
-        
+      
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addKhachhangViet(viewApp);
@@ -65,24 +70,28 @@ public class viewKHViet extends JFrame {
         add(inputJPanel, BorderLayout.SOUTH);
     }
 
-    public void setKhachhangInfo1(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia) {
-        MakhTextField.setText(String.valueOf(Makh));
-        nameTextField.setText(name);
-        NgayrahoadonTextField.setText(String.valueOf(Ngayrahoadon));
-        SoluongTextField.setText(String.valueOf(Soluong));
-        DongiaTextField.setText(String.valueOf(Dongia));
-    }
-
     private void addKhachhangViet(KhachhangManagementApp viewApp) {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
+        Date Ngayrahoadon;
+        try {
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
+        }
         double Soluong = Double.parseDouble(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
+        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
+        String doituongKH = customerTypeCombo.getSelectedItem().toString();
 
-        // Gọi phương thức của viewApp để thêm khách hàng Việt Nam
-        viewApp.addKhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia);
 
-        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
 }
+//   setTitle("Nhập thông tin khách hàng việt");
+//         setSize(500, 300);
+//         setLocation(500, 390);
+//         setDefaultCloseOperation(ViewKHNN.EXIT_ON_CLOSE);
+//         setLayout(new BorderLayout());
+//         add(inputJPanel);
