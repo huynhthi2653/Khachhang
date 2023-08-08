@@ -60,13 +60,13 @@ public class KhachhangManagementApp extends JFrame {
         // Create JPanel for Khachhang details input and buttons
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
         addbButton = new JButton("Thêm khách hàng");
-        editButton = new JButton("Edit");
-        deleteButton = new JButton("Delete");
-        findButton = new JButton("Find");
-        saveButton = new JButton("Save");
-        TrungbinhNn = new JButton("Trung Binh Thanh tien khach hang nuoc ngoai");
-        Tongsl = new JButton("tong so luong ");
-        hoadonT = new JButton("cac hoa don can tong hop trong thang");
+        editButton = new JButton("Sửa");
+        deleteButton = new JButton("Xóa");
+        findButton = new JButton("Tìm");
+        saveButton = new JButton("Lưu");
+        TrungbinhNn = new JButton("Trung bình thành tiền khách hàng nước ngoài");
+        Tongsl = new JButton("Tổng số lượng");
+        hoadonT = new JButton("Các hóa đơn cần tổng hợp trong tháng");
 
         new GridLayout(7, 2);
         inputPanel.add(addbButton);
@@ -161,7 +161,7 @@ public class KhachhangManagementApp extends JFrame {
     private void editKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
+            JOptionPane.showMessageDialog(this, "vui lòng chọn khách hàng cần sửa.");
             return;
         }
     
@@ -198,7 +198,7 @@ public class KhachhangManagementApp extends JFrame {
     private void deleteKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a Khachhang to delete.");
+            JOptionPane.showMessageDialog(this, "chọn khách hàng để xóa");
             return;
         }
 
