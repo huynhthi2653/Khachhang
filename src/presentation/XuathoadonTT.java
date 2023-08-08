@@ -7,22 +7,20 @@ import java.awt.*;
 public class XuathoadonTT extends JFrame {
     private DefaultTableModel tableModel;
     private JTable table;
+    private KhachhangManagementApp parentApp;
 
     public XuathoadonTT(KhachhangManagementApp khachhangManagementApp) {
+        parentApp = khachhangManagementApp;
+        initializeUI();
     }
 
-    public void XuatHoaDonTT() {
-        
-        setTitle("Bảng xuất hóa đơn");
-        setSize(600, 400);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    private void initializeUI() {
+        setTitle("Xuất Hóa Đơn");
+        setSize(770, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close this window only, not the entire app
+        setLayout(new BorderLayout());
 
-        // Khởi tạo tableModel và table cho bảng xuất hóa đơn
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
-        JTextField thangField = new JTextField();
-        inputPanel.add(new JLabel("Tháng:"));
-        inputPanel.add(thangField);
-
+        JPanel inputPanel = new JPanel(new GridLayout(1, 2));
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Makh");
         tableModel.addColumn("Name");
@@ -33,8 +31,15 @@ public class XuathoadonTT extends JFrame {
         tableModel.addColumn("Định mức");
         tableModel.addColumn("Thanhtien");
         tableModel.addColumn("quốc tịch");
+        
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
+
+        add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void showWindow() {
+        setVisible(true);
     }
 }

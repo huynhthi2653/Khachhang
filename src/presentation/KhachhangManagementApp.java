@@ -247,7 +247,13 @@ public class KhachhangManagementApp extends JFrame {
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
             String thang = thangField.getText(); // Lấy giá trị nhập từ trường tháng
-    
+               if (!thang.isEmpty()) {
+            // Tạo thể hiện của lớp XuathoadonTT
+            XuathoadonTT xuathoadonTT = new XuathoadonTT(KhachhangManagementApp.this);
+            
+            // Hiển thị cửa sổ xuathoadonTT
+            xuathoadonTT.setVisible(true);
+        }
            
         }
     }
