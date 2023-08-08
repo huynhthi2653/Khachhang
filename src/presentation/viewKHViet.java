@@ -1,11 +1,10 @@
 package presentation;
 
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
 
 public class viewKHViet extends JFrame {
     private JTextField MakhTextField;
@@ -13,19 +12,18 @@ public class viewKHViet extends JFrame {
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
-    private JTextField DinhmucTextField;
-    private JComboBox<String> customerTypeCombo;
+    private JButton LuuButton;
+    private JButton HuyButton;
 
     public viewKHViet(KhachhangManagementApp viewApp) {
-        JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+        JPanel inputJPanel = new JPanel(new GridLayout(6, 2));
         MakhTextField = new JTextField();
         nameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
         SoluongTextField = new JTextField();
         DongiaTextField = new JTextField();
-        DinhmucTextField = new JTextField();
-        String[] optionss = { "Sinh hoạt", "Kinh doanh", "Sản xuất" };
-        customerTypeCombo = new JComboBox<>(optionss);
+        LuuButton = new JButton("Lưu");
+        HuyButton = new JButton("Hủy");
         inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
         inputJPanel.add(MakhTextField);
         inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
@@ -36,11 +34,48 @@ public class viewKHViet extends JFrame {
         inputJPanel.add(SoluongTextField);
         inputJPanel.add(new JLabel("Nhập đơn giá:"));
         inputJPanel.add(DongiaTextField);
-        inputJPanel.add(new JLabel("Nhập Định mức:"));
-        inputJPanel.add(DinhmucTextField);
-        inputJPanel.add(new JLabel("Loại đối tượng:"));
-        inputJPanel.add(customerTypeCombo);
-        JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
+        inputJPanel.add(LuuButton);
+        inputJPanel.add(HuyButton);
+        
+        LuuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addKhachhangViet(viewApp);
+                dispose();
+            }
+        });
+
+        HuyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        
+        int result = JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
+            // Xử lý khi người dùng hủy hoặc đóng cửa sổ dialog
+        }
+    }
+
+    public void setKhachhangInfo(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia) {
+        MakhTextField.setText(String.valueOf(Makh));
+        nameTextField.setText(name);
+        NgayrahoadonTextField.setText(String.valueOf(Ngayrahoadon));
+        SoluongTextField.setText(String.valueOf(Soluong));
+        DongiaTextField.setText(String.valueOf(Dongia));
+    }
+
+    private void addKhachhangViet(KhachhangManagementApp viewApp) {
+        int Makh = Integer.parseInt(MakhTextField.getText());
+        String name = nameTextField.getText();
+        Date Ngayrahoadon = Date.valueOf(NgayrahoadonTextField.getText());
+        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        double Dongia = Double.parseDouble(DongiaTextField.getText());
+
+        // Gọi phương thức của viewApp để thêm khách hàng Việt Nam
+        viewApp.addKhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia);
+
+        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
 }
