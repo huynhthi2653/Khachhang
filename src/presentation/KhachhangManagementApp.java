@@ -143,7 +143,7 @@ public class KhachhangManagementApp extends JFrame {
 
         TrungbinhNn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                    TrungbinhNn();
             }
         });
         hoadonT.addActionListener(new ActionListener() {
@@ -153,7 +153,11 @@ public class KhachhangManagementApp extends JFrame {
         });
         // loadKhachhang();
     }
-
+    private void TrungbinhNn(){
+         JOptionPane.showMessageDialog(null, new JScrollPane(), "Thành tiền nước ngoài",
+         JOptionPane.PLAIN_MESSAGE);
+    }
+  
     // Method to edit a Khachhang
     private void editKhachhang() {
         int row = table.getSelectedRow();

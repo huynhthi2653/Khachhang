@@ -1,6 +1,8 @@
 package presentation;
 
 import javax.swing.*;
+
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,10 @@ public class ViewKHNN extends JFrame {
     private JButton HuyButton;
 
     public ViewKHNN(KhachhangManagementApp viewApp) {
+        setTitle("Khachhang Management");
+        setSize(400, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
         JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
         MakhTextField = new JTextField();
         nameTextField = new JTextField();
@@ -54,12 +60,7 @@ public class ViewKHNN extends JFrame {
             }
         });
         
-        int result = JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
-            // Xử lý khi người dùng hủy hoặc đóng cửa sổ dialog
-        }
+        add(inputJPanel, BorderLayout.SOUTH);
         
     }
   public String getQuocTich() {

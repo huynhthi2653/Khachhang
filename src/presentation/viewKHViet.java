@@ -1,6 +1,8 @@
 package presentation;
 
 import javax.swing.*;
+
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,10 +14,17 @@ public class viewKHViet extends JFrame {
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
+        private JTextField DinhmucTextField;
+
+    
     private JButton LuuButton;
     private JButton HuyButton;
 
     public viewKHViet(KhachhangManagementApp viewApp) {
+        setTitle("Khachhang Management");
+        setSize(400, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
         JPanel inputJPanel = new JPanel(new GridLayout(6, 2));
         MakhTextField = new JTextField();
         nameTextField = new JTextField();
@@ -34,6 +43,10 @@ public class viewKHViet extends JFrame {
         inputJPanel.add(SoluongTextField);
         inputJPanel.add(new JLabel("Nhập đơn giá:"));
         inputJPanel.add(DongiaTextField);
+        inputJPanel.add(new JLabel("Nhập định mức:"));
+        inputJPanel.add(DinhmucTextField);
+        inputJPanel.add(new JLabel("Nhập định mức:"));
+
         inputJPanel.add(LuuButton);
         inputJPanel.add(HuyButton);
         
@@ -49,16 +62,10 @@ public class viewKHViet extends JFrame {
                 dispose();
             }
         });
-        
-        int result = JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
-            // Xử lý khi người dùng hủy hoặc đóng cửa sổ dialog
-        }
+        add(inputJPanel, BorderLayout.SOUTH);
     }
 
-    public void setKhachhangInfo(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia) {
+    public void setKhachhangInfo1(int Makh, String name, Date Ngayrahoadon, double Soluong, double Dongia) {
         MakhTextField.setText(String.valueOf(Makh));
         nameTextField.setText(name);
         NgayrahoadonTextField.setText(String.valueOf(Ngayrahoadon));
