@@ -234,7 +234,6 @@ public class KhachhangManagementApp extends JFrame {
             }
         }
     }
-    
 
     private void hoadonT() {
         // Tạo JPanel chứa các thành phần nhập liệu
