@@ -222,18 +222,26 @@ public class KhachhangManagementApp extends JFrame {
     
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
-            int KhachhangId = Integer.parseInt(MakhTextField.getText());
-            Khachhang Khachhang = KhachhangService.getKhachhangByID(KhachhangId);
-    
-            if (Khachhang != null) {
-                JOptionPane.showMessageDialog(this, "đã tìm thấy khách hàng!");
-                // Hiển thị thông tin khách hàng tìm thấy
-                // ...
+            String makhText = MakhTextField.getText();
+            if (makhText.isEmpty()) {
+                // Hiển thị cảnh báo nếu người dùng chưa nhập dữ liệu
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khách hàng!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "không tìm thấy khách hàng.");
+                int KhachhangId = Integer.parseInt(makhText);
+                Khachhang Khachhang = KhachhangService.getKhachhangByID(KhachhangId);
+    
+                if (Khachhang != null) {
+                    JOptionPane.showMessageDialog(this, "Đã tìm thấy khách hàng!");
+                    // Hiển thị thông tin khách hàng tìm thấy
+                    // ...
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng.");
+                }
             }
         }
     }
+    
 
     private void hoadonT() {
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
@@ -247,16 +255,21 @@ public class KhachhangManagementApp extends JFrame {
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
             String thang = thangField.getText(); // Lấy giá trị nhập từ trường tháng
-               if (!thang.isEmpty()) {
-            // Tạo thể hiện của lớp XuathoadonTT
-            XuathoadonTT xuathoadonTT = new XuathoadonTT(KhachhangManagementApp.this);
             
-            // Hiển thị cửa sổ xuathoadonTT
-            xuathoadonTT.setVisible(true);
-        }
-           
+            if (thang.isEmpty()) {
+                // Hiển thị cảnh báo nếu người dùng chưa nhập dữ liệu
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập tháng!", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Tạo thể hiện của lớp XuathoadonTT
+                XuathoadonTT xuathoadonTT = new XuathoadonTT(KhachhangManagementApp.this);
+                
+                // Hiển thị cửa sổ xuathoadonTT
+                xuathoadonTT.setVisible(true);
+            }
         }
     }
+    
     
 
 
