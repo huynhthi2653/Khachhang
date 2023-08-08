@@ -7,18 +7,24 @@ import domain.*;
 import domain.model.Khachhang;
 import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
+import presentation.Controllertest.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.ModuleLayer.Controller;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Date;
+import java.util.Date;;
+
+
 
 public class KhachhangManagementApp extends JFrame {
+    private CommandProcessor commandProcessor;
+
     private KhachhangService KhachhangService;
     private DefaultTableModel tableModel;
     private JTable table;
@@ -30,8 +36,10 @@ public class KhachhangManagementApp extends JFrame {
     private JButton Tongsl;
     private JButton hoadonT;
     private JButton saveButton;
+    
 
     public KhachhangManagementApp() {
+        commandProcessor = new CommandProcessor();
 
         // Initialize the KhachhangService (Business Logic Layer)
         // KhachhangService = new KhachhangServiceImpl();
@@ -80,47 +88,14 @@ public class KhachhangManagementApp extends JFrame {
 
         add(inputPanel, BorderLayout.SOUTH);
 
-        // Add action listeners for buttons
-       addbButton.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
 
-        int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+     
 
-        if (choice == JOptionPane.YES_OPTION) {
-            // Chọn Khách hàng Việt Nam
-            viewKHViet viewKHViet = new viewKHViet(KhachhangManagementApp.this);
-            viewKHViet.setVisible(true);
-        } else if (choice == JOptionPane.NO_OPTION) {
-            // Chọn Khách hàng nước ngoài
-            ViewKHNN viewKHNN = new ViewKHNN(KhachhangManagementApp.this);
-            viewKHNN.setVisible(true);
-        } else {
-            // Không chọn gì cả hoặc đóng cửa sổ
-        }
+
+        // loadKhachhang();
     }
-});
-
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                editKhachhang();
-            }
-        });
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                deleteKhachhang();
-            }
-        });
-        findButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                findKhachhang();
-
-            }
-        });
-        Tongsl.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+    public void Tongsl(){
+          String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
 
                 // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
                 int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
@@ -138,27 +113,32 @@ public class KhachhangManagementApp extends JFrame {
                 } else {
                     // Không chọn gì cả hoặc đóng cửa sổ
                 }
-            }
-        });
-
-        TrungbinhNn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                    TrungbinhNn();
-            }
-        });
-        hoadonT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                hoadonT();
-            }
-        });
-        // loadKhachhang();
     }
-    private void TrungbinhNn(){
+    public void addbButton(){
+        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+
+        int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            // Chọn Khách hàng Việt Nam
+            viewKHViet viewKHViet = new viewKHViet(KhachhangManagementApp.this);
+            viewKHViet.setVisible(true);
+        } else if (choice == JOptionPane.NO_OPTION) {
+            // Chọn Khách hàng nước ngoài
+            ViewKHNN viewKHNN = new ViewKHNN(KhachhangManagementApp.this);
+            viewKHNN.setVisible(true);
+        } else {
+            // Không chọn gì cả hoặc đóng cửa sổ
+        }
+    
+    }
+    public void TrungbinhNn(){
          JOptionPane.showMessageDialog(null, new JScrollPane(), "Thành tiền nước ngoài",
          JOptionPane.PLAIN_MESSAGE);
     }
   
-    private void editKhachhang() {
+    public void editKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "vui lòng chọn khách hàng cần sửa.");
@@ -195,7 +175,7 @@ public class KhachhangManagementApp extends JFrame {
         return false;
     }
     // Method to delete a Khachhang
-    private void deleteKhachhang() {
+    public void deleteKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "chọn khách hàng để xóa");
@@ -209,7 +189,7 @@ public class KhachhangManagementApp extends JFrame {
     }
 
      // Method to find a Khachhang
-     private void findKhachhang() {
+     public void findKhachhang() {
         // Tạo JPanel chứa các thành phần nhập liệu
         JPanel inputPanel = new JPanel(new GridLayout(2, 2));
         JTextField MakhTextField = new JTextField();
@@ -243,7 +223,7 @@ public class KhachhangManagementApp extends JFrame {
     }
     
 
-    private void hoadonT() {
+    public void hoadonT() {
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
         JTextField thangField = new JTextField();
         inputPanel.add(new JLabel("Tháng:"));
@@ -284,8 +264,36 @@ public class KhachhangManagementApp extends JFrame {
         }
         
     }
+    
+    public JButton getAddButton() {
+        return addbButton;
+    }
 
-   
+    // Getter cho nút "Sửa"
+    public JButton getEditButton() {
+        return editButton;
+    }
+
+    // Getter cho nút "Xóa"
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+    public JButton getFindButton() {
+        return addbButton;
+    }
+
+    // Getter cho nút "Sửa"
+    public JButton getTongslButton() {
+        return editButton;
+    }
+
+    // Getter cho nút "Xóa"
+    public JButton getTrungbinhNnButton() {
+        return deleteButton;
+    }
+      public JButton getHoadonTButton() {
+        return deleteButton;
+    }
    
 
 
