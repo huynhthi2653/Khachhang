@@ -21,7 +21,7 @@ public class ViewKHNN extends JFrame {
     private JButton LuuButton;
     private JButton HuyButton;
 
-    public ViewKHNN(KhachhangManagementApp viewApp) {
+    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller) {
         setTitle("Khachhang Management");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -90,8 +90,9 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi"
         String QuocTich = QuoctichTextField.getText();
 
         // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
-
+        
         JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
+    
   
 }

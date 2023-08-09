@@ -196,6 +196,5 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public List<Khachhang> getKhachhangThang() {
-
     }
 }

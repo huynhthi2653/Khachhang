@@ -8,16 +8,9 @@ public class EditCommand extends Command {
     public EditCommand(KhachhangManagementApp app) {
         this.app = app;
     }
-
-  
-
     @Override
     void excute() {
          app.editKhachhang();
     }
-
-
-
-
 }
 

@@ -27,9 +27,9 @@ public interface KhachhangService {
 
     List<Khachhang> getAllKhachhangs();
 
-    void TongSLKHV();
+    int TongSLKHV();
 
-    void TongSLKHNN();
+    int TongSLKHNN();
 
     double TBTTkhachNN(Khachhangnuocngoai Khachhangnuocngoai);
 
@@ -42,6 +42,4 @@ public interface KhachhangService {
     void unsubscribe(Subscriber Sub);
 
     void notifySubscribers();
-
-    Khachhang getKhachhangByID(int khachhangId);
 }

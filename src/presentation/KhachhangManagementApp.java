@@ -7,24 +7,17 @@ import domain.*;
 import domain.model.Khachhang;
 import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
-import presentation.Controllertest.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.ModuleLayer.Controller;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Date;;
-
-
 
 public class KhachhangManagementApp extends JFrame {
-    private CommandProcessor commandProcessor;
-
     private KhachhangService KhachhangService;
     private DefaultTableModel tableModel;
     private JTable table;
@@ -36,17 +29,22 @@ public class KhachhangManagementApp extends JFrame {
     private JButton Tongsl;
     private JButton hoadonT;
     private JButton saveButton;
-    
+    // private JTextField MakhTextField;
+    // private JTextField nameTextField;
+    // private JTextField NgayrahoadonTextField;
+    // private JTextField SoluongTextField;
+    // private JTextField DongiaTextField;
+    // private JTextField QuoctichTextField;
+    // private JTextField DinhmucTextField;
+    private JComboBox<String> customerTypeCombo;
 
     public KhachhangManagementApp() {
-        commandProcessor = new CommandProcessor();
-
         // Initialize the KhachhangService (Business Logic Layer)
         // KhachhangService = new KhachhangServiceImpl();
 
         // Set up JFrame
         setTitle("Khachhang Management");
-        setSize(770, 400);
+        setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -58,25 +56,39 @@ public class KhachhangManagementApp extends JFrame {
         tableModel.addColumn("Soluong");
         tableModel.addColumn("Dongia");
         tableModel.addColumn("Thanhtien");
-        tableModel.addColumn("Định mức");
-        tableModel.addColumn("Đối tượng");
-        tableModel.addColumn("quốc tịch");
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
         // Create JPanel for Khachhang details input and buttons
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
+        // MakhTextField = new JTextField();
+        // nameTextField = new JTextField();
+        // NgayrahoadonTextField = new JTextField();
+        // SoluongTextField = new JTextField();
+        // DongiaTextField = new JTextField();
         addbButton = new JButton("Thêm khách hàng");
-        editButton = new JButton("Sửa");
-        deleteButton = new JButton("Xóa");
-        findButton = new JButton("Tìm");
-        saveButton = new JButton("Lưu");
-        TrungbinhNn = new JButton("Trung bình thành tiền khách hàng nước ngoài");
-        Tongsl = new JButton("Tổng số lượng");
-        hoadonT = new JButton("Các hóa đơn cần tổng hợp trong tháng");
+        editButton = new JButton("Edit");
+        deleteButton = new JButton("Delete");
+        findButton = new JButton("Find");
+        saveButton = new JButton("Save");
+        TrungbinhNn = new JButton("Trung Binh Thanh tien khach hang nuoc ngoai");
+        Tongsl = new JButton("tong so luong ");
+        hoadonT = new JButton("cac hoa don can tong hop trong thang");
 
-        new GridLayout(7, 2);
+        // new GridLayout(7, 2)
+
+        // inputPanel.add(new JLabel("ID:"));
+        // inputPanel.add(MakhTextField);
+
+        // inputPanel.add(new JLabel("Name:"));
+        // inputPanel.add(nameTextField);
+        // inputPanel.add(new JLabel("Ngayrahoadon:"));
+        // inputPanel.add(NgayrahoadonTextField);
+        // inputPanel.add(new JLabel("Soluong:"));
+        // inputPanel.add(SoluongTextField);
+        // inputPanel.add(new JLabel("Dongia:"));
+        // inputPanel.add(DongiaTextField);
         inputPanel.add(addbButton);
         inputPanel.add(editButton);
         inputPanel.add(deleteButton);
@@ -88,14 +100,93 @@ public class KhachhangManagementApp extends JFrame {
 
         add(inputPanel, BorderLayout.SOUTH);
 
+        // Add action listeners for buttons
+        addbButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
 
-     
+                // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
+                int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                // Xử lý lựa chọn
+                if (choice == JOptionPane.YES_OPTION) {
+                    // Chọn Khách hàng Việt Nam
+                    // Xử lý logic tại đây
+                    JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+                    MakhTextField = new JTextField();
+                    nameTextField = new JTextField();
+                    NgayrahoadonTextField = new JTextField();
+                    SoluongTextField = new JTextField();
+                    DongiaTextField = new JTextField();
+                    DinhmucTextField = new JTextField();
+                    String[] optionss = { "Sinh hoạt", "Kinh doanh", "Sản xuất" };
+                    customerTypeCombo = new JComboBox<>(optionss);
+                    inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
+                    inputJPanel.add(MakhTextField);
+                    inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
+                    inputJPanel.add(nameTextField);
+                    inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
+                    inputJPanel.add(NgayrahoadonTextField);
+                    inputJPanel.add(new JLabel("Nhập số lượng:"));
+                    inputJPanel.add(SoluongTextField);
+                    inputJPanel.add(new JLabel("Nhập đơn giá:"));
+                    inputJPanel.add(DongiaTextField);
+                    inputJPanel.add(new JLabel("Nhập Định mức:"));
+                    inputJPanel.add(DinhmucTextField);
+                    inputJPanel.add(new JLabel("Loại đối tượng:"));
+                    inputJPanel.add(customerTypeCombo);
+                    JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    addKhachhangViet();
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    // Chọn Khách hàng nước ngoài
+                    // Xử lý logic tại đây
+                    JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+                    MakhTextField = new JTextField();
+                    nameTextField = new JTextField();
+                    NgayrahoadonTextField = new JTextField();
+                    SoluongTextField = new JTextField();
+                    DongiaTextField = new JTextField();
+                    QuoctichTextField = new JTextField();
+                    inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
+                    inputJPanel.add(MakhTextField);
+                    inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
+                    inputJPanel.add(nameTextField);
+                    inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
+                    inputJPanel.add(NgayrahoadonTextField);
+                    inputJPanel.add(new JLabel("Nhập số lượng:"));
+                    inputJPanel.add(SoluongTextField);
+                    inputJPanel.add(new JLabel("Nhập đơn giá:"));
+                    inputJPanel.add(DongiaTextField);
+                    inputJPanel.add(new JLabel("Nhập quốc tịch:"));
+                    inputJPanel.add(QuoctichTextField);
+                    JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    addKhachhangnuocngoai();
+                } else {
+                    // Không chọn gì cả hoặc đóng cửa sổ
+                }
+            }
+        });
+        editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editKhachhang();
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteKhachhang();
+            }
+        });
+        findButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                findKhachhang();
 
-
-        // loadKhachhang();
-    }
-    public void Tongsl(){
-          String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+            }
+        });
+        Tongsl.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
 
                 // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
                 int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
@@ -113,145 +204,174 @@ public class KhachhangManagementApp extends JFrame {
                 } else {
                     // Không chọn gì cả hoặc đóng cửa sổ
                 }
-    }
-    public void addbButton(){
-        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+            }
+        });
 
-        int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        TrungbinhNn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
-        if (choice == JOptionPane.YES_OPTION) {
-            // Chọn Khách hàng Việt Nam
-            viewKHViet viewKHViet = new viewKHViet(KhachhangManagementApp.this);
-            viewKHViet.setVisible(true);
-        } else if (choice == JOptionPane.NO_OPTION) {
-            // Chọn Khách hàng nước ngoài
-            ViewKHNN viewKHNN = new ViewKHNN(KhachhangManagementApp.this);
-            viewKHNN.setVisible(true);
-        } else {
-            // Không chọn gì cả hoặc đóng cửa sổ
-        }
-    
+            }
+        });
+        hoadonT.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hoadonT();
+            }
+        });
+        // loadKhachhang();
     }
-    public void TrungbinhNn(){
-         JOptionPane.showMessageDialog(null, new JScrollPane(), "Thành tiền nước ngoài",
-         JOptionPane.PLAIN_MESSAGE);
-    }
-  
-    public void editKhachhang() {
-        int row = table.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "vui lòng chọn khách hàng cần sửa.");
+
+    private void addKhachhangViet() {
+        int Makh = Integer.parseInt(MakhTextField.getText());
+        String name = nameTextField.getText();
+        Date Ngayrahoadon;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
             return;
         }
-    
-        // Lấy thông tin khách hàng từ dòng đã chọn trong bảng
-        int Makh = (int) tableModel.getValueAt(row, 0);
-        String name = (String) tableModel.getValueAt(row, 1);
-        Date Ngayrahoadon = (Date) tableModel.getValueAt(row, 3);
-        int Soluong = (int) tableModel.getValueAt(row, 3);
-        double Dongia = (double) tableModel.getValueAt(row, 4);
-        String QuocTich  = (String) tableModel.getValueAt(row, 9);
-
-        // Khởi tạo biến viewKHNN ở đây
-        ViewKHNN viewKHNN = new ViewKHNN(this);
-    
-        if (shouldShowViewKHNN(viewKHNN)) {
-            // Set thông tin của Khachhang vào các trường của ViewKHNN
-            viewKHNN.setKhachhangInfo2(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich);
-            viewKHNN.setVisible(true);
+        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        double Dongia = Double.parseDouble(DongiaTextField.getText());
+        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
+        String doituongKH = customerTypeCombo.getSelectedItem().toString();
+        // Calculate the average mark using the formula provided
+        double ThanhTien;
+        if (Soluong <= Dinhmuc) {
+            ThanhTien = Soluong * Dongia;
         } else {
-            viewKHViet viewKHViet = new viewKHViet(this);
-            // Set thông tin của Khachhang vào các trường của ViewKHViet
-            viewKHViet.setVisible(true);
+            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
         }
+        Khachhang KhachhangViet = new KhachhangViet(doituongKH, Dinhmuc, Makh, name, Ngayrahoadon, Dongia, Soluong,
+                ThanhTien);
+        KhachhangService.addKhachhang(KhachhangViet);
     }
-    
-    
-    
-    
 
-    private boolean shouldShowViewKHNN(ViewKHNN viewKHNN) {
-        return false;
+    private void addKhachhangnuocngoai() {
+        int Makh = Integer.parseInt(MakhTextField.getText());
+        String name = nameTextField.getText();
+        Date Ngayrahoadon;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
+        }
+        double Soluong = Integer.parseInt(SoluongTextField.getText());
+        double Dongia = Integer.parseInt(DongiaTextField.getText());
+        String Quoctich = QuoctichTextField.getText();
+        // Calculate the average mark using the formula provided
+        double ThanhTien = Soluong * Dongia;
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien,
+                Quoctich);
+        KhachhangService.addKhachhang(Khachhangnuocngoai);
     }
-    // Method to delete a Khachhang
-    public void deleteKhachhang() {
+
+    // Method to edit a Khachhang
+    private void editKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "chọn khách hàng để xóa");
+            JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
+            return;
+        }
+
+        // Lấy thông tin từ các trường nhập liệu
+        // int Makh = Integer.parseInt(MakhTextField.getText());
+        // String name = nameTextField.getText();
+        // Date Ngayrahoadon;
+        // try {
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new
+        // Locale("vi", "VN"));
+        // Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        // } catch (ParseException e) {
+        // JOptionPane.showMessageDialog(null, "Invalid date format. Please use
+        // 'dd/MM/yyyy' format for the date.");
+        // return;
+        // }
+        // double Soluong = Double.parseDouble(SoluongTextField.getText());
+        // double Dongia = Double.parseDouble(DongiaTextField.getText());
+
+        // Calculate the total price using the formula provided
+
+        // Lấy đối tượng Khachhang tại dòng đã chọn trong bảng
+        // Thực hiện cập nhật thông tin khách hàng trong cơ sở dữ liệu
+        KhachhangService.updateKhachhang(khachhang);
+
+        // Xóa trắng các trường nhập liệu
+        clearFields();
+    }
+
+    // Method to delete a Khachhang
+    private void deleteKhachhang() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a Khachhang to delete.");
             return;
         }
 
         int KhachhangId = (int) tableModel.getValueAt(row, 0);
         KhachhangService.deleteKhachhang(KhachhangId);
 
+        clearFields();
 
     }
 
-     // Method to find a Khachhang
-     public void findKhachhang() {
-        // Tạo JPanel chứa các thành phần nhập liệu
-        JPanel inputPanel = new JPanel(new GridLayout(2, 2));
-        JTextField MakhTextField = new JTextField();
-        inputPanel.add(new JLabel("Mã khách hàng:"));
-        inputPanel.add(MakhTextField);
-    
-        // Hiển thị JOptionPane với các thành phần nhập liệu
-        int result = JOptionPane.showOptionDialog(null, inputPanel, "Tìm khách hàng",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-    
-        // Xử lý khi người dùng chọn OK
-        if (result == JOptionPane.OK_OPTION) {
-            String makhText = MakhTextField.getText();
-            if (makhText.isEmpty()) {
-                // Hiển thị cảnh báo nếu người dùng chưa nhập dữ liệu
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khách hàng!", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                int KhachhangId = Integer.parseInt(makhText);
-                Khachhang Khachhang = KhachhangService.getKhachhangByID(KhachhangId);
-    
-                if (Khachhang != null) {
-                    JOptionPane.showMessageDialog(this, "Đã tìm thấy khách hàng!");
-                    // Hiển thị thông tin khách hàng tìm thấy
-                    // ...
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng.");
-                }
-            }
+    // Method to find a Khachhang
+    private void findKhachhang() {
+        int KhachhangId = Integer.parseInt(MakhTextField.getText());
+        Khachhang Khachhang = KhachhangService.getKhachhangByMakh(KhachhangId);
+
+        if (Khachhang != null) {
+            nameTextField.setText(Khachhang.getName());
+            NgayrahoadonTextField.setText(String.valueOf(Khachhang.getNgayrahoadon()));
+            SoluongTextField.setText(String.valueOf(Khachhang.getSoluong()));
+            DongiaTextField.setText(String.valueOf(Khachhang.getDongia()));
+        } else {
+            JOptionPane.showMessageDialog(this, "Khachhang not found.");
+            clearFields();
         }
     }
-    
 
-    public void hoadonT() {
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2));
+    private void hoadonT() {
+        // Tạo JPanel chứa các thành phần nhập liệu
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
+        JTextField ngayField = new JTextField();
         JTextField thangField = new JTextField();
+        JTextField namField = new JTextField();
+        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+        JComboBox<String> customerTypeCombo = new JComboBox<>(options);
+        inputPanel.add(new JLabel("Ngày:"));
+        inputPanel.add(ngayField);
         inputPanel.add(new JLabel("Tháng:"));
         inputPanel.add(thangField);
-    
+        inputPanel.add(new JLabel("Năm:"));
+        inputPanel.add(namField);
+        inputPanel.add(new JLabel("Loại khách hàng:"));
+        inputPanel.add(customerTypeCombo);
+
+        // Hiển thị JOptionPane với các thành phần nhập liệu
         int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-    
+
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
-            String thang = thangField.getText(); // Lấy giá trị nhập từ trường tháng
-            
-            if (thang.isEmpty()) {
-                // Hiển thị cảnh báo nếu người dùng chưa nhập dữ liệu
-                JOptionPane.showMessageDialog(null, "Vui lòng nhập tháng!", "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                // Tạo thể hiện của lớp XuathoadonTT
-                XuathoadonTT xuathoadonTT = new XuathoadonTT(KhachhangManagementApp.this);
-                
-                // Hiển thị cửa sổ xuathoadonTT
-                xuathoadonTT.setVisible(true);
-            }
-        }
-    }
-    
-    
+            String ngay = ngayField.getText();
+            String thang = thangField.getText();
+            String nam = namField.getText();
+            String customerType = customerTypeCombo.getSelectedItem().toString();
 
+            // Xử lý thông tin tại đây
+            // Ví dụ:
+            String message = "Bạn đã chọn thông tin:\n";
+            message += "Ngày: " + ngay + "\n";
+            message += "Tháng: " + thang + "\n";
+            message += "Năm: " + nam + "\n";
+            message += "Loại khách hàng: " + customerType + "\n";
+            JOptionPane.showMessageDialog(null, message);
+        }
+
+    }
 
     // Method to load the Khachhang list into the JTable
     private void loadKhachhang() {
@@ -262,40 +382,15 @@ public class KhachhangManagementApp extends JFrame {
                     Khachhang.getSoluong(), Khachhang.getSoluong(), Khachhang.ThanhTien() };
             tableModel.addRow(rowData);
         }
-        
-    }
-    
-    public JButton getAddButton() {
-        return addbButton;
     }
 
-    // Getter cho nút "Sửa"
-    public JButton getEditButton() {
-        return editButton;
+    // Method to clear input fields
+    private void clearFields() {
+        MakhTextField.setText("");
+        nameTextField.setText("");
+        NgayrahoadonTextField.setText("");
+        SoluongTextField.setText("");
+        DongiaTextField.setText("");
     }
-
-    // Getter cho nút "Xóa"
-    public JButton getDeleteButton() {
-        return deleteButton;
-    }
-    public JButton getFindButton() {
-        return addbButton;
-    }
-
-    // Getter cho nút "Sửa"
-    public JButton getTongslButton() {
-        return editButton;
-    }
-
-    // Getter cho nút "Xóa"
-    public JButton getTrungbinhNnButton() {
-        return deleteButton;
-    }
-      public JButton getHoadonTButton() {
-        return deleteButton;
-    }
-   
-
-
 
 }

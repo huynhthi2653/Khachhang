@@ -13,6 +13,4 @@ public class HoadonTCommand extends Command {
     void excute() {
            app.hoadonT();
     }
-
- 
 }

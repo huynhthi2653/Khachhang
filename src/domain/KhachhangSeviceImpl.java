@@ -14,7 +14,7 @@ import presentation.Subscriber;
 
 public class KhachhangSeviceImpl implements KhachhangService {
     private KhachhangDAO KhachhangDAO;
-
+    private List<Khachhang> Khachhangs;
     public KhachhangSeviceImpl() {
         // Initialize the KhachhangDAO (Data Access Layer)
         KhachhangDAO = new KhachhangDAOImpl(new KhachhangJdbcGateway());
@@ -47,7 +47,7 @@ public class KhachhangSeviceImpl implements KhachhangService {
 
     @Override
     public List<Khachhang> getAllKhachhangs() {
-        return KhachhangDAO.getAllKhachhangs();
+        return Khachhangs = KhachhangDAO.getAllKhachhangs();
     }
 
     @Override
@@ -57,13 +57,13 @@ public class KhachhangSeviceImpl implements KhachhangService {
     }
 
     @Override
-    public void TongSLKHV() {
+    public int TongSLKHV() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'TongSLKHV'");
     }
 
     @Override
-    public void TongSLKHNN() {
+    public int TongSLKHNN() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'TongSLKHNN'");
     }
@@ -82,19 +82,18 @@ public class KhachhangSeviceImpl implements KhachhangService {
 
     @Override
     public void subscribe(Subscriber Sub) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'subscribe'");
+        Subs.add(Sub);
     }
 
     @Override
     public void unsubscribe(Subscriber Sub) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unsubscribe'");
+        Subs.remove(Sub);
     }
 
     @Override
     public void notifySubscribers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notifySubscribers'");
+        for (Subscriber Sub: Subs){
+            Sub.updateKhachhang(Khachhangs);
+        }
     }
 }
