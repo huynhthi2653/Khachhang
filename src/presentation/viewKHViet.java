@@ -2,6 +2,15 @@ package presentation;
 
 import javax.swing.*;
 
+import domain.KhachhangService;
+import domain.model.Khachhang;
+import domain.model.KhachhangViet;
+import presentation.Controllertest.AddKHNNCommand;
+import presentation.Controllertest.AddKHVCommand;
+import presentation.Controllertest.Command;
+import presentation.Controllertest.UpdateKHNNConmand;
+import presentation.Controllertest.UpdateKHVCommand;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,8 +30,9 @@ public class viewKHViet extends JFrame {
     private JComboBox<String> customerTypeCombo;
     private JButton LuuButton;
     private JButton HuyButton;
+    private KhachhangViet khachhangViet;
 
-    public viewKHViet(KhachhangManagementApp viewApp) {
+    public viewKHViet(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
         setTitle("Khachhang Management");
         setSize(400, 350);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -54,10 +64,10 @@ public class viewKHViet extends JFrame {
         inputJPanel.add(customerTypeCombo);
         inputJPanel.add(LuuButton);
         inputJPanel.add(HuyButton);
-      
+
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addKhachhangViet(viewApp);
+                addKhachhangViet(viewApp, Controller, khachhangService);
                 dispose();
             }
         });
@@ -70,28 +80,34 @@ public class viewKHViet extends JFrame {
         add(inputJPanel, BorderLayout.SOUTH);
     }
 
-    private void addKhachhangViet(KhachhangManagementApp viewApp) {
+    private void addKhachhangViet(KhachhangManagementApp viewApp, Controller Controller,
+            KhachhangService khachhangService) {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
         Date Ngayrahoadon;
         try {
-SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
             Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
             return;
         }
-        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
-        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
+        int Dinhmuc = Integer.parseInt(DinhmucTextField.getText());
         String doituongKH = customerTypeCombo.getSelectedItem().toString();
-
-
+        double ThanhTien;
+        if (Soluong <= Dinhmuc) {
+            ThanhTien = Soluong * Dinhmuc;
+        } else {
+            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+        }
+        Khachhang KhachhangViet = new KhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, doituongKH,
+                Dinhmuc);
+        Command ThemHD = new AddKHVCommand(khachhangService, khachhangViet);
+        Controller.excute(ThemHD);
+        Command CapnhatHD = new UpdateKHVCommand(khachhangService, khachhangViet);
+        Controller.excute(CapnhatHD);
+        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
 }
-//   setTitle("Nhập thông tin khách hàng việt");
-//         setSize(500, 300);
-//         setLocation(500, 390);
-//         setDefaultCloseOperation(ViewKHNN.EXIT_ON_CLOSE);
-//         setLayout(new BorderLayout());
-//         add(inputJPanel);

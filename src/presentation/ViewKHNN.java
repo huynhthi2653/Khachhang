@@ -2,6 +2,13 @@ package presentation;
 
 import javax.swing.*;
 
+import domain.KhachhangService;
+import domain.model.Khachhang;
+import domain.model.Khachhangnuocngoai;
+import presentation.Controllertest.AddKHNNCommand;
+import presentation.Controllertest.Command;
+import presentation.Controllertest.UpdateKHNNConmand;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,8 +27,9 @@ public class ViewKHNN extends JFrame {
     private JTextField QuoctichTextField;
     private JButton LuuButton;
     private JButton HuyButton;
+    private Khachhangnuocngoai khachhangnuocngoai;
 
-    public ViewKHNN(KhachhangManagementApp viewApp) {
+    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
         setTitle("Khachhang Management");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -49,10 +57,10 @@ public class ViewKHNN extends JFrame {
         inputJPanel.add(QuoctichTextField);
         inputJPanel.add(LuuButton);
         inputJPanel.add(HuyButton);
-        
+
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addKhachhangnuocngoai(viewApp);
+                addKhachhangnuocngoai(viewApp, Controller, khachhangService);
                 dispose();
             }
         });
@@ -62,24 +70,28 @@ public class ViewKHNN extends JFrame {
                 dispose();
             }
         });
-        
+
         add(inputJPanel, BorderLayout.SOUTH);
-        
-    }
-  public String getQuocTich() {
-        return QuoctichTextField.getText();
-    }
-    public void setKhachhangInfo2(int makh, String Quoctich, Date ngayrahoadon, int soluong, double dongia, String quocTich2) {
-        QuoctichTextField.setText(Quoctich);
-        
+
     }
 
-    private void addKhachhangnuocngoai(KhachhangManagementApp viewApp) {
-       int Makh = Integer.parseInt(MakhTextField.getText());
+    public String getQuocTich() {
+        return QuoctichTextField.getText();
+    }
+
+    public void setKhachhangInfo2(int makh, String Quoctich, Date ngayrahoadon, int soluong, double dongia,
+            String quocTich2) {
+        QuoctichTextField.setText(Quoctich);
+
+    }
+
+    private void addKhachhangnuocngoai(KhachhangManagementApp viewApp, Controller Controller,
+            KhachhangService khachhangService) {
+        int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
         Date Ngayrahoadon;
         try {
-SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
             Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
@@ -87,11 +99,16 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi"
         }
         int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
+        double ThanhTien = Soluong * Dongia;
         String QuocTich = QuoctichTextField.getText();
-
         // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
-
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich,
+                ThanhTien);
+        // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
+        Command ThemHD = new AddKHNNCommand(khachhangService, khachhangnuocngoai);
+        Controller.excute(ThemHD);
+        Command CapnhatHD = new UpdateKHNNConmand(khachhangService, khachhangnuocngoai);
+        Controller.excute(CapnhatHD);
         JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
-  
 }

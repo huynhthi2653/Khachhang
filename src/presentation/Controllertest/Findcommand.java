@@ -1,23 +1,19 @@
 package presentation.Controllertest;
 
+import domain.KhachhangService;
 import presentation.KhachhangManagementApp;
 
 public class Findcommand extends Command {
-    private KhachhangManagementApp app;
+private int Makh;
 
-    public Findcommand(KhachhangManagementApp app) {
-        this.app = app;
+    public Findcommand(KhachhangService KhachhangService, int Makh) {
+        super(KhachhangService);
+        this.Makh = Makh;
+    
     }
-
-  
-
     @Override
-    void excute() {
-         app.findKhachhang();
+    public void excute() {
+        KhachhangService.TimkhachhangtuMakh(Makh);
     }
-
-
-
-
 }
 
