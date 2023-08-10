@@ -7,6 +7,8 @@ import domain.*;
 import domain.model.Khachhang;
 import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
+import presentation.Controllertest.UpdateKHNNConmand;
+import presentation.Controllertest.UpdateKHVCommand;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -153,10 +155,28 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     private void editKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một Khachhang để chỉnh sửa.");
             return;
         }
-        clearFields();
+
+        // Lấy thông tin khách hàng từ dòng đã chọn trong bảng
+        String QuocTich = (String) tableModel.getValueAt(row, 8); // Chỉnh index thành 8
+
+        // Kiểm tra quốc tịch để xác định loại khách hàng và hiển thị giao diện tương
+        // ứng
+        if (QuocTich == null || QuocTich.isEmpty()) {
+            addKhachhangViet();
+        } else {
+            addKhachhangnuocngoai();
+        }
+    }
+
+    private void UpdateKhachhangViet() {
+        new viewKHViet(this, controller, KhachhangService).setVisible(true);
+    }
+
+    private void UpdateKhachhangnuocngoai() {
+        new ViewKHNN(this, controller, KhachhangService).setVisible(true);
     }
 
     // Method to delete a Khachhang
@@ -169,24 +189,32 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
 
         int KhachhangId = (int) tableModel.getValueAt(row, 0);
         KhachhangService.deleteKhachhang(KhachhangId);
-
-        clearFields();
-
     }
 
     // Method to find a Khachhang
     private void findKhachhang() {
-        int KhachhangId = Integer.parseInt(MakhTextField.getText());
-        Khachhang Khachhang = KhachhangService.getKhachhangByMakh(KhachhangId);
+        // Tạo JPanel chứa các thành phần nhập liệu
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2));
+        JTextField MakhTextField = new JTextField();
+        inputPanel.add(new JLabel("Mã khách hàng:"));
+        inputPanel.add(MakhTextField);
 
-        if (Khachhang != null) {
-            nameTextField.setText(Khachhang.getName());
-            NgayrahoadonTextField.setText(String.valueOf(Khachhang.getNgayrahoadon()));
-            SoluongTextField.setText(String.valueOf(Khachhang.getSoluong()));
-            DongiaTextField.setText(String.valueOf(Khachhang.getDongia()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Khachhang not found.");
-            clearFields();
+        // Hiển thị JOptionPane với các thành phần nhập liệu
+        int result = JOptionPane.showOptionDialog(null, inputPanel, "Tìm khách hàng",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+        // Xử lý khi người dùng chọn OK
+        if (result == JOptionPane.OK_OPTION) {
+            int KhachhangId = Integer.parseInt(MakhTextField.getText());
+            Khachhang Khachhang = KhachhangService.getKhachhangByMakh(KhachhangId);
+
+            if (Khachhang != null) {
+                JOptionPane.showMessageDialog(this, "đã tìm thấy khách hàng!");
+                // Hiển thị thông tin khách hàng tìm thấy
+                // ...
+            } else {
+                JOptionPane.showMessageDialog(this, "không tìm thấy khách hàng.");
+            }
         }
     }
 
@@ -231,29 +259,15 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     }
 
     // Method to load the Khachhang list into the JTable
-    private void loadKhachhang() {
-        List<Khachhang> Khachhangs = KhachhangService.getAllKhachhangs();
+    @Override
+    public void updateKhachhang(List<Khachhang> Khachhangs) {
+        Khachhangs = KhachhangService.getAllKhachhangs();
         tableModel.setRowCount(0); // Clear previous data
         for (Khachhang Khachhang : Khachhangs) {
             Object[] rowData = { Khachhang.getMakh(), Khachhang.getName(), Khachhang.getNgayrahoadon(),
                     Khachhang.getSoluong(), Khachhang.getSoluong(), Khachhang.ThanhTien() };
             tableModel.addRow(rowData);
         }
-    }
-
-    // Method to clear input fields
-    private void clearFields() {
-        MakhTextField.setText("");
-        nameTextField.setText("");
-        NgayrahoadonTextField.setText("");
-        SoluongTextField.setText("");
-        DongiaTextField.setText("");
-    }
-
-    @Override
-    public void updateKhachhang(List<Khachhang> Khachhangs) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateKhachhang'");
     }
 
 }
