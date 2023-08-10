@@ -196,6 +196,28 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public List<Khachhang> getKhachhangThang() {
+        List<Khachhang> hoadonT = new ArrayList<>();
+        String sql = "SELECT * FROM khachhang WHERE MONTH(Ngayrahoadon)";
+        try(Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while(resultSet.next()){
+                int Makh = resultSet.getInt("Makh");
+                String name = resultSet.getString("name");
+                Date Ngayrahoadon = resultSet.getDate("Ngayrahoadon");
+                int Soluong = resultSet.getInt("Soluong");
+                double Dongia = resultSet.getDouble("Dongia");
+                int Dinhmuc = resultSet.getInt("Dinhmuc");
+                String DoituongKH = resultSet.getString("DoituongKH");
+                String QuocTich = resultSet.getString("Quoctich");
+                double ThanhTien = resultSet.getDouble("Thanhtien");
 
+                hoadonT.add(new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH, Dinhmuc));
+                hoadonT.add(new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, QuocTich));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hoadonT;
     }
 }

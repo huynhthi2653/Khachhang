@@ -1,18 +1,17 @@
 package presentation.Controllertest;
 
-import presentation.KhachhangManagementApp;
+import domain.KhachhangService;
 
 public class DeleteCommand extends Command {
-    private KhachhangManagementApp app;
+    private int Makh;
 
-    public DeleteCommand(KhachhangManagementApp app) {
-        this.app = app;
+    public DeleteCommand(KhachhangService KhachhangService, int Makh) {
+        super(KhachhangService);
+        this.Makh = Makh;
+    
     }
-
     @Override
-    void excute() {
-           app.deleteKhachhang();
+    public void excute() {
+        KhachhangService.deleteKhachhang(Makh);
     }
-
- 
 }
