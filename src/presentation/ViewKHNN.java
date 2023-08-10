@@ -3,7 +3,6 @@ package presentation;
 import javax.swing.*;
 
 import domain.KhachhangService;
-import domain.model.Khachhang;
 import domain.model.Khachhangnuocngoai;
 import presentation.Controllertest.AddKHNNCommand;
 import presentation.Controllertest.Command;
@@ -13,10 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class ViewKHNN extends JFrame {
     private JTextField MakhTextField;
@@ -27,9 +23,9 @@ public class ViewKHNN extends JFrame {
     private JTextField QuoctichTextField;
     private JButton LuuButton;
     private JButton HuyButton;
-    private Khachhangnuocngoai khachhangnuocngoai;
 
-    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
+    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService,
+            int chon) {
         setTitle("Khachhang Management");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -60,8 +56,13 @@ public class ViewKHNN extends JFrame {
 
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addKhachhangnuocngoai(viewApp, Controller, khachhangService);
-                dispose();
+                if (chon != 0) {
+                    UpdateKhachhangnuocngoai(khachhangService, Controller);
+                    dispose();
+                } else {
+                    addKhachhangnuocngoai(khachhangService, Controller);
+                    dispose();
+                }
             }
         });
 
@@ -85,30 +86,24 @@ public class ViewKHNN extends JFrame {
 
     }
 
-    private void addKhachhangnuocngoai(KhachhangManagementApp viewApp, Controller Controller,
-            KhachhangService khachhangService) {
+    private void addKhachhangnuocngoai(KhachhangService KhachhangService, Controller Controller) {
+        Command addKHNN = new AddKHNNCommand(KhachhangService, GetKhachhang());
+        Controller.excute(addKHNN);
+    }
+
+    private void UpdateKhachhangnuocngoai(KhachhangService KhachhangService, Controller Controller) {
+        Command UpdateKHNN = new UpdateKHNNConmand(KhachhangService, GetKhachhang());
+        Controller.excute(UpdateKHNN);
+    }
+
+    private Khachhangnuocngoai GetKhachhang() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        Date Ngayrahoadon;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
-            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
-            return;
-        }
+        Date Ngayrahoadon = java.sql.Date.valueOf(NgayrahoadonTextField.getText());
         int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
         double ThanhTien = Soluong * Dongia;
         String QuocTich = QuoctichTextField.getText();
-        // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
-        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich,
-                ThanhTien);
-        // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
-        Command ThemHD = new AddKHNNCommand(khachhangService, khachhangnuocngoai);
-        Controller.excute(ThemHD);
-        Command CapnhatHD = new UpdateKHNNConmand(khachhangService, khachhangnuocngoai);
-        Controller.excute(CapnhatHD);
-        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
+        return new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
     }
 }

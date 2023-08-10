@@ -31,5 +31,5 @@ public interface KhachhangGateway {
 
     double TongTTKNN(Khachhang Khachhang);
 
-    List<Khachhang> getKhachhangThang();
+    List<Khachhang> getKhachhangThang(String thang);
 }

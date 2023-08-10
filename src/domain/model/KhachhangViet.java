@@ -6,20 +6,14 @@ public class KhachhangViet extends Khachhang {
     private String doituongKH;
     private int dinhmuc;
 
+    @Override
     public String getDoituongKH() {
         return doituongKH;
     }
 
-    public void setDoituongKH(String doituongKH) {
-        this.doituongKH = doituongKH;
-    }
-
+    @Override
     public int getDinhmuc() {
         return dinhmuc;
-    }
-
-    public void setDinhmuc(int dinhmuc) {
-        this.dinhmuc = dinhmuc;
     }
 
     public KhachhangViet(int MaKH, String hotenKH, Date Ngayrahoadon, int Soluong, double Dongia, double ThanhTien,
@@ -28,14 +22,16 @@ public class KhachhangViet extends Khachhang {
         super(MaKH, doituongKH, Ngayrahoadon, Soluong, Dongia, ThanhTien);
         this.doituongKH = doituongKH;
         this.dinhmuc = dinhmuc;
+        this.ThanhTien = ThanhTien();
     }
 
     @Override
     public double ThanhTien() {
         if (Soluong <= dinhmuc) {
-            return Dongia * Soluong;
+            ThanhTien = Dongia * Soluong;
         } else {
-            return Dongia * dinhmuc + (Soluong - dinhmuc) * Dongia * 2.5;
+            ThanhTien = Dongia * dinhmuc + (Soluong - dinhmuc) * Dongia * 2.5;
         }
+        return ThanhTien;
     }
 }

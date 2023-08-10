@@ -3,12 +3,9 @@ package presentation;
 import javax.swing.*;
 
 import domain.KhachhangService;
-import domain.model.Khachhang;
 import domain.model.KhachhangViet;
-import presentation.Controllertest.AddKHNNCommand;
 import presentation.Controllertest.AddKHVCommand;
 import presentation.Controllertest.Command;
-import presentation.Controllertest.UpdateKHNNConmand;
 import presentation.Controllertest.UpdateKHVCommand;
 
 import java.awt.BorderLayout;
@@ -16,9 +13,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class viewKHViet extends JFrame {
     private JTextField MakhTextField;
@@ -30,9 +24,9 @@ public class viewKHViet extends JFrame {
     private JComboBox<String> customerTypeCombo;
     private JButton LuuButton;
     private JButton HuyButton;
-    private KhachhangViet khachhangViet;
 
-    public viewKHViet(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
+    public viewKHViet(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService,
+            int Chon) {
         setTitle("Khachhang Management");
         setSize(400, 350);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -67,8 +61,13 @@ public class viewKHViet extends JFrame {
 
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addKhachhangViet(viewApp, Controller, khachhangService);
-                dispose();
+                if (Chon != 0) {
+                    UpdateKhachhangViet(khachhangService, Controller);
+                    dispose();
+                } else {
+                    addKhachhangViet(khachhangService, Controller);
+                    dispose();
+                }
             }
         });
 
@@ -80,18 +79,20 @@ public class viewKHViet extends JFrame {
         add(inputJPanel, BorderLayout.SOUTH);
     }
 
-    private void addKhachhangViet(KhachhangManagementApp viewApp, Controller Controller,
-            KhachhangService khachhangService) {
+    private void addKhachhangViet(KhachhangService KhachhangService, Controller Controller) {
+        Command addKHV = new AddKHVCommand(KhachhangService, GetKhachhang());
+        Controller.excute(addKHV);
+    }
+
+    private void UpdateKhachhangViet(KhachhangService KhachhangService, Controller Controller) {
+        Command UpdateKHV = new UpdateKHVCommand(KhachhangService, GetKhachhang());
+        Controller.excute(UpdateKHV);
+    }
+
+    private KhachhangViet GetKhachhang() {
         int Makh = Integer.parseInt(MakhTextField.getText());
         String name = nameTextField.getText();
-        Date Ngayrahoadon;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
-            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
-            return;
-        }
+        Date Ngayrahoadon = java.sql.Date.valueOf(NgayrahoadonTextField.getText());
         int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
         int Dinhmuc = Integer.parseInt(DinhmucTextField.getText());
@@ -102,12 +103,6 @@ public class viewKHViet extends JFrame {
         } else {
             ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
         }
-        Khachhang KhachhangViet = new KhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, doituongKH,
-                Dinhmuc);
-        Command ThemHD = new AddKHVCommand(khachhangService, khachhangViet);
-        Controller.excute(ThemHD);
-        Command CapnhatHD = new UpdateKHVCommand(khachhangService, khachhangViet);
-        Controller.excute(CapnhatHD);
-        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
+        return new KhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, doituongKH, Dinhmuc);
     }
 }

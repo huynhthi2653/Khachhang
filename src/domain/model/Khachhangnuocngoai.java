@@ -8,6 +8,7 @@ public class Khachhangnuocngoai extends Khachhang {
             double ThanhTien) {
         super(Makh, name, ngayrahoadon, Soluong, Dongia, ThanhTien);
         this.Quoctich = QuocTich;
+        this.ThanhTien = ThanhTien();
     }
 
     private String Quoctich;
@@ -22,6 +23,6 @@ public class Khachhangnuocngoai extends Khachhang {
 
     @Override
     public double ThanhTien() {
-        return Dongia * Soluong;
+        return ThanhTien = Dongia * Soluong;
     }
 }

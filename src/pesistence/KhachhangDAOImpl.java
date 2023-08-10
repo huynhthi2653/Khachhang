@@ -71,7 +71,7 @@ public class KhachhangDAOImpl implements KhachhangDAO {
     }
 
     @Override
-    public List<Khachhang> getKhachhangThang() {
+    public List<Khachhang> getKhachhangThang(String thang) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getKhachhangThang'");
     }

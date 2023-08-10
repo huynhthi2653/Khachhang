@@ -16,11 +16,9 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     private Connection connection;
 
     public KhachhangJdbcGateway() {
-        // Initialize the database connection here (replace dbUrl, username, and
-        // password with your SQL Server credentials)
-        String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=Khachhang";
+        String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=HOADON";
         String username = "sa";
-        String password = "123456";
+        String password = "123123.";
         try {
             connection = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException e) {
@@ -30,15 +28,16 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void addKhachhangViet(KhachhangViet KhachhangViet) {
-        String sql = "INSERT INTO KhachhangVietchung (Makh, name, Ngayrahoadon, Soluong, Dongia, Dinhmuc, DoituongKH) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DKhoadon (Makh, name, Ngayrahoadon, Soluong, Dongia, DoituongKH, Dinhmuc, Thanhtien) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, KhachhangViet.getMakh());
             statement.setString(2, KhachhangViet.getName());
             statement.setDate(3, (Date) KhachhangViet.getNgayrahoadon()); // Convert to java.sql.Date
             statement.setInt(4, KhachhangViet.getSoluong());
             statement.setDouble(5, KhachhangViet.getDongia());
-            statement.setInt(6, KhachhangViet.getDinhmuc());
-            statement.setString(7, KhachhangViet.getDoituongKH());
+            statement.setString(6, KhachhangViet.getDoituongKH());
+            statement.setInt(7, KhachhangViet.getDinhmuc());
+            statement.setDouble(9, KhachhangViet.getThanhTien());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +46,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void addKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
-        String sql = "INSERT INTO khachhangchung (Makh, name, Ngayrahoadon, Soluong, Dongia, Quoctich) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DKhoadon (Makh, name, Ngayrahoadon, Soluong, Dongia, Quoctich) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, Khachhangnuocngoai.getMakh());
             statement.setString(2, Khachhangnuocngoai.getName());
@@ -63,15 +62,16 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void updateKhachhangViet(KhachhangViet KhachhangViet) {
-        String sql = "UPDATE khachhangchung SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Dinhmuc = ?, DoituongKH = ? WHERE Makh = ?";
+        String sql = "UPDATE DKhoadon SET name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, DoituongKH =?, Dinhmuc = ?, Thanhtien = ? WHERE Makh = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, KhachhangViet.getMakh());
             statement.setString(2, KhachhangViet.getName());
             statement.setDate(3, (Date) KhachhangViet.getNgayrahoadon()); // Convert to java.sql.Date
             statement.setInt(4, KhachhangViet.getSoluong());
             statement.setDouble(5, KhachhangViet.getDongia());
-            statement.setInt(6, KhachhangViet.getDinhmuc());
-            statement.setString(7, KhachhangViet.getDoituongKH());
+            statement.setString(6, KhachhangViet.getDoituongKH());
+            statement.setInt(7, KhachhangViet.getDinhmuc());
+            statement.setDouble(9, KhachhangViet.getThanhTien());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void updateKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
-        String sql = "UPDATE khachhangchung SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Quoctich = ? WHERE Makh = ?";
+        String sql = "UPDATE DKhoadon SET name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Quoctich = ? WHERE Makh = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, Khachhangnuocngoai.getMakh());
             statement.setString(2, Khachhangnuocngoai.getName());
@@ -96,7 +96,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void deleteKhachhang(int MaKH) {
-        String sql = "SELECT * FROM khachhangchung WHERE MaKH = ?";
+        String sql = "SELECT * FROM DKhoadon WHERE MaKH = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, MaKH);
             statement.executeUpdate();
@@ -107,7 +107,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public Khachhang TimkhachhangtuMakh(int MaKH) {
-        String sql = "SELECT * FROM khachhangchung WHERE MaKH = ?";
+        String sql = "SELECT * FROM DKhoadon WHERE MaKH = ?";
         Khachhang Khachhang;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, MaKH);
@@ -148,7 +148,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     @Override
     public List<Khachhang> getAllKhachhangs() {
         List<Khachhang> khachhangs = new ArrayList<>();
-        String sql = "SELECT * FROM Khachhangs";
+        String sql = "SELECT * FROM DKHoadon";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -195,12 +195,12 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     }
 
-    @Override
-    public List<Khachhang> getKhachhangThang() {
+    public List<Khachhang> getKhachhangThang(String thang) {
         List<Khachhang> hoadonT = new ArrayList<>();
-        String sql = "SELECT * FROM khachhang WHERE MONTH(Ngayrahoadon)";
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+        String sql = "SELECT * FROM DKhoadon WHERE MONTH(Ngayrahoadon) = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, thang);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int Makh = resultSet.getInt("Makh");
                 String name = resultSet.getString("name");
@@ -212,7 +212,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                 String QuocTich = resultSet.getString("Quoctich");
                 double ThanhTien = resultSet.getDouble("Thanhtien");
 
-                hoadonT.add(new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH,
+                hoadonT.add(new KhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH,
                         Dinhmuc));
                 hoadonT.add(new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
             }

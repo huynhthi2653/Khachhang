@@ -2,19 +2,19 @@ package presentation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import domain.KhachhangService;
+import presentation.Controllertest.Command;
+import presentation.Controllertest.HoadonTCommand;
+
 import java.awt.*;
 
 public class XuathoadonTT extends JFrame {
     private DefaultTableModel tableModel;
     private JTable table;
-    private KhachhangManagementApp parentApp;
 
-    public XuathoadonTT(KhachhangManagementApp khachhangManagementApp) {
-        parentApp = khachhangManagementApp;
-        initializeUI();
-    }
-
-    private void initializeUI() {
+    public XuathoadonTT(KhachhangManagementApp khachhangManagementApp, Controller Controller,
+            KhachhangService KhachhangService, String Thang) {
         setTitle("Xuất Hóa Đơn");
         setSize(770, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close this window only, not the entire app
@@ -31,15 +31,12 @@ public class XuathoadonTT extends JFrame {
         tableModel.addColumn("Định mức");
         tableModel.addColumn("Thanhtien");
         tableModel.addColumn("quốc tịch");
-        
+
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
-    }
-
-    public void showWindow() {
-        setVisible(true);
+        Command Hoadons = new HoadonTCommand(KhachhangService, Thang);
+        Controller.excute(Hoadons);
     }
 }

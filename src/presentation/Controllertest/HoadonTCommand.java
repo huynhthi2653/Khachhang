@@ -1,19 +1,17 @@
 package presentation.Controllertest;
 
-import presentation.KhachhangManagementApp;
+import domain.KhachhangService;
 
 public class HoadonTCommand extends Command {
-    public HoadonTCommand(domain.KhachhangService KhachhangService) {
-        super(KhachhangService);
-        //TODO Auto-generated constructor stub
-    }
+    private String Thang;
 
-    private KhachhangManagementApp app;
+    public HoadonTCommand(KhachhangService KhachhangService, String Thang) {
+        super(KhachhangService);
+        this.Thang = Thang;
+    }
 
     @Override
     public void excute() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'excute'");
+        KhachhangService.XuaHDTT(Thang);
     }
-
 }

@@ -5,19 +5,12 @@ import javax.swing.table.DefaultTableModel;
 
 import domain.*;
 import domain.model.Khachhang;
-import domain.model.KhachhangViet;
-import domain.model.Khachhangnuocngoai;
-import presentation.Controllertest.UpdateKHNNConmand;
-import presentation.Controllertest.UpdateKHVCommand;
+import presentation.Controllertest.Command;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class KhachhangManagementApp extends JFrame implements Subscriber {
     private KhachhangService KhachhangService;
@@ -109,24 +102,7 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         });
         Tongsl.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
-
-                // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
-                int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
-                // Xử lý lựa chọn
-                if (choice == JOptionPane.YES_OPTION) {
-                    // Chọn Khách hàng Việt Nam
-                    // Xử lý logic tại đây
-                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng Việt Nam");
-                } else if (choice == JOptionPane.NO_OPTION) {
-                    // Chọn Khách hàng nước ngoài
-                    // Xử lý logic tại đây
-                    JOptionPane.showMessageDialog(null, "Bạn đã chọn Khách hàng nước ngoài");
-                } else {
-                    // Không chọn gì cả hoặc đóng cửa sổ
-                }
+                Tongsl();
             }
         });
 
@@ -140,15 +116,15 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
                 hoadonT();
             }
         });
-        // loadKhachhang();
+        loadKhachhang();
     }
 
     private void addKhachhangViet() {
-        new viewKHViet(this, controller, KhachhangService).setVisible(true);
+        new viewKHViet(this, controller, KhachhangService, 0).setVisible(true);
     }
 
     private void addKhachhangnuocngoai() {
-        new ViewKHNN(this, controller, KhachhangService).setVisible(true);
+        new ViewKHNN(this, controller, KhachhangService, 0).setVisible(true);
     }
 
     // Method to edit a Khachhang
@@ -158,25 +134,23 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một Khachhang để chỉnh sửa.");
             return;
         }
-
         // Lấy thông tin khách hàng từ dòng đã chọn trong bảng
         String QuocTich = (String) tableModel.getValueAt(row, 8); // Chỉnh index thành 8
-
         // Kiểm tra quốc tịch để xác định loại khách hàng và hiển thị giao diện tương
         // ứng
         if (QuocTich == null || QuocTich.isEmpty()) {
-            addKhachhangViet();
+            UpdateKhachhangViet();
         } else {
-            addKhachhangnuocngoai();
+            UpdateKhachhangnuocngoai();
         }
     }
 
     private void UpdateKhachhangViet() {
-        new viewKHViet(this, controller, KhachhangService).setVisible(true);
+        new viewKHViet(this, controller, KhachhangService, ABORT).setVisible(true);
     }
 
     private void UpdateKhachhangnuocngoai() {
-        new ViewKHNN(this, controller, KhachhangService).setVisible(true);
+        new ViewKHNN(this, controller, KhachhangService, ABORT).setVisible(true);
     }
 
     // Method to delete a Khachhang
@@ -186,9 +160,58 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
             JOptionPane.showMessageDialog(this, "Please select a Khachhang to delete.");
             return;
         }
-
         int KhachhangId = (int) tableModel.getValueAt(row, 0);
-        KhachhangService.deleteKhachhang(KhachhangId);
+        Command DeleteCommand = new presentation.Controllertest.DeleteCommand(KhachhangService, KhachhangId);
+        controller.excute(DeleteCommand);
+    }
+
+    private void Tongsl() {
+        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+
+        // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
+        int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        // Xử lý lựa chọn
+        if (choice == JOptionPane.YES_OPTION) {
+            // Chọn Khách hàng Việt Nam
+            // Xử lý logic tại đây
+            int tongSL = TongSLKHV();
+
+            // Hiển thị bảng với tổng số lượng khách hàng Việt Nam
+            hienThiTongSoLuongKhachHang(tongSL, "Khách hàng Việt Nam");
+        } else if (choice == JOptionPane.NO_OPTION) {
+            // Chọn Khách hàng nước ngoài
+            // Xử lý logic tại đây
+            int tongSLNN = TongSLKHNN();
+
+            // Hiển thị bảng với tổng số lượng khách hàng nước ngoài
+            hienThiTongSoLuongKhachHang(tongSLNN, "Khách hàng nước ngoài");
+        } else {
+            // Không chọn gì cả hoặc đóng cửa sổ
+        }
+    }
+
+    private void hienThiTongSoLuongKhachHang(int tongSL, String loaiKhachHang) {
+        JFrame frame = new JFrame("Tổng số lượng khách hàng - " + loaiKhachHang);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // Tạo một bảng để hiển thị tổng số lượng
+        String[] columnNames = { "Loại khách hàng", "Tổng số lượng" };
+        Object[][] data = { { "Loai khach hang: ", loaiKhachHang }, { "Tong so luong: ", tongSL } };
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private int TongSLKHV() {
+        return KhachhangService.TongSLKHV();
+    }
+
+    private int TongSLKHNN() {
+        return KhachhangService.TongSLKHNN();
     }
 
     // Method to find a Khachhang
@@ -206,7 +229,7 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
             int KhachhangId = Integer.parseInt(MakhTextField.getText());
-            Khachhang Khachhang = KhachhangService.getKhachhangByMakh(KhachhangId);
+            Khachhang Khachhang = KhachhangService.TimkhachhangtuMakh(KhachhangId);
 
             if (Khachhang != null) {
                 JOptionPane.showMessageDialog(this, "đã tìm thấy khách hàng!");
@@ -219,53 +242,35 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     }
 
     private void hoadonT() {
-        // Tạo JPanel chứa các thành phần nhập liệu
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
-        JTextField ngayField = new JTextField();
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2));
         JTextField thangField = new JTextField();
-        JTextField namField = new JTextField();
-        String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
-        JComboBox<String> customerTypeCombo = new JComboBox<>(options);
-        inputPanel.add(new JLabel("Ngày:"));
-        inputPanel.add(ngayField);
         inputPanel.add(new JLabel("Tháng:"));
         inputPanel.add(thangField);
-        inputPanel.add(new JLabel("Năm:"));
-        inputPanel.add(namField);
-        inputPanel.add(new JLabel("Loại khách hàng:"));
-        inputPanel.add(customerTypeCombo);
-
         // Hiển thị JOptionPane với các thành phần nhập liệu
         int result = JOptionPane.showOptionDialog(null, inputPanel, "Chọn thông tin",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
         // Xử lý khi người dùng chọn OK
         if (result == JOptionPane.OK_OPTION) {
-            String ngay = ngayField.getText();
             String thang = thangField.getText();
-            String nam = namField.getText();
-            String customerType = customerTypeCombo.getSelectedItem().toString();
-
-            // Xử lý thông tin tại đây
-            // Ví dụ:
-            String message = "Bạn đã chọn thông tin:\n";
-            message += "Ngày: " + ngay + "\n";
-            message += "Tháng: " + thang + "\n";
-            message += "Năm: " + nam + "\n";
-            message += "Loại khách hàng: " + customerType + "\n";
-            JOptionPane.showMessageDialog(null, message);
+            new XuathoadonTT(this, controller, KhachhangService, thang);
         }
+    }
 
+    public void loadKhachhang() {
+        KhachhangService.getAllKhachhangs();
     }
 
     // Method to load the Khachhang list into the JTable
     @Override
-    public void updateKhachhang(List<Khachhang> Khachhangs) {
-        Khachhangs = KhachhangService.getAllKhachhangs();
-        tableModel.setRowCount(0); // Clear previous data
-        for (Khachhang Khachhang : Khachhangs) {
-            Object[] rowData = { Khachhang.getMakh(), Khachhang.getName(), Khachhang.getNgayrahoadon(),
-                    Khachhang.getSoluong(), Khachhang.getSoluong(), Khachhang.ThanhTien() };
+    public void updateKhachhang(List<Khachhang> HoadonList) {
+        while (tableModel.getRowCount() != 0) {
+            tableModel.removeRow(0);
+        }
+        for (Khachhang hoadonList : HoadonList) {
+            Object[] rowData = { hoadonList.getMakh(), hoadonList.getName(), hoadonList.getNgayrahoadon(),
+                    hoadonList.getSoluong(), hoadonList.getDongia(), hoadonList.getDinhmuc(),
+                    hoadonList.getDoituongKH(), hoadonList.getQuoctich() };
             tableModel.addRow(rowData);
         }
     }

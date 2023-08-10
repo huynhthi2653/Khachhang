@@ -23,9 +23,9 @@ public interface KhachhangService {
 
     void deleteKhachhang(int KhachhangMakh);
 
-    void TimkhachhangtuMakh(int KhachhangMakh);
+    Khachhang TimkhachhangtuMakh(int KhachhangMakh);
 
-    List<Khachhang> getAllKhachhangs();
+    void getAllKhachhangs();
 
     int TongSLKHV();
 
@@ -33,7 +33,7 @@ public interface KhachhangService {
 
     double TBTTkhachNN(Khachhangnuocngoai Khachhangnuocngoai);
 
-    void XuaHDTT(Khachhang khachhang);
+    void XuaHDTT(String thang);
 
     List<Subscriber> Subs = new LinkedList<Subscriber>();
 

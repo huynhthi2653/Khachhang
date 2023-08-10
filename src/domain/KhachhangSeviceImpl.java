@@ -4,6 +4,7 @@
 */
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import domain.model.Khachhang;
@@ -17,8 +18,8 @@ public class KhachhangSeviceImpl implements KhachhangService {
     private List<Khachhang> Hoadons;
 
     public KhachhangSeviceImpl() {
-        // Initialize the KhachhangDAO (Data Access Layer)
         KhachhangDAO = new KhachhangDAOImpl(new KhachhangJdbcGateway());
+        Hoadons = new ArrayList<>(); // Khởi tạo danh sách hoadons
     }
 
     @Override
@@ -47,13 +48,14 @@ public class KhachhangSeviceImpl implements KhachhangService {
     }
 
     @Override
-    public List<Khachhang> getAllKhachhangs() {
-        return Hoadons = KhachhangDAO.getAllKhachhangs();
+    public void getAllKhachhangs() {
+        Hoadons = KhachhangDAO.getAllKhachhangs();
+        notifySubscribers();
     }
 
     @Override
-    public void TimkhachhangtuMakh(int Makh) {
-        KhachhangDAO.TimkhachhangtuMakh(Makh);
+    public Khachhang TimkhachhangtuMakh(int Makh) {
+        return KhachhangDAO.TimkhachhangtuMakh(Makh);
     }
 
     @Override
@@ -98,14 +100,25 @@ public class KhachhangSeviceImpl implements KhachhangService {
     }
 
     @Override
-    public void XuaHDTT(Khachhang khachhang) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'XuaHDTT'");
+    public void XuaHDTT(String thang) {
+        Hoadons = KhachhangDAO.getKhachhangThang(thang);
     }
 
     @Override
     public double TBTTkhachNN(Khachhangnuocngoai Khachhangnuocngoai) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'TBTTkhachNN'");
+        double thanhtien = 0;
+        int count = 0;
+        Hoadons = KhachhangDAO.getAllKhachhangs();
+        for (Khachhang khachhang : Hoadons) {
+            if (khachhang instanceof Khachhangnuocngoai) {
+                Khachhangnuocngoai khachhangnuocngoai = (Khachhangnuocngoai) khachhang;
+                thanhtien += khachhangnuocngoai.ThanhTien();
+                count++;
+            }
+        }
+        if (count == 0) {
+            return 0;
+        }
+        return thanhtien / count;
     }
 }

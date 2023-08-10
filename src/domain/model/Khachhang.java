@@ -12,6 +12,15 @@ public abstract class Khachhang {
     private Date Ngayrahoadon;
     protected int Soluong;
     protected double Dongia;
+    protected double ThanhTien;
+
+    public double getThanhTien() {
+        return ThanhTien;
+    }
+
+    public void setThanhTien(double thanhTien) {
+        ThanhTien = thanhTien;
+    }
 
     public abstract double ThanhTien();
 
@@ -92,5 +101,17 @@ public abstract class Khachhang {
      */
     public void setDongia(double Dongia) {
         this.Dongia = Dongia;
+    }
+
+    public String getDoituongKH() {
+        return null;
+    }
+
+    public int getDinhmuc() {
+        return 0;
+    }
+
+    public String getQuoctich() {
+        return null;
     }
 }
