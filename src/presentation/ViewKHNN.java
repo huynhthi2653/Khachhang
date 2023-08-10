@@ -29,15 +29,7 @@ public class ViewKHNN extends JFrame {
     private JButton HuyButton;
     private Khachhangnuocngoai khachhangnuocngoai;
 
-<<<<<<< HEAD
     public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
-=======
-<<<<<<< HEAD
-    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
-=======
-    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller) {
->>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
->>>>>>> 4366b2b2845e9834daf14c9334dcfda4d3e2c52a
         setTitle("Khachhang Management");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -110,10 +102,6 @@ public class ViewKHNN extends JFrame {
         double ThanhTien = Soluong * Dongia;
         String QuocTich = QuoctichTextField.getText();
         // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 4366b2b2845e9834daf14c9334dcfda4d3e2c52a
         Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich,
                 ThanhTien);
         // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
@@ -123,14 +111,4 @@ public class ViewKHNN extends JFrame {
         Controller.excute(CapnhatHD);
         JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
-<<<<<<< HEAD
-=======
-=======
-        
-        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
-    }
-    
-  
->>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
->>>>>>> 4366b2b2845e9834daf14c9334dcfda4d3e2c52a
 }
