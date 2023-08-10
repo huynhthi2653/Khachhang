@@ -15,5 +15,8 @@ public class HoadonTCommand extends Command {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'excute'");
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
 }

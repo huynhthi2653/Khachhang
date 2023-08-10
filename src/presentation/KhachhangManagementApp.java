@@ -17,7 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+<<<<<<< HEAD
 public class KhachhangManagementApp extends JFrame implements Subscriber {
+=======
+public class KhachhangManagementApp extends JFrame {
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
     private KhachhangService KhachhangService;
     private Controller controller;
     private DefaultTableModel tableModel;
@@ -30,11 +34,28 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     private JButton Tongsl;
     private JButton hoadonT;
     private JButton saveButton;
+<<<<<<< HEAD
 
     public KhachhangManagementApp() {
         KhachhangService = new KhachhangSeviceImpl();
         controller = new Controller();
         KhachhangService.subscribe(this);
+=======
+    // private JTextField MakhTextField;
+    // private JTextField nameTextField;
+    // private JTextField NgayrahoadonTextField;
+    // private JTextField SoluongTextField;
+    // private JTextField DongiaTextField;
+    // private JTextField QuoctichTextField;
+    // private JTextField DinhmucTextField;
+    private JComboBox<String> customerTypeCombo;
+
+    public KhachhangManagementApp() {
+        // Initialize the KhachhangService (Business Logic Layer)
+        // KhachhangService = new KhachhangServiceImpl();
+
+        // Set up JFrame
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
         setTitle("Khachhang Management");
         setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,6 +65,7 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Mã KH");
         tableModel.addColumn("Name");
+<<<<<<< HEAD
         tableModel.addColumn("Ngày ra hoá đơn");
         tableModel.addColumn("Số lượng");
         tableModel.addColumn("Đơn giá");
@@ -51,10 +73,17 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         tableModel.addColumn("Đối tượng");
         tableModel.addColumn("Quốc tịch");
         tableModel.addColumn("Thành tiền");
+=======
+        tableModel.addColumn("Ngayrahoadon");
+        tableModel.addColumn("Soluong");
+        tableModel.addColumn("Dongia");
+        tableModel.addColumn("Thanhtien");
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
+<<<<<<< HEAD
 
         addbButton = new JButton("Thêm hoá đơn");
         editButton = new JButton("Sửa hoá đơn");
@@ -64,6 +93,35 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         TrungbinhNn = new JButton("TB thành tiền của khách hàng nước ngoài");
         Tongsl = new JButton("Tổng số lượng của các loại khách hàng");
         hoadonT = new JButton("Các hoá đơn tổng hợp trong tháng");
+=======
+        // MakhTextField = new JTextField();
+        // nameTextField = new JTextField();
+        // NgayrahoadonTextField = new JTextField();
+        // SoluongTextField = new JTextField();
+        // DongiaTextField = new JTextField();
+        addbButton = new JButton("Thêm khách hàng");
+        editButton = new JButton("Edit");
+        deleteButton = new JButton("Delete");
+        findButton = new JButton("Find");
+        saveButton = new JButton("Save");
+        TrungbinhNn = new JButton("Trung Binh Thanh tien khach hang nuoc ngoai");
+        Tongsl = new JButton("tong so luong ");
+        hoadonT = new JButton("cac hoa don can tong hop trong thang");
+
+        // new GridLayout(7, 2)
+
+        // inputPanel.add(new JLabel("ID:"));
+        // inputPanel.add(MakhTextField);
+
+        // inputPanel.add(new JLabel("Name:"));
+        // inputPanel.add(nameTextField);
+        // inputPanel.add(new JLabel("Ngayrahoadon:"));
+        // inputPanel.add(NgayrahoadonTextField);
+        // inputPanel.add(new JLabel("Soluong:"));
+        // inputPanel.add(SoluongTextField);
+        // inputPanel.add(new JLabel("Dongia:"));
+        // inputPanel.add(DongiaTextField);
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
         inputPanel.add(addbButton);
         inputPanel.add(editButton);
         inputPanel.add(deleteButton);
@@ -103,6 +161,91 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
             public void actionPerformed(ActionEvent e) {
                 findKhachhang();
 
+<<<<<<< HEAD
+=======
+        // Add action listeners for buttons
+        addbButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String[] options = { "Khách hàng Việt Nam", "Khách hàng nước ngoài" };
+
+                // Hiển thị JOptionPane với JRadioButton để chọn loại khách hàng
+                int choice = JOptionPane.showOptionDialog(null, "Chọn loại khách hàng", "Tùy chọn",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                // Xử lý lựa chọn
+                if (choice == JOptionPane.YES_OPTION) {
+                    // Chọn Khách hàng Việt Nam
+                    // Xử lý logic tại đây
+                    JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+                    MakhTextField = new JTextField();
+                    nameTextField = new JTextField();
+                    NgayrahoadonTextField = new JTextField();
+                    SoluongTextField = new JTextField();
+                    DongiaTextField = new JTextField();
+                    DinhmucTextField = new JTextField();
+                    String[] optionss = { "Sinh hoạt", "Kinh doanh", "Sản xuất" };
+                    customerTypeCombo = new JComboBox<>(optionss);
+                    inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
+                    inputJPanel.add(MakhTextField);
+                    inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
+                    inputJPanel.add(nameTextField);
+                    inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
+                    inputJPanel.add(NgayrahoadonTextField);
+                    inputJPanel.add(new JLabel("Nhập số lượng:"));
+                    inputJPanel.add(SoluongTextField);
+                    inputJPanel.add(new JLabel("Nhập đơn giá:"));
+                    inputJPanel.add(DongiaTextField);
+                    inputJPanel.add(new JLabel("Nhập Định mức:"));
+                    inputJPanel.add(DinhmucTextField);
+                    inputJPanel.add(new JLabel("Loại đối tượng:"));
+                    inputJPanel.add(customerTypeCombo);
+                    JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    addKhachhangViet();
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    // Chọn Khách hàng nước ngoài
+                    // Xử lý logic tại đây
+                    JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+                    MakhTextField = new JTextField();
+                    nameTextField = new JTextField();
+                    NgayrahoadonTextField = new JTextField();
+                    SoluongTextField = new JTextField();
+                    DongiaTextField = new JTextField();
+                    QuoctichTextField = new JTextField();
+                    inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
+                    inputJPanel.add(MakhTextField);
+                    inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
+                    inputJPanel.add(nameTextField);
+                    inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
+                    inputJPanel.add(NgayrahoadonTextField);
+                    inputJPanel.add(new JLabel("Nhập số lượng:"));
+                    inputJPanel.add(SoluongTextField);
+                    inputJPanel.add(new JLabel("Nhập đơn giá:"));
+                    inputJPanel.add(DongiaTextField);
+                    inputJPanel.add(new JLabel("Nhập quốc tịch:"));
+                    inputJPanel.add(QuoctichTextField);
+                    JOptionPane.showOptionDialog(null, inputJPanel, "Nhập thông tin", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, null, null);
+                    addKhachhangnuocngoai();
+                } else {
+                    // Không chọn gì cả hoặc đóng cửa sổ
+                }
+            }
+        });
+        editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editKhachhang();
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteKhachhang();
+            }
+        });
+        findButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                findKhachhang();
+
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
             }
         });
         Tongsl.addActionListener(new ActionListener() {
@@ -142,6 +285,7 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     }
 
     private void addKhachhangViet() {
+<<<<<<< HEAD
         new viewKHViet(this, controller, KhachhangService).setVisible(true);
     }
 
@@ -163,6 +307,93 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     private void deleteKhachhang() {
         int row = table.getSelectedRow();
         if (row == -1) {
+=======
+        int Makh = Integer.parseInt(MakhTextField.getText());
+        String name = nameTextField.getText();
+        Date Ngayrahoadon;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
+        }
+        double Soluong = Double.parseDouble(SoluongTextField.getText());
+        double Dongia = Double.parseDouble(DongiaTextField.getText());
+        double Dinhmuc = Double.parseDouble(DinhmucTextField.getText());
+        String doituongKH = customerTypeCombo.getSelectedItem().toString();
+        // Calculate the average mark using the formula provided
+        double ThanhTien;
+        if (Soluong <= Dinhmuc) {
+            ThanhTien = Soluong * Dongia;
+        } else {
+            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+        }
+        Khachhang KhachhangViet = new KhachhangViet(doituongKH, Dinhmuc, Makh, name, Ngayrahoadon, Dongia, Soluong,
+                ThanhTien);
+        KhachhangService.addKhachhang(KhachhangViet);
+    }
+
+    private void addKhachhangnuocngoai() {
+        int Makh = Integer.parseInt(MakhTextField.getText());
+        String name = nameTextField.getText();
+        Date Ngayrahoadon;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
+        }
+        double Soluong = Integer.parseInt(SoluongTextField.getText());
+        double Dongia = Integer.parseInt(DongiaTextField.getText());
+        String Quoctich = QuoctichTextField.getText();
+        // Calculate the average mark using the formula provided
+        double ThanhTien = Soluong * Dongia;
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien,
+                Quoctich);
+        KhachhangService.addKhachhang(Khachhangnuocngoai);
+    }
+
+    // Method to edit a Khachhang
+    private void editKhachhang() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a Khachhang to edit.");
+            return;
+        }
+
+        // Lấy thông tin từ các trường nhập liệu
+        // int Makh = Integer.parseInt(MakhTextField.getText());
+        // String name = nameTextField.getText();
+        // Date Ngayrahoadon;
+        // try {
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new
+        // Locale("vi", "VN"));
+        // Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        // } catch (ParseException e) {
+        // JOptionPane.showMessageDialog(null, "Invalid date format. Please use
+        // 'dd/MM/yyyy' format for the date.");
+        // return;
+        // }
+        // double Soluong = Double.parseDouble(SoluongTextField.getText());
+        // double Dongia = Double.parseDouble(DongiaTextField.getText());
+
+        // Calculate the total price using the formula provided
+
+        // Lấy đối tượng Khachhang tại dòng đã chọn trong bảng
+        // Thực hiện cập nhật thông tin khách hàng trong cơ sở dữ liệu
+        KhachhangService.updateKhachhang(khachhang);
+
+        // Xóa trắng các trường nhập liệu
+        clearFields();
+    }
+
+    // Method to delete a Khachhang
+    private void deleteKhachhang() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
             JOptionPane.showMessageDialog(this, "Please select a Khachhang to delete.");
             return;
         }
@@ -250,10 +481,13 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         DongiaTextField.setText("");
     }
 
+<<<<<<< HEAD
     @Override
     public void updateKhachhang(List<Khachhang> Khachhangs) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateKhachhang'");
     }
 
+=======
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
 }

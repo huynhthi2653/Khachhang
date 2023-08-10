@@ -26,8 +26,14 @@ public interface KhachhangDAO {
     List<Khachhang> getAllKhachhangs();
 
     int TongSLKHNN();
+<<<<<<< HEAD
 
     int TongSLKHV();
+=======
+    
+    int TongSLKHV();
+    int tongHangDienMay();
+>>>>>>> 86b9ad0301f730bc73ecc265e391585cc29e8dcf
 
     double TongTTKNN(Khachhang Khachhang);
 
