@@ -106,7 +106,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     }
 
     @Override
-    public Khachhang getKhachhangById(int MaKH) {
+    public Khachhang TimkhachhangtuMakh(int MaKH) {
         String sql = "SELECT * FROM khachhangchung WHERE MaKH = ?";
         Khachhang Khachhang;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -134,7 +134,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                             Dinhmuc);
                     return Khachhang;
                 } else if (DoituongKH != null) {
-                    Khachhang = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien);
+                    Khachhang = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
                     // Xử lý trường hợp loại khách hàng không hợp lệ
                     return Khachhang;
                 }
@@ -166,7 +166,8 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                     khachhangs.add(new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien,
                             DoituongKH, Dinhmuc));
                 } else if (DoituongKH != null) {
-                    khachhangs.add(new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien));
+                    khachhangs.add(
+                            new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
                 }
             }
             return khachhangs;
@@ -198,9 +199,9 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     public List<Khachhang> getKhachhangThang() {
         List<Khachhang> hoadonT = new ArrayList<>();
         String sql = "SELECT * FROM khachhang WHERE MONTH(Ngayrahoadon)";
-        try(Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int Makh = resultSet.getInt("Makh");
                 String name = resultSet.getString("name");
                 Date Ngayrahoadon = resultSet.getDate("Ngayrahoadon");
@@ -211,13 +212,26 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                 String QuocTich = resultSet.getString("Quoctich");
                 double ThanhTien = resultSet.getDouble("Thanhtien");
 
-                hoadonT.add(new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH, Dinhmuc));
-                hoadonT.add(new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, QuocTich));
+                hoadonT.add(new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH,
+                        Dinhmuc));
+                hoadonT.add(new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return hoadonT;
+    }
+
+    @Override
+    public int TongSLKHNN() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TongSLKHNN'");
+    }
+
+    @Override
+    public int TongSLKHV() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TongSLKHV'");
     }
 }

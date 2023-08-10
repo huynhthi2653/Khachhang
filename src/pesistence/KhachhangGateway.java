@@ -21,7 +21,11 @@ public interface KhachhangGateway {
 
     void deleteKhachhang(int MaKH);
 
-    Khachhang getKhachhangById(int MaKH);
+    Khachhang TimkhachhangtuMakh(int MaKH);
+
+    int TongSLKHNN();
+
+    int TongSLKHV();
 
     List<Khachhang> getAllKhachhangs();
 

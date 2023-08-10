@@ -21,7 +21,7 @@ public interface KhachhangDAO {
 
     void deleteKhachhang(int MaKH);
 
-    Khachhang getKhachhangById(int MaKH);
+    Khachhang TimkhachhangtuMakh(int MaKH);
 
     List<Khachhang> getAllKhachhangs();
 

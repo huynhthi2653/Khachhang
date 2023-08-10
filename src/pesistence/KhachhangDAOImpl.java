@@ -43,13 +43,25 @@ public class KhachhangDAOImpl implements KhachhangDAO {
     }
 
     @Override
-    public Khachhang getKhachhangById(int MaKH) {
-        return KhachhangGateway.getKhachhangById(MaKH);
+    public Khachhang TimkhachhangtuMakh(int MaKH) {
+        return KhachhangGateway.TimkhachhangtuMakh(MaKH);
     }
 
     @Override
     public List<Khachhang> getAllKhachhangs() {
         return KhachhangGateway.getAllKhachhangs();
+    }
+
+    @Override
+    public int TongSLKHNN() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TongSLKHNN'");
+    }
+
+    @Override
+    public int TongSLKHV() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TongSLKHV'");
     }
 
     @Override

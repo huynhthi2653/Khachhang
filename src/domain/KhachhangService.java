@@ -23,7 +23,7 @@ public interface KhachhangService {
 
     void deleteKhachhang(int KhachhangMakh);
 
-    Khachhang TimkhachhangtuMakh(int KhachhangMakh);
+    void TimkhachhangtuMakh(int KhachhangMakh);
 
     List<Khachhang> getAllKhachhangs();
 

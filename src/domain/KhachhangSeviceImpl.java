@@ -14,7 +14,8 @@ import presentation.Subscriber;
 
 public class KhachhangSeviceImpl implements KhachhangService {
     private KhachhangDAO KhachhangDAO;
-    private List<Khachhang> Khachhangs;
+    private List<Khachhang> Hoadons;
+
     public KhachhangSeviceImpl() {
         // Initialize the KhachhangDAO (Data Access Layer)
         KhachhangDAO = new KhachhangDAOImpl(new KhachhangJdbcGateway());
@@ -47,37 +48,12 @@ public class KhachhangSeviceImpl implements KhachhangService {
 
     @Override
     public List<Khachhang> getAllKhachhangs() {
-        return Khachhangs = KhachhangDAO.getAllKhachhangs();
+        return Hoadons = KhachhangDAO.getAllKhachhangs();
     }
 
     @Override
-    public Khachhang TimkhachhangtuMakh(int KhachhangMakh) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'TimkhachhangtuMakh'");
-    }
-
-    @Override
-    public int TongSLKHV() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'TongSLKHV'");
-    }
-
-    @Override
-    public int TongSLKHNN() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'TongSLKHNN'");
-    }
-
-    @Override
-    public double TBTTkhachNN(Khachhangnuocngoai Khachhangnuocngoai) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'TBTTkhachNN'");
-    }
-
-    @Override
-    public void XuaHDTT(Khachhang khachhang) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'XuaHDTT'");
+    public void TimkhachhangtuMakh(int Makh) {
+        KhachhangDAO.TimkhachhangtuMakh(Makh);
     }
 
     @Override
@@ -92,8 +68,44 @@ public class KhachhangSeviceImpl implements KhachhangService {
 
     @Override
     public void notifySubscribers() {
-        for (Subscriber Sub: Subs){
-            Sub.updateKhachhang(Khachhangs);
+        for (Subscriber Sub : Subs) {
+            Sub.updateKhachhang(Hoadons);
         }
+    }
+
+    @Override
+    public int TongSLKHV() {
+        int tongSLVN = 0;
+        Hoadons = KhachhangDAO.getAllKhachhangs();
+        for (Khachhang khachhang : Hoadons) {
+            if (khachhang instanceof Khachhangnuocngoai) {
+                tongSLVN++;
+            }
+        }
+        return tongSLVN;
+    }
+
+    @Override
+    public int TongSLKHNN() {
+        int tongSLNN = 0;
+        Hoadons = KhachhangDAO.getAllKhachhangs();
+        for (Khachhang khachhang : Hoadons) {
+            if (khachhang instanceof Khachhangnuocngoai) {
+                tongSLNN++;
+            }
+        }
+        return tongSLNN;
+    }
+
+    @Override
+    public void XuaHDTT(Khachhang khachhang) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'XuaHDTT'");
+    }
+
+    @Override
+    public double TBTTkhachNN(Khachhangnuocngoai Khachhangnuocngoai) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'TBTTkhachNN'");
     }
 }
