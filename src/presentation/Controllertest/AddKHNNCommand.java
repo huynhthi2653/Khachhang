@@ -3,6 +3,7 @@ import domain.model.Khachhangnuocngoai;
 import domain.KhachhangService;
 
 public class AddKHNNCommand extends Command {
+    
     private Khachhangnuocngoai Khachhangnuocngoai;
 
     public AddKHNNCommand(KhachhangService KhachhangService, Khachhangnuocngoai Khachhangnuocngoai) {

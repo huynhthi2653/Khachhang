@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 
 import domain.*;
 import domain.model.Khachhang;
+import domain.model.KhachhangViet;
+import domain.model.Khachhangnuocngoai;
 import presentation.Controllertest.Command;
 
 import java.awt.*;
@@ -31,7 +33,7 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         controller = new Controller();
         KhachhangService.subscribe(this);
         setTitle("Khachhang Management");
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -49,7 +51,7 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
-        JPanel inputPanel = new JPanel(new GridLayout(10, 2));
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2));
 
         addbButton = new JButton("Thêm hoá đơn");
         editButton = new JButton("Sửa hoá đơn");
@@ -129,28 +131,54 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
 
     // Method to edit a Khachhang
     private void editKhachhang() {
+        int Makh;
+        // KhachhangViet khachhangViet;
+        // Khachhangnuocngoai Khachhangnuocngoai;
+        Khachhang khachhang;
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một Khachhang để chỉnh sửa.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một hoá đơn để chỉnh sửa.");
             return;
         }
         // Lấy thông tin khách hàng từ dòng đã chọn trong bảng
-        String QuocTich = (String) tableModel.getValueAt(row, 8); // Chỉnh index thành 8
+        String QuocTich = (String) tableModel.getValueAt(row, 6); // Chỉnh index thành 8
         // Kiểm tra quốc tịch để xác định loại khách hàng và hiển thị giao diện tương
         // ứng
+        Makh = (int) tableModel.getValueAt(row, 0);
+        KhachhangService khachhangService = new KhachhangSeviceImpl();
         if (QuocTich == null || QuocTich.isEmpty()) {
-            UpdateKhachhangViet();
+            khachhang = khachhangService.TimkhachhangtuMakh(Makh);
+            if(khachhang instanceof KhachhangViet){
+                UpdateKhachhangViet((KhachhangViet) khachhang);
+            }
         } else {
-            UpdateKhachhangnuocngoai();
+            khachhang = khachhangService.TimkhachhangtuMakh(Makh); // Lấy thông tin khách hàng
+            if (khachhang instanceof Khachhangnuocngoai) {
+                UpdateKhachhangnuocngoai((Khachhangnuocngoai) khachhang);
+            }
         }
     }
-
-    private void UpdateKhachhangViet() {
-        new viewKHViet(this, controller, KhachhangService, ABORT).setVisible(true);
+    private void UpdateKhachhangViet(KhachhangViet KhachhangViet) {
+        viewKHViet editKHV = new viewKHViet(this, controller, KhachhangService, 1);
+        editKHV.getMakhTextField().setText(Integer.toString(KhachhangViet.getMakh()));
+        editKHV.getNameTextField().setText(KhachhangViet.getName());
+        editKHV.getSoluongTextField().setText(Integer.toString(KhachhangViet.getSoluong()));
+        editKHV.getNgayrahoadonTextField().setText(KhachhangViet.getNgayrahoadon().toString());
+        editKHV.getDongiaTextField().setText(Double.toString(KhachhangViet.getDongia()));
+        editKHV.getDinhmucTextField().setText(Integer.toString(KhachhangViet.getDinhmuc()));
+        editKHV.getCustomerTypeCombo().setSelectedItem(KhachhangViet.getDoituongKH());
+        editKHV.setVisible(true);
     }
 
-    private void UpdateKhachhangnuocngoai() {
-        new ViewKHNN(this, controller, KhachhangService, ABORT).setVisible(true);
+    private void UpdateKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
+        ViewKHNN editKHNN = new ViewKHNN(this, controller, KhachhangService, 1);
+        editKHNN.getMakhTextField().setText(Integer.toString(Khachhangnuocngoai.getMakh()));
+        editKHNN.getNameTextField().setText(Khachhangnuocngoai.getName());
+        editKHNN.getNgayrahoadonTextField().setText(Khachhangnuocngoai.getNgayrahoadon().toString());
+        editKHNN.getSoluongTextField().setText(Integer.toString(Khachhangnuocngoai.getSoluong()));
+        editKHNN.getDongiaTextField().setText(Double.toString(Khachhangnuocngoai.getDongia()));
+        editKHNN.getQuoctichTextField().setText(Khachhangnuocngoai.getQuoctich());
+        editKHNN.setVisible(rootPaneCheckingEnabled);
     }
 
     // Method to delete a Khachhang
@@ -264,13 +292,14 @@ public class KhachhangManagementApp extends JFrame implements Subscriber {
     // Method to load the Khachhang list into the JTable
     @Override
     public void updateKhachhang(List<Khachhang> HoadonList) {
-        while (tableModel.getRowCount() != 0) {
-            tableModel.removeRow(0);
-        }
+        // while (tableModel.getRowCount() != 0) {
+        //     tableModel.removeRow(0);
+        // }
+        tableModel.setRowCount(0);
         for (Khachhang hoadonList : HoadonList) {
             Object[] rowData = { hoadonList.getMakh(), hoadonList.getName(), hoadonList.getNgayrahoadon(),
                     hoadonList.getSoluong(), hoadonList.getDongia(), hoadonList.getDinhmuc(),
-                    hoadonList.getDoituongKH(), hoadonList.getQuoctich() };
+                    hoadonList.getDoituongKH(), hoadonList.getQuoctich(), hoadonList.getThanhTien() };
             tableModel.addRow(rowData);
         }
     }

@@ -16,24 +16,53 @@ import java.util.Date;
 
 public class viewKHViet extends JFrame {
     private JTextField MakhTextField;
-    private JTextField nameTextField;
+    private JTextField NameTextField;
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
     private JTextField DinhmucTextField;
     private JComboBox<String> customerTypeCombo;
+
+    public JTextField getMakhTextField() {
+        return MakhTextField;
+    }
+
+    public JTextField getNameTextField() {
+        return NameTextField;
+    }
+
+    public JTextField getNgayrahoadonTextField() {
+        return NgayrahoadonTextField;
+    }
+
+    public JTextField getSoluongTextField() {
+        return SoluongTextField;
+    }
+
+    public JTextField getDongiaTextField() {
+        return DongiaTextField;
+    }
+
+    public JTextField getDinhmucTextField() {
+        return DinhmucTextField;
+    }
+
+    public JComboBox<String> getCustomerTypeCombo() {
+        return customerTypeCombo;
+    }
+
     private JButton LuuButton;
     private JButton HuyButton;
 
     public viewKHViet(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService,
             int Chon) {
         setTitle("Khachhang Management");
-        setSize(400, 350);
+        setSize(400, 250);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        JPanel inputJPanel = new JPanel(new GridLayout(10, 2));
+        JPanel inputJPanel = new JPanel(new GridLayout(8, 2));
         MakhTextField = new JTextField();
-        nameTextField = new JTextField();
+        NameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
         SoluongTextField = new JTextField();
         DongiaTextField = new JTextField();
@@ -45,7 +74,7 @@ public class viewKHViet extends JFrame {
         inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
         inputJPanel.add(MakhTextField);
         inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
-        inputJPanel.add(nameTextField);
+        inputJPanel.add(NameTextField);
         inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
         inputJPanel.add(NgayrahoadonTextField);
         inputJPanel.add(new JLabel("Nhập số lượng:"));
@@ -91,7 +120,7 @@ public class viewKHViet extends JFrame {
 
     private KhachhangViet GetKhachhang() {
         int Makh = Integer.parseInt(MakhTextField.getText());
-        String name = nameTextField.getText();
+        String Name = NameTextField.getText();
         Date Ngayrahoadon = java.sql.Date.valueOf(NgayrahoadonTextField.getText());
         int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
@@ -103,6 +132,6 @@ public class viewKHViet extends JFrame {
         } else {
             ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
         }
-        return new KhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, doituongKH, Dinhmuc);
+        return new KhachhangViet(Makh, Name, Ngayrahoadon, Soluong, Dongia, ThanhTien, doituongKH, Dinhmuc);
     }
 }

@@ -16,23 +16,48 @@ import java.util.Date;
 
 public class ViewKHNN extends JFrame {
     private JTextField MakhTextField;
-    private JTextField nameTextField;
+    private JTextField NameTextField;
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
     private JTextField QuoctichTextField;
+
+    public JTextField getMakhTextField() {
+        return MakhTextField;
+    }
+
+    public JTextField getNameTextField() {
+        return NameTextField;
+    }
+
+    public JTextField getNgayrahoadonTextField() {
+        return NgayrahoadonTextField;
+    }
+
+    public JTextField getSoluongTextField() {
+        return SoluongTextField;
+    }
+
+    public JTextField getDongiaTextField() {
+        return DongiaTextField;
+    }
+
+    public JTextField getQuoctichTextField() {
+        return QuoctichTextField;
+    }
+
     private JButton LuuButton;
     private JButton HuyButton;
 
     public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService,
-            int chon) {
+            int Chon) {
         setTitle("Khachhang Management");
-        setSize(400, 300);
+        setSize(400, 250);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        JPanel inputJPanel = new JPanel(new GridLayout(8, 2));
+        JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
         MakhTextField = new JTextField();
-        nameTextField = new JTextField();
+        NameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
         SoluongTextField = new JTextField();
         DongiaTextField = new JTextField();
@@ -42,7 +67,7 @@ public class ViewKHNN extends JFrame {
         inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
         inputJPanel.add(MakhTextField);
         inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
-        inputJPanel.add(nameTextField);
+        inputJPanel.add(NameTextField);
         inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
         inputJPanel.add(NgayrahoadonTextField);
         inputJPanel.add(new JLabel("Nhập số lượng:"));
@@ -56,7 +81,7 @@ public class ViewKHNN extends JFrame {
 
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (chon != 0) {
+                if (Chon != 0) {
                     UpdateKhachhangnuocngoai(khachhangService, Controller);
                     dispose();
                 } else {
@@ -76,16 +101,6 @@ public class ViewKHNN extends JFrame {
 
     }
 
-    public String getQuocTich() {
-        return QuoctichTextField.getText();
-    }
-
-    public void setKhachhangInfo2(int makh, String Quoctich, Date ngayrahoadon, int soluong, double dongia,
-            String quocTich2) {
-        QuoctichTextField.setText(Quoctich);
-
-    }
-
     private void addKhachhangnuocngoai(KhachhangService KhachhangService, Controller Controller) {
         Command addKHNN = new AddKHNNCommand(KhachhangService, GetKhachhang());
         Controller.excute(addKHNN);
@@ -98,12 +113,12 @@ public class ViewKHNN extends JFrame {
 
     private Khachhangnuocngoai GetKhachhang() {
         int Makh = Integer.parseInt(MakhTextField.getText());
-        String name = nameTextField.getText();
+        String Name = NameTextField.getText();
         Date Ngayrahoadon = java.sql.Date.valueOf(NgayrahoadonTextField.getText());
         int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
         double ThanhTien = Soluong * Dongia;
         String QuocTich = QuoctichTextField.getText();
-        return new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
+        return new Khachhangnuocngoai(Makh, Name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
     }
 }

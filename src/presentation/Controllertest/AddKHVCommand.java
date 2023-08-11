@@ -4,6 +4,7 @@ import domain.KhachhangService;
 import domain.model.KhachhangViet;
 
 public class AddKHVCommand extends Command {
+    
     private KhachhangViet KhachhangViet;
 
     public AddKHVCommand(KhachhangService KhachhangService, KhachhangViet KhachhangViet) {

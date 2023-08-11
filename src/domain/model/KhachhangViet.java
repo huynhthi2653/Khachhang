@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class KhachhangViet extends Khachhang {
     private String doituongKH;
-    private int dinhmuc;
+    private int Dinhmuc;
 
     @Override
     public String getDoituongKH() {
@@ -13,24 +13,24 @@ public class KhachhangViet extends Khachhang {
 
     @Override
     public int getDinhmuc() {
-        return dinhmuc;
+        return Dinhmuc;
     }
 
-    public KhachhangViet(int MaKH, String hotenKH, Date Ngayrahoadon, int Soluong, double Dongia, double ThanhTien,
+    public KhachhangViet(int MaKH, String Name, Date Ngayrahoadon, int Soluong, double Dongia, double ThanhTien,
             String doituongKH,
-            int dinhmuc) {
+            int Dinhmuc) {
         super(MaKH, doituongKH, Ngayrahoadon, Soluong, Dongia, ThanhTien);
         this.doituongKH = doituongKH;
-        this.dinhmuc = dinhmuc;
+        this.Dinhmuc = Dinhmuc;
         this.ThanhTien = ThanhTien();
     }
 
     @Override
     public double ThanhTien() {
-        if (Soluong <= dinhmuc) {
+        if (Soluong <= Dinhmuc) {
             ThanhTien = Dongia * Soluong;
         } else {
-            ThanhTien = Dongia * dinhmuc + (Soluong - dinhmuc) * Dongia * 2.5;
+            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
         }
         return ThanhTien;
     }

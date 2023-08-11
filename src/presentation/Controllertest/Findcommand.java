@@ -8,7 +8,6 @@ public class Findcommand extends Command {
     public Findcommand(KhachhangService KhachhangService, int Makh) {
         super(KhachhangService);
         this.Makh = Makh;
-
     }
 
     @Override
