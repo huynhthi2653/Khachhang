@@ -4,33 +4,39 @@ import java.util.Date;
 
 public class KhachhangViet extends Khachhang {
     private String doituongKH;
-    private int Dinhmuc;
+    private int dinhmuc;
 
-    @Override
     public String getDoituongKH() {
         return doituongKH;
     }
 
-    @Override
-    public int getDinhmuc() {
-        return Dinhmuc;
+    public void setDoituongKH(String doituongKH) {
+        this.doituongKH = doituongKH;
     }
 
-    public KhachhangViet(int MaKH, String Name, Date Ngayrahoadon, int Soluong, double Dongia, double ThanhTien,
+    public int getDinhmuc() {
+        return dinhmuc;
+    }
+
+    public void setDinhmuc(int dinhmuc) {
+        this.dinhmuc = dinhmuc;
+    }
+
+    public KhachhangViet(int MaKH, String hotenKH, Date Ngayrahoadon, int Soluong, double Dongia, double ThanhTien,
             String doituongKH,
-            int Dinhmuc) {
+            int dinhmuc) {
         super(MaKH, doituongKH, Ngayrahoadon, Soluong, Dongia, ThanhTien);
         this.doituongKH = doituongKH;
-        this.Dinhmuc = Dinhmuc;
+        this.dinhmuc = dinhmuc;
         this.ThanhTien = ThanhTien();
     }
 
     @Override
     public double ThanhTien() {
-        if (Soluong <= Dinhmuc) {
+        if (Soluong <= dinhmuc) {
             ThanhTien = Dongia * Soluong;
         } else {
-            ThanhTien = Dongia * Dinhmuc + (Soluong - Dinhmuc) * Dongia * 2.5;
+            ThanhTien = Dongia * dinhmuc + (Soluong - dinhmuc) * Dongia * 2.5;
         }
         return ThanhTien;
     }

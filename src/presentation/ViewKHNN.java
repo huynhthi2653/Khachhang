@@ -3,6 +3,7 @@ package presentation;
 import javax.swing.*;
 
 import domain.KhachhangService;
+import domain.model.Khachhang;
 import domain.model.Khachhangnuocngoai;
 import presentation.Controllertest.AddKHNNCommand;
 import presentation.Controllertest.Command;
@@ -12,52 +13,30 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class ViewKHNN extends JFrame {
     private JTextField MakhTextField;
-    private JTextField NameTextField;
+    private JTextField nameTextField;
     private JTextField NgayrahoadonTextField;
     private JTextField SoluongTextField;
     private JTextField DongiaTextField;
     private JTextField QuoctichTextField;
-
-    public JTextField getMakhTextField() {
-        return MakhTextField;
-    }
-
-    public JTextField getNameTextField() {
-        return NameTextField;
-    }
-
-    public JTextField getNgayrahoadonTextField() {
-        return NgayrahoadonTextField;
-    }
-
-    public JTextField getSoluongTextField() {
-        return SoluongTextField;
-    }
-
-    public JTextField getDongiaTextField() {
-        return DongiaTextField;
-    }
-
-    public JTextField getQuoctichTextField() {
-        return QuoctichTextField;
-    }
-
     private JButton LuuButton;
     private JButton HuyButton;
+    private Khachhangnuocngoai khachhangnuocngoai;
 
-    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService,
-            int Chon) {
-        setTitle("Khachhang Management");
-        setSize(400, 250);
+    public ViewKHNN(KhachhangManagementApp viewApp, Controller Controller, KhachhangService khachhangService) {
+        setTitle("Nhap thong tin khach hang nuoc ngoai");
+        setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        JPanel inputJPanel = new JPanel(new GridLayout(7, 2));
+        JPanel inputJPanel = new JPanel(new GridLayout(8, 2));
         MakhTextField = new JTextField();
-        NameTextField = new JTextField();
+        nameTextField = new JTextField();
         NgayrahoadonTextField = new JTextField();
         SoluongTextField = new JTextField();
         DongiaTextField = new JTextField();
@@ -67,7 +46,7 @@ public class ViewKHNN extends JFrame {
         inputJPanel.add(new JLabel("Nhập mã khách hàng:"));
         inputJPanel.add(MakhTextField);
         inputJPanel.add(new JLabel("Nhập tên khách hàng:"));
-        inputJPanel.add(NameTextField);
+        inputJPanel.add(nameTextField);
         inputJPanel.add(new JLabel("Nhập ngày ra hoá đơn:"));
         inputJPanel.add(NgayrahoadonTextField);
         inputJPanel.add(new JLabel("Nhập số lượng:"));
@@ -81,13 +60,8 @@ public class ViewKHNN extends JFrame {
 
         LuuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (Chon != 0) {
-                    UpdateKhachhangnuocngoai(khachhangService, Controller);
-                    dispose();
-                } else {
-                    addKhachhangnuocngoai(khachhangService, Controller);
-                    dispose();
-                }
+                addKhachhangnuocngoai(viewApp, Controller, khachhangService);
+                dispose();
             }
         });
 
@@ -101,24 +75,40 @@ public class ViewKHNN extends JFrame {
 
     }
 
-    private void addKhachhangnuocngoai(KhachhangService KhachhangService, Controller Controller) {
-        Command addKHNN = new AddKHNNCommand(KhachhangService, GetKhachhang());
-        Controller.excute(addKHNN);
+    public String getQuocTich() {
+        return QuoctichTextField.getText();
     }
 
-    private void UpdateKhachhangnuocngoai(KhachhangService KhachhangService, Controller Controller) {
-        Command UpdateKHNN = new UpdateKHNNConmand(KhachhangService, GetKhachhang());
-        Controller.excute(UpdateKHNN);
+    public void setKhachhangInfo2(int makh, String Quoctich, Date ngayrahoadon, int soluong, double dongia,
+            String quocTich2) {
+        QuoctichTextField.setText(Quoctich);
+
     }
 
-    private Khachhangnuocngoai GetKhachhang() {
+    private void addKhachhangnuocngoai(KhachhangManagementApp viewApp, Controller Controller,
+            KhachhangService khachhangService) {
         int Makh = Integer.parseInt(MakhTextField.getText());
-        String Name = NameTextField.getText();
-        Date Ngayrahoadon = java.sql.Date.valueOf(NgayrahoadonTextField.getText());
+        String name = nameTextField.getText();
+        Date Ngayrahoadon;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+            Ngayrahoadon = dateFormat.parse(NgayrahoadonTextField.getText());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Invalid date format. Please use 'dd/MM/yyyy' format for the date.");
+            return;
+        }
         int Soluong = Integer.parseInt(SoluongTextField.getText());
         double Dongia = Double.parseDouble(DongiaTextField.getText());
         double ThanhTien = Soluong * Dongia;
         String QuocTich = QuoctichTextField.getText();
-        return new Khachhangnuocngoai(Makh, Name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
+        // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
+        Khachhang Khachhangnuocngoai = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich,
+                ThanhTien);
+        // Gọi phương thức của viewApp để thêm khách hàng nước ngoài
+        Command ThemHD = new AddKHNNCommand(khachhangService, khachhangnuocngoai);
+        Controller.excute(ThemHD);
+        Command CapnhatHD = new UpdateKHNNConmand(khachhangService, khachhangnuocngoai);
+        Controller.excute(CapnhatHD);
+        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
     }
 }

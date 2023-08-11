@@ -8,7 +8,7 @@ import java.util.Date;
 
 public abstract class Khachhang {
     private int Makh;
-    private String Name;
+    private String name;
     private Date Ngayrahoadon;
     protected int Soluong;
     protected double Dongia;
@@ -24,9 +24,9 @@ public abstract class Khachhang {
 
     public abstract double ThanhTien();
 
-    public Khachhang(int Makh, String Name, Date ngayrahoadon, int Soluong, double Dongia, double ThanhTien) {
+    public Khachhang(int Makh, String name, Date ngayrahoadon, int Soluong, double Dongia, double ThanhTien) {
         this.Makh = Makh;
-        this.Name = Name;
+        this.name = name;
         this.Ngayrahoadon = ngayrahoadon;
         this.Soluong = Soluong;
         this.Dongia = Dongia;
@@ -51,14 +51,14 @@ public abstract class Khachhang {
      * @return the name
      */
     public String getName() {
-        return Name;
+        return name;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -101,17 +101,5 @@ public abstract class Khachhang {
      */
     public void setDongia(double Dongia) {
         this.Dongia = Dongia;
-    }
-
-    public String getDoituongKH() {
-        return null;
-    }
-
-    public int getDinhmuc() {
-        return 0;
-    }
-
-    public String getQuoctich() {
-        return null;
     }
 }

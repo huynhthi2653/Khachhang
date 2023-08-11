@@ -1,13 +1,12 @@
 package domain.model;
 
 import java.util.Date;
-// import java.util.jar.Attributes.Name;
 
 public class Khachhangnuocngoai extends Khachhang {
 
-    public Khachhangnuocngoai(int Makh, String Name, Date ngayrahoadon, int Soluong, double Dongia, String QuocTich,
+    public Khachhangnuocngoai(int Makh, String name, Date ngayrahoadon, int Soluong, double Dongia, String QuocTich,
             double ThanhTien) {
-        super(Makh, Name, ngayrahoadon, Soluong, Dongia, ThanhTien);
+        super(Makh, name, ngayrahoadon, Soluong, Dongia, ThanhTien);
         this.Quoctich = QuocTich;
         this.ThanhTien = ThanhTien();
     }

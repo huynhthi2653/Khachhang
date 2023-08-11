@@ -8,8 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import domain.model.Khachhang;
 import domain.model.KhachhangViet;
 import domain.model.Khachhangnuocngoai;
@@ -18,28 +16,29 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     private Connection connection;
 
     public KhachhangJdbcGateway() {
-        String dbUrl = "jdbc:sqlserver://NO1SBK:1433;databaseName=danhsach;encrypt=false";
+        // Initialize the database connection here (replace dbUrl, username, and
+        // password with your SQL Server credentials)
+        String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=Khachhang";
         String username = "sa";
-        String password = "01102003";
+        String password = "123456";
         try {
             connection = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ket noi không thanh conng" + toString(), "thông báo", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 
     @Override
     public void addKhachhangViet(KhachhangViet KhachhangViet) {
-        String sql = "INSERT INTO khachhang (Makh, Name, Ngayrahoadon, Soluong, Dongia, DoituongKH, Dinhmuc, Thanhtien) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO KhachhangVietchung (Makh, name, Ngayrahoadon, Soluong, Dongia, Dinhmuc, DoituongKH) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, KhachhangViet.getMakh());
             statement.setString(2, KhachhangViet.getName());
             statement.setDate(3, (Date) KhachhangViet.getNgayrahoadon()); // Convert to java.sql.Date
             statement.setInt(4, KhachhangViet.getSoluong());
             statement.setDouble(5, KhachhangViet.getDongia());
-            statement.setString(6, KhachhangViet.getDoituongKH());
-            statement.setInt(7, KhachhangViet.getDinhmuc());
-            statement.setDouble(8, KhachhangViet.getThanhTien());
+            statement.setInt(6, KhachhangViet.getDinhmuc());
+            statement.setString(7, KhachhangViet.getDoituongKH());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,14 +47,14 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void addKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
-        String sql = "INSERT INTO khachhang (Makh, Name, Ngayrahoadon, Soluong, Dongia, Quoctich) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO khachhangchung (Makh, name, Ngayrahoadon, Soluong, Dongia, Quoctich) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, Khachhangnuocngoai.getMakh());
             statement.setString(2, Khachhangnuocngoai.getName());
             statement.setDate(3, (Date) Khachhangnuocngoai.getNgayrahoadon()); // Convert to java.sql.Date
             statement.setInt(4, Khachhangnuocngoai.getSoluong());
             statement.setDouble(5, Khachhangnuocngoai.getDongia());
-            statement.setString(6, Khachhangnuocngoai.getQuoctich());
+            statement.setString(8, Khachhangnuocngoai.getQuoctich());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,16 +63,15 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void updateKhachhangViet(KhachhangViet KhachhangViet) {
-        String sql = "UPDATE khachhang SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, DoituongKH =?, Dinhmuc = ?, Thanhtien = ? WHERE Makh = ?";
+        String sql = "UPDATE khachhangchung SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Dinhmuc = ?, DoituongKH = ? WHERE Makh = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, KhachhangViet.getMakh());
             statement.setString(2, KhachhangViet.getName());
             statement.setDate(3, (Date) KhachhangViet.getNgayrahoadon()); // Convert to java.sql.Date
             statement.setInt(4, KhachhangViet.getSoluong());
             statement.setDouble(5, KhachhangViet.getDongia());
-            statement.setString(6, KhachhangViet.getDoituongKH());
-            statement.setInt(7, KhachhangViet.getDinhmuc());
-            statement.setDouble(8, KhachhangViet.getThanhTien());
+            statement.setInt(6, KhachhangViet.getDinhmuc());
+            statement.setString(7, KhachhangViet.getDoituongKH());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,14 +80,14 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void updateKhachhangnuocngoai(Khachhangnuocngoai Khachhangnuocngoai) {
-        String sql = "UPDATE khachhang SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Quoctich = ? WHERE Makh = ?";
+        String sql = "UPDATE khachhangchung SET Name = ?, Ngayrahoadon = ?, Soluong = ?, Dongia = ?, Quoctich = ? WHERE Makh = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, Khachhangnuocngoai.getMakh());
             statement.setString(2, Khachhangnuocngoai.getName());
             statement.setDate(3, (Date) Khachhangnuocngoai.getNgayrahoadon()); // Convert to java.sql.Date
             statement.setInt(4, Khachhangnuocngoai.getSoluong());
             statement.setDouble(5, Khachhangnuocngoai.getDongia());
-            statement.setString(6, Khachhangnuocngoai.getQuoctich());
+            statement.setString(8, Khachhangnuocngoai.getQuoctich());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,7 +96,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public void deleteKhachhang(int MaKH) {
-        String sql = "SELECT * FROM khachhang WHERE MaKH = ?";
+        String sql = "SELECT * FROM khachhangchung WHERE MaKH = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, MaKH);
             statement.executeUpdate();
@@ -109,17 +107,17 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
 
     @Override
     public Khachhang TimkhachhangtuMakh(int MaKH) {
-        String sql = "SELECT * FROM khachhang WHERE MaKH = ?";
+        String sql = "SELECT * FROM khachhangchung WHERE MaKH = ?";
         Khachhang Khachhang;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, MaKH);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int Makh = resultSet.getInt("Makh");
-                String Name = resultSet.getString("Name");
-                Date Ngayrahoadon = resultSet.getDate("Ngayrahoadon");
-                int Soluong = resultSet.getInt("Soluong");
-                double Dongia = resultSet.getDouble("Dongia");
+                int Makh = resultSet.getInt("makh");
+                String name = resultSet.getString("name");
+                Date Ngayrahoadon = resultSet.getDate("date");
+                int Soluong = resultSet.getInt("soluong");
+                double Dongia = resultSet.getDouble("dongia");
                 int Dinhmuc = resultSet.getInt("Dinhmuc");
                 String DoituongKH = resultSet.getString("DoituongKH");
                 String QuocTich = resultSet.getString("Quoctich");
@@ -132,10 +130,11 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                 }
 
                 if (QuocTich != null) {
-                    Khachhang = new KhachhangViet(Makh, Name, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH, Dinhmuc);
+                    Khachhang = new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH,
+                            Dinhmuc);
                     return Khachhang;
                 } else if (DoituongKH != null) {
-                    Khachhang = new Khachhangnuocngoai(Makh, Name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
+                    Khachhang = new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien);
                     // Xử lý trường hợp loại khách hàng không hợp lệ
                     return Khachhang;
                 }
@@ -149,24 +148,26 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
     @Override
     public List<Khachhang> getAllKhachhangs() {
         List<Khachhang> khachhangs = new ArrayList<>();
-        String sql = "SELECT * FROM khachhang";
+        String sql = "SELECT * FROM Khachhangs";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-               int Makh = resultSet.getInt("Makh");
-                String Name = resultSet.getString("Name");
-                Date Ngayrahoadon = resultSet.getDate("Ngayrahoadon");
-                int Soluong = resultSet.getInt("Soluong");
-                double Dongia = resultSet.getDouble("Dongia");
+                int Makh = resultSet.getInt("makh");
+                String name = resultSet.getString("name");
+                Date Ngayrahoadon = resultSet.getDate("date");
+                int Soluong = resultSet.getInt("soluong");
+                double Dongia = resultSet.getDouble("dongia");
                 int Dinhmuc = resultSet.getInt("Dinhmuc");
                 String DoituongKH = resultSet.getString("DoituongKH");
                 String QuocTich = resultSet.getString("Quoctich");
                 double ThanhTien = resultSet.getDouble("Thanhtien");
 
                 if (QuocTich != null) {
-                    khachhangs.add(new KhachhangViet(Makh, Name, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH, Dinhmuc));
+                    khachhangs.add(new KhachhangViet(Makh, QuocTich, Ngayrahoadon, Soluong, Dongia, ThanhTien,
+                            DoituongKH, Dinhmuc));
                 } else if (DoituongKH != null) {
-                    khachhangs.add(new Khachhangnuocngoai(Makh, Name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
+                    khachhangs.add(
+                            new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
                 }
             }
             return khachhangs;
@@ -202,7 +203,7 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int Makh = resultSet.getInt("Makh");
-                String Name = resultSet.getString("Name");
+                String name = resultSet.getString("name");
                 Date Ngayrahoadon = resultSet.getDate("Ngayrahoadon");
                 int Soluong = resultSet.getInt("Soluong");
                 double Dongia = resultSet.getDouble("Dongia");
@@ -210,13 +211,10 @@ public class KhachhangJdbcGateway implements KhachhangGateway {
                 String DoituongKH = resultSet.getString("DoituongKH");
                 String QuocTich = resultSet.getString("Quoctich");
                 double ThanhTien = resultSet.getDouble("Thanhtien");
-                
-                if(QuocTich != null){
-                    hoadonT.add(new KhachhangViet(Makh, Name, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH, Dinhmuc));
-                }else if(DoituongKH != null){
-                    hoadonT.add(new Khachhangnuocngoai(Makh, Name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
-                }
-                return hoadonT;
+
+                hoadonT.add(new KhachhangViet(Makh, name, Ngayrahoadon, Soluong, Dongia, ThanhTien, DoituongKH,
+                        Dinhmuc));
+                hoadonT.add(new Khachhangnuocngoai(Makh, name, Ngayrahoadon, Soluong, Dongia, QuocTich, ThanhTien));
             }
 
         } catch (Exception e) {
